@@ -16,5 +16,5 @@ jobs:
       - run: echo "${{ secrets.key }}" > "$HOME/.ssh/key"
       - run: chmod 600 "$HOME/.ssh/key"
       - run: ssh-keyscan -H 158.160.183.23 >> ~/.ssh/known_hosts
-      - run: rsync -e "ssh -p 22 -i $HOME/.ssh/key -o StrictHostKeyChecking=no" --archive --compress --delete . sandrianov@158.160.183.23:/var/www/html/
+      - run: rsync -e "ssh -p 22 -i $HOME/.ssh/key -O -o StrictHostKeyChecking=no" --archive --compress --delete . sandrianov@158.160.183.23:/var/www/html/
         # Full path to the website
