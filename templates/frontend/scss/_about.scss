@@ -1,0 +1,56 @@
+.about {
+  h1 {
+    padding: 21px 0;
+    background: #fff;
+  }
+  &-block {
+    margin: 21px 0;
+    padding: 9px 0;
+    @include fontSize(15px);
+    @include lineHeight(24px);
+    
+    &-linkAll {
+      text-align: center;
+      padding: 9px 0 0;
+    }
+    
+  }
+  
+  &-persons {
+    &-item {
+      @include clearfix;
+      @include lineHeight(24px);
+      margin: 0 0 20px;
+      
+      h4 {
+        @include lineHeight(24px);
+        margin: 0;
+        font-weight: 400;
+      }
+      
+      figure {
+        float: left;
+        margin: 0 15px;
+      }
+      
+      &-title {
+        opacity: 0.6;
+      }
+      
+    }
+    
+    &-contact {
+      &-phoneIcon {
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        background: rgba(0, 0, 0, 0.1) url("../images/svg/phone.svg") no-repeat 50% 50%;
+      }
+      h4 {
+        @include fontSize(18px);
+        @include lineHeight(70px);
+      }
+    }
+  }
+  
+}

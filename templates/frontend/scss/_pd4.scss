@@ -1,0 +1,34 @@
+.pd4 {
+  margin: 42px 0;
+  font-family: Arial, helvetica, serif;
+  
+  &+.btn {
+    margin-bottom: 70px;
+  }
+  
+  table {
+    td {
+      padding: 0 2px;
+    }
+  }
+  
+  &-title {
+    text-align:center;
+    font-size:9pt;
+    border-bottom: 1px #000 solid;
+    height: 1.5rem;
+  }
+  
+  &-account {
+    width: 100%;
+    
+    td {
+      text-align: center;
+    }
+
+    &-title {
+      width: 100%;
+    }
+  }
+  
+}

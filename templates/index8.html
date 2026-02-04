@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+{# base_url приходит из конфига (config.txt → BASE_URL), меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ action.title }} — весенняя акция</title>
+    <link href="/frontend/css/scrollPane.css" rel="stylesheet" />
+    <link href="/frontend/css/style.css" rel="stylesheet" />
+    <style>
+        /* ... ВСЕ СТИЛИ ОСТАЮТСЯ ТЕ ЖЕ, кроме flower-progress ... */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Georgia', serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8edea 50%, #fed6e3 75%, #ff9ff3 100%);
+            background-size: 400% 400%;
+            animation: springGradient 15s ease infinite;
+            color: #2d5016;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        @keyframes springGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container { max-width: 1000px; margin: 0 auto; background: rgba(255,255,255,0.95); border-radius: 30px; padding: 40px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        
+        /* ХЕДЕР */
+        .header { text-align: center; margin-bottom: 40px; }
+        .header h1 {
+            font-size: 3em; color: #ff6b9d; text-shadow: 3px 3px 0 #fff, 5px 5px 0 #ffb3d1;
+            margin-bottom: 10px; position: relative;
+        }
+        .header h1::before, .header h1::after {
+            content: '🌸'; position: absolute; font-size: 1.5em; animation: float 3s ease-in-out infinite;
+        }
+        .header h1::before { left: -50px; animation-delay: 0s; }
+        .header h1::after { right: -50px; animation-delay: 1.5s; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+        /* НОВЫЙ ПРОГРЕСС-БАР: ЛЕПЕСТКИ ЦВЕТКА */
+        .flower-progress { 
+            margin: 50px 0; text-align: center; position: relative; height: 400px; 
+        }
+        .progress-text {
+            position: absolute; top: -60px; left: 50%; transform: translateX(-50%);
+            background: rgba(255,255,255,0.95); padding: 15px 25px; border-radius: 25px;
+            font-size: 1.5em; font-weight: bold; color: #ff6b9d; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            z-index: 10;
+        }
+        .stem { 
+            width: 18px; height: 250px; background: linear-gradient(to top, #2d5016, #4a7c59); 
+            margin: 0 auto; border-radius: 9px 9px 0 0; position: relative;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.2);
+        }
+        
+        /* ЦЕНТР ЦВЕТКА */
+        .flower-center { 
+    width: 50px; height: 50px; 
+    background: radial-gradient(circle, #ffff00 0%, #ffd700 70%, #ff1493 100%);
+    border-radius: 50%; 
+    margin: 0 auto; /* Убрал 30px сверху */
+    position: relative;
+    box-shadow: 0 8px 20px rgba(255,20,147,0.5), inset 0 3px 8px rgba(255,255,0,0.6);
+    animation: pulse 2s ease-in-out infinite;
+}
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* ЛЕПЕСТКИ - 10 ШТУК (каждый 10%) */
+        .petal {
+            position: absolute; top: 200px; left: 47%; transform-origin: 25px 75px;
+            width: 50px; height: 100px; background: radial-gradient(ellipse at 30% 30%, #ff69b4 0%, #ff1493 50%, #ff69b4 100%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 5px 15px rgba(255,105,180,0.6);
+            opacity: 0; transform: scale(0.1) rotate(var(--rotation));
+            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .petal.bloom {
+            opacity: 1; transform: scale(1) rotate(var(--rotation));
+            animation: petalBloom 0.8s ease-out forwards;
+        }
+        @keyframes petalBloom {
+            0% { transform: scale(0.1) rotate(var(--rotation)); opacity: 0; }
+            50% { transform: scale(1.2) rotate(var(--rotation)); opacity: 0.8; }
+            100% { transform: scale(1) rotate(var(--rotation)); opacity: 1; }
+        }
+
+        /* ПОЗИЦИИ ЛЕПЕСТКОВ */
+        .petal:nth-child(1) { --rotation: 0deg; }
+        .petal:nth-child(2) { --rotation: 36deg; }
+        .petal:nth-child(3) { --rotation: 72deg; }
+        .petal:nth-child(4) { --rotation: 108deg; }
+        .petal:nth-child(5) { --rotation: 144deg; }
+        .petal:nth-child(6) { --rotation: 180deg; }
+        .petal:nth-child(7) { --rotation: 216deg; }
+        .petal:nth-child(8) { --rotation: 252deg; }
+        .petal:nth-child(9) { --rotation: 288deg; }
+        .petal:nth-child(10) { --rotation: 324deg; }
+
+        /* ОСНОВНЫЕ БЛОКИ */
+        .section { margin: 40px 0; padding: 30px; background: rgba(255,255,255,0.8); border-radius: 25px; border-left: 8px solid #ff6b9d; }
+        .section h2 { color: #ff6b9d; font-size: 2em; margin-bottom: 20px; text-align: center; position: relative; }
+        .section h2::after { content: '🌺'; display: block; font-size: 2em; text-align: center; margin-top: 10px; }
+        .section h3 { color: #2d5016; font-size: 1.5em; margin: 20px 0 15px; }
+
+        /* ОРГАНИЗАТОР */
+        .organizer { background: linear-gradient(45deg, #fff3cd, #ffeaa7); border-radius: 20px; padding: 25px; text-align: center; }
+
+        /* ФОТОГАЛЕРЕЯ */
+        .photo-gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px; }
+        .photo-item { 
+            background: rgba(255,255,255,0.9); border-radius: 20px; overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(255,107,157,0.3); transition: transform 0.3s;
+        }
+        .photo-item:hover { transform: translateY(-10px); }
+        .photo-item img { width: 100%; height: 200px; object-fit: cover; }
+        .photo-item .caption { padding: 15px; text-align: center; color: #2d5016; font-weight: bold; }
+
+        /* ПОДВАЛ */
+        footer { text-align: center; margin-top: 60px; padding: 30px; background: rgba(255,107,157,0.1); border-radius: 25px; }
+        footer a { color: #ff6b9d; text-decoration: none; margin: 0 20px; font-weight: bold; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ЧИСЛА */
+        .amount { font-size: 2em; color: #ff1493; font-weight: bold; text-shadow: 2px 2px 0 #fff; }
+        .goal-text { color: #4a7c59; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ХЕДЕР -->
+        <header class="header">
+            <h1>{{ action.title }}</h1>
+            <p style="font-size: 1.3em; color: #2d5016;">— весенняя акция к 8 марта 🌷</p>
+        </header>
+
+        <!-- КРАТКОЕ ОПИСАНИЕ -->
+        {% if short_description %}
+        <div class="section">
+            <p style="font-size: 1.2em; line-height: 1.6; text-align: center;">{{ short_description }}</p>
+        </div>
+        {% endif %}
+
+        <!-- ПРОГРЕСС-БАР: ЛЕПЕСТКИ ЦВЕТКА (ИСПРАВЛЕНО) -->
+<div class="flower-progress">
+    <div class="progress-text">
+        <span class="amount">{{ total_raised_display }} ₽</span><br>
+        <small class="goal-text">Цель: {{ total_display }} ₽ • {{ progress_percent }}% выполнено</small>
+    </div>
+    
+    <div class="stem"></div>
+    
+    <!-- 10 ЛЕПЕСТКОВ с правильной логикой -->
+    <div class="petal {% if progress_percent >= 10 %}bloom{% endif %}" style="--rotation: 0deg; animation-delay: 0s;"></div>
+    <div class="petal {% if progress_percent >= 20 %}bloom{% endif %}" style="--rotation: 36deg; animation-delay: 0.1s;"></div>
+    <div class="petal {% if progress_percent >= 30 %}bloom{% endif %}" style="--rotation: 72deg; animation-delay: 0.2s;"></div>
+    <div class="petal {% if progress_percent >= 40 %}bloom{% endif %}" style="--rotation: 108deg; animation-delay: 0.3s;"></div>
+    <div class="petal {% if progress_percent >= 50 %}bloom{% endif %}" style="--rotation: 144deg; animation-delay: 0.4s;"></div>
+    <div class="petal {% if progress_percent >= 60 %}bloom{% endif %}" style="--rotation: 180deg; animation-delay: 0.5s;"></div>
+    <div class="petal {% if progress_percent >= 70 %}bloom{% endif %}" style="--rotation: 216deg; animation-delay: 0.6s;"></div>
+    <div class="petal {% if progress_percent >= 80 %}bloom{% endif %}" style="--rotation: 252deg; animation-delay: 0.7s;"></div>
+    <div class="petal {% if progress_percent >= 90 %}bloom{% endif %}" style="--rotation: 288deg; animation-delay: 0.8s;"></div>
+    <div class="petal {% if progress_percent >= 100 %}bloom{% endif %}" style="--rotation: 324deg; animation-delay: 0.9s;"></div>
+    
+    <div class="flower-center"></div>
+</div>
+
+        <!-- ОСТАЛЬНОЕ БЕЗ ИЗМЕНЕНИЙ -->
+        {% if company %}
+        <div class="section organizer">
+            <h2>{{ company.title.strip() }}</h2>
+            {% if company.city %}
+            <p style="font-size: 1.3em; color: #4a7c59;">{{ company.city }} 🌿</p>
+            {% endif %}
+        </div>
+        {% endif %}
+
+        <div class="section">
+            <h3>Поддержка семей</h3>
+            <p style="font-size: 1.1em; line-height: 1.7; margin-bottom: 20px;">
+                Организатор: {{ company.legal_form.strip() }} «{{ company.title.strip() }}»
+            </p>
+            <p style="font-size: 1.3em; font-weight: bold; color: #2d5016; margin-bottom: 20px;">
+                {{ date_start }} — {{ date_end }}
+            </p>
+            <div style="font-size: 1.1em; line-height: 1.7;">{{ description }}</div>
+        </div>
+
+        {% if photos %}
+        <div class="section">
+            <h2>Фотогалерея акции</h2>
+            <div class="photo-gallery">
+                {% for p in photos %}
+                <div class="photo-item">
+                    <img src="{{ p.picture_url or p.file_url or p.url }}" alt="{{ p.title or p.file_name }}" loading="lazy">
+                    <div class="caption">{{ p.title or p.file_name }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        {% if text_html %}
+        <div class="section">
+            <h2>О программе «{{ action.title }}»</h2>
+            <div style="font-size: 1.1em; line-height: 1.7;">{{ text_html|safe }}</div>
+        </div>
+        {% endif %}
+
+        <footer>
+            <div style="font-size: 1.2em; margin-bottom: 15px;">
+                <a href="{{ base_url }}">О платформе</a>
+                <a href="#">Фонды</a>
+                <a href="#">Корпоративная благотворительность</a>
+            </div>
+            <div style="color: #666; font-size: 1em;">
+                © Благо.ру, платформа для частных и корпоративных пожертвований. Весна 2026 🌸
+            </div>
+        </footer>
+    </div>
+</body>
+</html>

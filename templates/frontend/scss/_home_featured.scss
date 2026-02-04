@@ -1,0 +1,86 @@
+.featured {
+  @include media-breakpoint-up(md) {
+    height: 512px;
+  }
+  @include clearfix;
+  margin: 0 (-($grid-gutter-width)/2+2px) 0 (-($grid-gutter-width)/2);
+  
+  &-item {
+  
+  
+    float: left;
+    @include media-breakpoint-up(md) {
+      width: 25%;
+      height: 50%;
+    }
+    @include media-breakpoint-down(sm) {
+      width: 50%;
+      height: auto;
+    }
+    @media (max-width: 413px) {
+      width: 100%;
+    }
+    position: relative;
+    background-size: cover;
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    border-left: 2px #fff solid;
+    border-bottom: 2px #fff solid;
+
+    a {
+      display: block;
+      height: 100%;
+      @include media-breakpoint-down(sm) {
+        padding-bottom: 75%;
+      }
+    }
+
+    &-1 {
+      @include media-breakpoint-up(md) {
+        width: 50%;
+        height: 100%;
+      }
+      @include media-breakpoint-down(sm) {
+        width: 100%;
+        height: auto;
+        a {
+          padding-bottom: 75%;
+        }
+      }
+    }
+    
+    &-text {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      right: 0;
+      background-image: linear-gradient(180deg, transparent 0%, fade_out(#313b43,0.4) 90%, fade-out(#313b43,0.3) 100%);
+      padding: 30px 10px 10px;
+      color: #fff;
+      
+      h3 {
+        @include fontSize(15px);
+        @include lineHeight(21px);
+        font-weight: 700;
+        margin: 0 0 2px;
+      }
+      &-location {
+        @include fontSize(13px);
+        @include lineHeight(18px);
+        opacity: 0.8;
+      }
+      &-help {
+        @extend .btn;
+        @extend .btn-danger;
+        font-weight: 700;
+        @include fontSize(13px);
+        @extend .text-uppercase;
+        letter-spacing: 1px;
+        float: right;
+        margin: 0 10px;
+        padding: 11px 20px;
+      }
+    }
+    
+  }
+}

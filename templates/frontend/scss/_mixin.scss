@@ -1,0 +1,77 @@
+@mixin fontSize($sizeValue) {
+  $pxValue: $sizeValue;
+  $remValue: ($sizeValue / $font-size-root);
+  font-size: $pxValue;
+  font-size: $remValue + rem; 
+}
+@mixin lineHeight($sizeValue) {
+  $pxValue: $sizeValue;
+  $remValue: ($sizeValue / $font-size-root);
+  line-height: $pxValue;
+  line-height: $remValue + rem; 
+}
+
+@mixin headerUnder($headerH, $headerHScroll, $headerBorder) {
+  margin-top: -200%;
+  opacity: 0;
+  transition: margin-top 0s ease, opacity 0.3s ease, top 0.3s ease;
+  transition-delay: 0.3s,0s;
+  background: #fff;
+   
+  position: fixed;
+  top: $headerH;
+  .scrolled & {
+    top: (($headerHScroll)-($headerBorder));
+  }
+  left: 0;
+  right: 0;
+  padding: 30px 30px 15px;
+  border-top: $headerBorder #e5e5e5 solid;
+  box-shadow: 0 30px 30px rgba(0, 0, 0, 0.04) inset;  
+}
+@mixin headerUnder_opened() {
+  margin-top: 0;
+  opacity: 1;
+  transition: margin-top 0s ease, opacity 0.3s ease, top 0.3s ease;
+  z-index: 1;
+}
+
+@mixin maxWidth() {
+  @include media-breakpoint-up(xl) {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+@mixin error() {
+  color: $brand-danger;
+  padding: 8px 20px;
+  display: none;
+
+  @include media-breakpoint-up(md) {
+    float: left;
+    width: 50%;
+  }
+  @include media-breakpoint-down(sm) {
+    padding-left: 0;
+    margin: -0.5rem 0 1rem;
+  }
+}
+
+@mixin formInfo() {
+  padding: 3px 0;
+  opacity: 0.6;
+  @include fontSize(13px);
+  @include lineHeight(18px);
+  background-color: #e5e5e5;
+  border-radius: 3px;
+  text-align: center;
+}
+
+@mixin info() {
+  clear: both;
+  padding: 0;
+  color: $gray-light;
+  display: block;
+}

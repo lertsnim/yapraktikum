@@ -1,0 +1,108 @@
+.myhelp {
+  margin-bottom: 30px;
+  
+  &-wrapper {
+    @include media-breakpoint-down(md) {
+      margin: -1px (-$grid-gutter-width/3) 0;
+      padding: 0;
+      background: $gray-contentBackground;
+    }
+  }
+
+  
+  &-item {
+  
+    @include clearfix;
+    @include media-breakpoint-up(md) {
+      margin-bottom: 30px;
+    }
+    @include media-breakpoint-down(md) {
+      border-top: 2px rgba(0, 0, 0, 0.1) solid;
+      border-bottom: 2px rgba(0, 0, 0, 0.1) solid;
+      padding: 20px $grid-gutter-width/3;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+
+    
+    &-gallery {
+      @include media-breakpoint-up(md) {
+        width: 100%;
+        float: none;
+        margin: 5px 30px 15px 0;
+        
+        &-wrapper {
+          position: relative;
+          height: 0;
+          padding-bottom: 100%;
+          width: 100%;
+        }
+      }
+      @include media-breakpoint-down(sm) {
+        margin: 0 0 15px;
+      }
+      
+      position: relative;
+      @include clearfix;
+      
+      &-img {
+        position: relative;
+        background-size: cover;
+        background-position: 50% 50%;
+        transition: width 0.3s linear, left 0.3s linear, top 0.3s linear, bottom 0.3s linear, right 0.3s linear;
+        cursor: pointer;
+        
+        @include media-breakpoint-up(md) {
+          position: absolute;
+          top: 75%;
+          bottom: 0;
+          width: 33.33%;
+          border-right: 2px #fff solid;
+        }
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+        &.active {
+          width: 100%;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 25%;
+          border-bottom: 2px #fff solid;
+          @include media-breakpoint-down(sm) {
+            display: block;
+            position: static;
+            width: 100%;
+            padding-top: 75%;
+          }
+        }
+
+      }
+      &-addToFavorite {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        background: rgba(0,0,0,0.3);
+        padding: 10px;
+        border-radius: 5px;
+        
+        .icon {
+          display: block;          
+        }
+        
+        &.active {
+          background: transparentize($brand-danger,0.3);
+        }
+      }
+    }
+    
+    &-action {
+      padding: $grid-gutter-width/2 0 0;
+      .btn {
+        display: block;
+        width: 100%;
+      }
+    }
+    
+  }
+}

@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ action.title }} — {{ company.title }}</title>
+    <style>
+        :root {
+            --bg: #051320;
+            --bg-secondary: #0b2235;
+            --card: #0f293f;
+            --card-soft: #12324a;
+            --accent: #ffd54f;
+            --accent-strong: #ffb300;
+            --accent-red: #ff5252;
+            --accent-green: #2e7d32;
+            --accent-green-dark: #1b5e20;
+            --text-main: #f5f5f5;
+            --text-muted: #b0bec5;
+            --snow: rgba(255, 255, 255, 0.9);
+            --tree-fill-percent: {{ fill_percent }}%;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: radial-gradient(circle at top, #12324a 0, #020b13 55%, #000000 100%);
+            color: var(--text-main);
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Контейнер страницы */
+        .page {
+            max-width: 1160px;
+            margin: 0 auto;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, rgba(13, 34, 52, 0.96), rgba(3, 9, 15, 0.98));
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Простая «метель» */
+        .page::before,
+        .page::after {
+            content: "";
+            position: absolute;
+            inset: -40px;
+            pointer-events: none;
+            background-image:
+                radial-gradient(var(--snow) 1px, transparent 1px),
+                radial-gradient(var(--snow) 1px, transparent 1px);
+            background-size: 120px 120px, 180px 180px;
+            background-position: 0 0, 60px 90px;
+            opacity: 0.18;
+            animation: snow 40s linear infinite;
+        }
+
+        .page::after {
+            opacity: 0.08;
+            animation-duration: 70s;
+        }
+
+        @keyframes snow {
+            from { transform: translate3d(0, -40px, 0); }
+            to   { transform: translate3d(0, 40px, 0); }
+        }
+
+        /* Шапка */
+        .header {
+            position: relative;
+            z-index: 2;
+            padding: 18px 28px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(144, 164, 174, 0.35);
+            background: linear-gradient(to bottom, rgba(5, 19, 32, 0.95), rgba(5, 19, 32, 0.7));
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 20px;
+            color: var(--accent);
+        }
+
+        .logo-mark {
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
+            background:
+                radial-gradient(circle at 30% 30%, #ffffff, rgba(255, 255, 255, 0) 40%),
+                conic-gradient(#ffeb3b, #ff9800, #ff5252, #ff9800, #ffeb3b);
+            position: relative;
+            box-shadow: 0 0 10px rgba(255, 235, 59, 0.6);
+        }
+
+        .logo-mark::after {
+            content: "★";
+            position: absolute;
+            top: -11px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            color: #ffeb3b;
+            text-shadow: 0 0 7px rgba(255, 235, 59, 0.9);
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 22px;
+            font-size: 14px;
+        }
+
+        .header-nav a {
+            color: var(--text-muted);
+        }
+
+        .header-nav a.active {
+            color: var(--accent);
+            font-weight: 600;
+            position: relative;
+        }
+
+        .header-nav a.active::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -6px;
+            height: 2px;
+            border-radius: 999px;
+            background: linear-gradient(90deg, #ffb300, #ff5252);
+        }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 1;
+            padding: 30px 28px 24px;
+            display: grid;
+            grid-template-columns: 2.1fr 1.1fr;
+            gap: 32px;
+        }
+
+        .hero-left {
+            padding-right: 10px;
+        }
+
+        .hero-main-title {
+            font-size: 34px;
+            line-height: 1.25;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-shadow: 0 0 16px rgba(0, 0, 0, 0.8);
+        }
+
+        .hero-main-title span {
+            color: var(--accent);
+        }
+
+        .hero-subtitle {
+            font-size: 16px;
+            color: var(--text-muted);
+            margin-bottom: 18px;
+        }
+
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+
+        .tag {
+            font-size: 12px;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(21, 101, 192, 0.25);
+            color: #c5cae9;
+            border: 1px solid rgba(144, 202, 249, 0.3);
+        }
+
+        .tag--warm {
+            background: rgba(255, 183, 77, 0.18);
+            color: #ffe082;
+            border: 1px solid rgba(255, 224, 130, 0.4);
+        }
+
+        .hero-org {
+            font-size: 14px;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .hero-org strong {
+            font-weight: 600;
+            color: #ffecb3;
+        }
+
+        .hero-dates {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 14px;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #e0e7ec;
+            max-width: 640px;
+            white-space: pre-line;
+        }
+
+        /* Правая панель с ёлкой-прогрессом */
+        .hero-side {
+            border-radius: 18px;
+            border: 1px solid rgba(176, 190, 197, 0.35);
+            padding: 16px 18px 18px;
+            background: radial-gradient(circle at top, rgba(33, 150, 243, 0.4), rgba(13, 34, 52, 0.95));
+            box-shadow: 0 0 26px rgba(0, 0, 0, 0.7);
+        }
+
+        .hero-side-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hero-side-title::before {
+            content: "🎄";
+            font-size: 19px;
+        }
+
+        .progress-wrap {
+            margin-bottom: 12px;
+        }
+
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #e3f2fd;
+        }
+
+        /* Ёлка как прогресс-бар */
+        .tree-progress {
+            position: relative;
+            width: 120px;
+            height: 190px;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Контур ёлки */
+        .tree-silhouette {
+            position: absolute;
+            inset: 0;
+            margin: auto;
+        }
+
+        .tree-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-style: solid;
+            border-color: transparent;
+        }
+
+        .tree-layer.layer-1 {
+            top: 8px;
+            border-width: 0 55px 48px 55px;
+            border-bottom-color: rgba(69, 90, 100, 0.55);
+        }
+
+        .tree-layer.layer-2 {
+            top: 40px;
+            border-width: 0 60px 50px 60px;
+            border-bottom-color: rgba(69, 90, 100, 0.55);
+        }
+
+        .tree-layer.layer-3 {
+            top: 74px;
+            border-width: 0 65px 52px 65px;
+            border-bottom-color: rgba(69, 90, 100, 0.55);
+        }
+
+        .tree-layer.layer-4 {
+            top: 110px;
+            border-width: 0 70px 54px 70px;
+            border-bottom-color: rgba(69, 90, 100, 0.6);
+        }
+
+        .tree-trunk {
+            position: absolute;
+            bottom: 6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 22px;
+            height: 26px;
+            background: #5d4037;
+            border-radius: 6px;
+            box-shadow: 0 0 6px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Заполнение ёлки (от макушки вниз) */
+        .tree-fill-mask {
+            position: absolute;
+            inset: 0;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+
+        .tree-fill-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-origin: top center;
+        }
+
+        .tree-layer-fill {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-style: solid;
+            border-color: transparent;
+            filter: drop-shadow(0 0 8px rgba(46, 125, 50, 0.7));
+        }
+
+        .tree-layer-fill.layer-1 {
+            top: 8px;
+            border-width: 0 55px 48px 55px;
+            border-bottom-color: #2e7d32;
+        }
+
+        .tree-layer-fill.layer-2 {
+            top: 40px;
+            border-width: 0 60px 50px 60px;
+            border-bottom-color: #2e7d32;
+        }
+
+        .tree-layer-fill.layer-3 {
+            top: 74px;
+            border-width: 0 65px 52px 65px;
+            border-bottom-color: #2e7d32;
+        }
+
+        .tree-layer-fill.layer-4 {
+            top: 110px;
+            border-width: 0 70px 54px 70px;
+            border-bottom-color: #1b5e20;
+        }
+
+        .tree-star {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 18px;
+            text-shadow: 0 0 10px rgba(255, 241, 118, 0.9);
+        }
+
+        .tree-baubles {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .bauble {
+            position: absolute;
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            box-shadow: 0 0 7px rgba(0, 0, 0, 0.6);
+        }
+
+        .bauble.red { background: #ff5252; }
+        .bauble.gold { background: #ffeb3b; }
+        .bauble.blue { background: #29b6f6; }
+
+        .bauble.b1 { top: 40px; left: 32px; }
+        .bauble.b2 { top: 55px; right: 30px; }
+        .bauble.b3 { top: 78px; left: 40px; }
+        .bauble.b4 { top: 94px; right: 42px; }
+        .bauble.b5 { top: 122px; left: 48px; }
+        .bauble.b6 { top: 140px; right: 50px; }
+
+        .hero-progress-text {
+            text-align: center;
+            font-size: 13px;
+            color: #e3f2fd;
+            margin-bottom: 10px;
+        }
+
+        .hero-amount-highlight {
+            font-size: 14px;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .hero-amount-highlight strong {
+            font-weight: 600;
+            color: #ffecb3;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 12px;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(76, 175, 80, 0.16);
+            color: #c8e6c9;
+        }
+
+        .hero-badge-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: #66bb6a;
+            box-shadow: 0 0 8px rgba(102, 187, 106, 0.9);
+        }
+
+        .hero-bottom-meta {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #cfd8dc;
+            text-align: center;
+        }
+
+        .hero-button-placeholder {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #b0bec5;
+            text-align: center;
+        }
+
+        /* Контент */
+        .content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: minmax(0, 2.5fr) minmax(0, 1.1fr);
+            gap: 26px;
+            padding: 20px 28px 26px;
+        }
+
+        .content-main {
+            font-size: 15px;
+            line-height: 1.7;
+            color: #eceff1;
+            background: rgba(6, 23, 38, 0.9);
+            border-radius: 18px;
+            border: 1px solid rgba(144, 164, 174, 0.3);
+            padding: 18px 20px 20px;
+        }
+
+        .content-main h2 {
+            font-size: 21px;
+            margin: 0 0 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .content-main h2::before {
+            content: "✨";
+            font-size: 18px;
+        }
+
+        .content-main p {
+            margin: 0 0 10px;
+        }
+
+        .content-main h3 {
+            font-size: 17px;
+            margin: 16px 0 8px;
+        }
+
+        .content-side {
+            font-size: 13px;
+            color: #cfd8dc;
+        }
+
+        .side-card {
+            border-radius: 18px;
+            border: 1px solid rgba(144, 164, 174, 0.35);
+            padding: 14px 16px 16px;
+            margin-bottom: 14px;
+            background: radial-gradient(circle at top, rgba(96, 125, 139, 0.4), rgba(6, 21, 32, 0.9));
+        }
+
+        .side-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .side-card-title::before {
+            content: "🎁";
+            font-size: 16px;
+        }
+
+        .side-org-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #ffecb3;
+        }
+
+        .side-org-meta {
+            font-size: 12px;
+            color: #b0bec5;
+            margin-bottom: 8px;
+        }
+
+        .side-org-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+
+        .side-contact-line {
+            margin-bottom: 4px;
+        }
+
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .photo-placeholder {
+            width: 100%;
+            padding-top: 72%;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(33, 150, 243, 0.4), rgba(3, 155, 229, 0.1));
+            position: relative;
+            overflow: hidden;
+            font-size: 10px;
+            color: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(144, 202, 249, 0.4);
+        }
+
+        /* Футер */
+        .footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid rgba(84, 110, 122, 0.6);
+            padding: 14px 28px 20px;
+            font-size: 12px;
+            color: #b0bec5;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            background: linear-gradient(to top, rgba(2, 10, 16, 0.98), rgba(3, 15, 25, 0.9));
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 2px;
+        }
+
+        .footer-links a {
+            color: #cfd8dc;
+        }
+
+        .footer-note {
+            font-size: 12px;
+        }
+
+        .footer-note span {
+            color: #ffecb3;
+        }
+		
+		
+		 .photos-gallery {
+        padding: 6px 28px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+	
+    .photos-gallery-inner {
+        background: rgba(6, 23, 38, 0.9);
+        border-radius: 18px;
+        border: 1px solid rgba(144, 164, 174, 0.3);
+        padding: 14px 16px 18px;
+        margin-bottom: 12px;
+    }
+
+    .photos-gallery-title {
+        margin: 0 0 10px;
+        font-size: 16px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .photos-gallery-title::before {
+        content: "📸";
+        font-size: 18px;
+    }
+
+    .photos-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+    }
+
+    .photo-item {
+        margin: 0;
+        font-size: 11px;
+        color: #cfd8dc;
+    }
+
+    .photo-img-wrap {
+        width: 100%;
+        padding-top: 70%;
+        border-radius: 10px;
+        overflow: hidden;
+        background: linear-gradient(135deg, rgba(33, 150, 243, 0.4), rgba(3, 155, 229, 0.1));
+        border: 1px solid rgba(144, 202, 249, 0.4);
+        position: relative;
+    }
+
+    .photo-img-wrap img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .photo-caption {
+        margin-top: 4px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Форма пожертвования */
+    .donation-form-section {
+        position: relative;
+        z-index: 1;
+        padding: 20px 28px 26px;
+    }
+
+    .donation-form-wrapper {
+        background: rgba(6, 23, 38, 0.9);
+        border-radius: 18px;
+        border: 1px solid rgba(144, 164, 174, 0.3);
+        padding: 24px 28px 28px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .donation-form-title {
+        font-size: 21px;
+        margin: 0 0 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--text-main);
+    }
+
+    .donation-form-title::before {
+        content: "💝";
+        font-size: 20px;
+    }
+
+    .donation-form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .form-label {
+        font-size: 14px;
+        color: var(--text-muted);
+        font-weight: 500;
+    }
+
+    .form-input {
+        padding: 12px 14px;
+        border-radius: 10px;
+        border: 1px solid rgba(144, 164, 174, 0.4);
+        background: rgba(15, 41, 63, 0.8);
+        color: var(--text-main);
+        font-size: 15px;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+
+    .form-input:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(255, 213, 79, 0.1);
+    }
+
+    .form-input::placeholder {
+        color: rgba(176, 190, 197, 0.5);
+    }
+
+    .form-submit {
+        padding: 14px 24px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+        color: #000;
+        font-size: 16px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        margin-top: 4px;
+    }
+
+    .form-submit:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(255, 213, 79, 0.4);
+    }
+
+    .form-submit:active {
+        transform: translateY(0);
+    }
+
+    .form-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none;
+    }
+
+    .form-message {
+        padding: 12px 14px;
+        border-radius: 10px;
+        font-size: 14px;
+        margin-top: 8px;
+        display: none;
+    }
+
+    .form-message.success {
+        background: rgba(46, 125, 50, 0.2);
+        border: 1px solid rgba(46, 125, 50, 0.4);
+        color: #c8e6c9;
+        display: block;
+    }
+
+    .form-message.error {
+        background: rgba(255, 82, 82, 0.2);
+        border: 1px solid rgba(255, 82, 82, 0.4);
+        color: #ffcdd2;
+        display: block;
+    }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- Шапка -->
+    <header class="header">
+        <div class="logo">
+            <div class="logo-mark"></div>
+            Благо.ру
+        </div>
+        <nav class="header-nav">
+            <a href="#">Акции</a>
+            <a href="#" class="active">Истории</a>
+            <a href="#">Фонды</a>
+            <a href="#">О проекте</a>
+        </nav>
+    </header>
+
+    <!-- Hero блока акции -->
+    <section class="hero">
+        <div class="hero-left">
+            <div class="hero-main-title">
+                {{ action.title }} <span>— новогодняя акция</span>
+            </div>
+            <div class="hero-subtitle">
+                {{ short_description }}
+            </div>
+            <div class="hero-tags">
+                <span class="tag">{{ company.title.strip() }}</span>
+                {% if company.city %}
+                <span class="tag">{{ company.city }}</span>
+                {% endif %}
+                <span class="tag tag--warm">Поддержка семей</span>
+                <span class="tag">Новогоднее чудо</span>
+            </div>
+            <div class="hero-org">
+                Организатор:
+                <strong>{{ company.legal_form.strip() }} «{{ company.title.strip() }}»</strong>
+            </div>
+            <div class="hero-dates">
+                {{ date_start }} — {{ date_end }}
+            </div>
+            <div class="hero-desc">
+                {{ description }}
+            </div>
+        </div>
+
+        <aside class="hero-side">
+            <div class="hero-side-title">Новогодний прогресс акции</div>
+
+            <div class="progress-wrap">
+                <div class="progress-label">
+                    <span>Собрано</span>
+                    <span>{{ total_raised_display }} / {{ total_display }}</span>
+                </div>
+
+                <!-- Ёлка-прогресс -->
+                <div class="tree-progress">
+                    <div class="tree-silhouette">
+                        <div class="tree-layer layer-1"></div>
+                        <div class="tree-layer layer-2"></div>
+                        <div class="tree-layer layer-3"></div>
+                        <div class="tree-layer layer-4"></div>
+                        <div class="tree-trunk"></div>
+                    </div>
+
+                    <!-- Заполнение ёлки сверху вниз -->
+                    <div class="tree-fill-mask">
+                        <div class="tree-fill-inner" style="clip-path: inset(0 0 var(--tree-fill-percent) 0);">
+                            <div class="tree-layer-fill layer-1"></div>
+                            <div class="tree-layer-fill layer-2"></div>
+                            <div class="tree-layer-fill layer-3"></div>
+                            <div class="tree-layer-fill layer-4"></div>
+                        </div>
+                    </div>
+
+                    <!-- Украшения -->
+                    <div class="tree-star">★</div>
+                    <div class="tree-baubles">
+                        <div class="bauble red b1"></div>
+                        <div class="bauble gold b2"></div>
+                        <div class="bauble blue b3"></div>
+                        <div class="bauble red b4"></div>
+                        <div class="bauble gold b5"></div>
+                        <div class="bauble blue b6"></div>
+                    </div>
+                </div>
+
+                <div class="hero-progress-text">
+                    Ёлка заполняется по мере ваших пожертвований: {{ progress_percent }}% от цели уже собраны.
+                </div>
+            </div>
+
+            <div class="hero-amount-highlight">
+                Планируется направить <strong>{{ total_display }}</strong> на программы фонда и поддержку семей в новом году.
+            </div>
+
+            <div style="text-align:center; margin-bottom: 6px;">
+                <span class="hero-badge">
+                    <span class="hero-badge-dot"></span>
+                    Действующая новогодняя акция
+                </span>
+            </div>
+
+            <div class="hero-bottom-meta">
+                ID акции: {{ action.id }} · Обновлено: {{ last_updated }}
+            </div>
+
+            <div class="hero-button-placeholder">
+                Форма пожертвования на этой странице не отображается, но настроение праздника уже включено.
+            </div>
+        </aside>
+    </section>
+	
+	 <!-- Галерея фотографий акции -->
+    {% if photos %}
+    <section class="photos-gallery">
+        <div class="photos-gallery-inner">
+            <h2 class="photos-gallery-title">Фотогалерея акции</h2>
+            <div class="photos-grid">
+                {% for p in photos %}
+                <figure class="photo-item">
+                    <div class="photo-img-wrap">
+                        <img src="{{ p.picture_url }}" alt="{{ p.title or action.title }}">
+                    </div>
+                    <figcaption class="photo-caption">
+                        {{ p.title or p.file_name }}
+                    </figcaption>
+                </figure>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Основной контент -->
+    <main class="content">
+        <article class="content-main">
+            <h2>О программе «{{ action.title }}»</h2>
+            {{ text_html|safe }}
+        </article>
+
+        <aside class="content-side">
+            <div class="side-card">
+                <div class="side-card-title">О фонде</div>
+                <div class="side-org-name">{{ company.title }}</div>
+                <div class="side-org-meta">
+                    Регион: {{ company.city or '—' }}
+                </div>
+                <div class="side-org-desc">
+                    {{ company.description }}
+                </div>
+                {% if company.address %}
+                <div class="side-contact-line">
+                    Адрес: {{ company.address }}
+                </div>
+                {% endif %}
+                {% if company.phone %}
+                <div class="side-contact-line">
+                    Телефон: {{ company.phone }}
+                </div>
+                {% endif %}
+                {% if company.email %}
+                <div class="side-contact-line">
+                    E-mail: <a href="mailto:{{ company.email }}">{{ company.email }}</a>
+                </div>
+                {% endif %}
+                {% if company.website %}
+                <div class="side-contact-line">
+                    Сайт: <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if photos %}
+            <div class="side-card">
+                <div class="side-card-title">Фотографии отчёта</div>
+                <div class="photos-grid">
+                    {% for p in photos %}
+                    <div class="photo-placeholder">{{ p.file_name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </main>
+
+    <!-- Форма пожертвования -->
+    <section class="donation-form-section">
+        <div class="donation-form-wrapper">
+            <h2 class="donation-form-title">Сделать пожертвование</h2>
+            <form class="donation-form" id="donationForm">
+                <div class="form-group">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="your@email.com" required>
+                </div>
+                <div class="form-group">
+                    <label for="action_amount" class="form-label">Сумма пожертвования по акции (₽)</label>
+                    <input type="number" id="action_amount" name="action_amount" class="form-input" placeholder="0" min="0" step="0.01" required>
+                </div>
+                <div class="form-group">
+                    <label for="company_amount" class="form-label">Сумма пожертвования в НКО (₽)</label>
+                    <input type="number" id="company_amount" name="company_amount" class="form-input" placeholder="0" min="0" step="0.01" required>
+                </div>
+                <button type="submit" class="form-submit" id="submitBtn">Отправить</button>
+                <div class="form-message" id="formMessage"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Футер -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="{{ base_url }}">О платформе</a>
+            <a href="#">Фонды</a>
+            <a href="#">Корпоративная благотворительность</a>
+        </div>
+        <div class="footer-note">
+            © Благо.ру, платформа для частных и корпоративных пожертвований. Пусть каждый взнос станет маленьким <span>новогодним чудом</span>.
+        </div>
+    </footer>
+</div>
+
+<script>
+document.getElementById('donationForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const messageDiv = document.getElementById('formMessage');
+    const form = e.target;
+    
+    // Получаем данные формы
+    const formData = {
+        email: document.getElementById('email').value,
+        action_amount: parseFloat(document.getElementById('action_amount').value) || 0,
+        company_amount: parseFloat(document.getElementById('company_amount').value) || 0
+    };
+    
+    // Валидация
+    if (!formData.email || (!formData.action_amount && !formData.company_amount)) {
+        messageDiv.className = 'form-message error';
+        messageDiv.textContent = 'Пожалуйста, заполните все поля и укажите хотя бы одну сумму пожертвования.';
+        return;
+    }
+    
+    // Блокируем кнопку
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Отправка...';
+    messageDiv.className = 'form-message';
+    messageDiv.textContent = '';
+    
+    try {
+        const response = await fetch('/donate', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            if (result.payment_url) {
+                // Открываем страницу оплаты в новой вкладке
+                window.open(result.payment_url, '_blank');
+                messageDiv.className = 'form-message success';
+                messageDiv.textContent = 'Перенаправление на страницу оплаты...';
+            } else {
+                messageDiv.className = 'form-message success';
+                messageDiv.textContent = result.message || 'Пожертвование успешно отправлено! Спасибо за вашу помощь.';
+            }
+            form.reset();
+        } else {
+            messageDiv.className = 'form-message error';
+            messageDiv.textContent = result.error || 'Произошла ошибка при отправке. Попробуйте позже.';
+        }
+    } catch (error) {
+        messageDiv.className = 'form-message error';
+        messageDiv.textContent = 'Ошибка соединения. Проверьте подключение к интернету.';
+    } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить';
+    }
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+.modal {
+  &-auth,
+  &-registration {
+    @include clearfix;
+    
+    #myDonates &,
+    #floatAuth & {
+      display: none;
+      &.active {
+        display: block;
+      }
+    }
+    
+    
+    label {
+      color: $blue-dark;
+      clear: both;
+      display: block;
+    }
+    
+    &-info {
+      color: $blue-dark;
+      clear: both;
+    }
+    
+    .form-group {
+      clear: both;
+    }
+    
+    &-error,
+    .error {
+      @include error();
+      .has-danger + & {
+        display: block;
+      }
+    }
+    
+    .form-group {
+      @include media-breakpoint-up(md) {
+        float: left;
+        width: 40%;
+      }
+    }
+    
+    &-sent {
+      clear: both;
+      @include media-breakpoint-up(md) {
+        float: left;
+        width: 40%;
+        margin-bottom: 15px;
+      }
+      @include media-breakpoint-down(md) {
+        margin-bottom: 15px;
+      }
+      @include formInfo();
+    }
+    
+    &-regLink,
+    &-authLink {
+      clear: both;
+    }
+    
+  }
+  
+  &-donates {
+    .donates-list-row {
+      margin-left: -$modal-inner-padding;
+      margin-right: -$modal-inner-padding;
+      padding-left: $modal-inner-padding;
+      padding-right: $modal-inner-padding;
+      &.bordered {
+        border-top: 2px #e5e5e5 solid;
+        border-bottom: 2px #e5e5e5 solid;
+      }
+    }
+  }
+  
+  &-payments {
+    &-carousel {
+      letter-spacing: -0.4em;
+      margin: 0 (-$grid-gutter-width);
+      padding: 0 $grid-gutter-width/2;
+      position: relative;
+      
+      &-wrapper {
+        white-space: nowrap;
+      }
+      .carousel-controls-prev {
+        left: 0;
+      }
+      .carousel-controls-next {
+        right: 0;
+      }
+    }
+    &-item {
+      letter-spacing: 0;
+      display: inline-block;
+      vertical-align: top;
+      padding-right: $grid-gutter-width/2;
+      padding-left: $grid-gutter-width/2;
+      
+      @include media-breakpoint-up(lg) {
+        width: 288.65px;
+      }
+      @include media-breakpoint-down(md) {
+        width: 200px;
+      }
+    }
+    &-way {
+      background-repeat: no-repeat;
+      border: 2px solid #e5e5e5;
+      border-radius: 5px;
+      height: 130px;
+      text-align: center;
+      padding: 98px 8px 8px;
+      color: $blue-dark;
+      cursor: pointer;
+      
+      
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 15px;
+      }
+      
+
+      &.visa {
+        background-image: url("../images/logo-visa.png");
+        background-position: 50% 29px;
+      }
+      &.rur {
+        background-image: url("../images/logo-rur.png");
+        background-position: 50% 29px;
+      }
+      &.mc {
+        background-image: url("../images/logo-mc.png");
+        background-position: 50% 24px;
+      }
+      
+      &:hover,
+      .active & {
+        background-color: rgba(48, 58, 67, 0.05);
+        color: black;        
+      }
+      .active & {
+        border-color: #bbb;
+      }
+      
+      
+    }
+    
+      /* Scrollbar */
+    @include media-breakpoint-down(md) {
+      .swiper-scrollbar {
+        position: relative;
+        -ms-touch-action: none;
+        background: rgba(0, 0, 0, 0.1);
+        height: 8px;
+        border-radius: 4px;
+        opacity: 1 !important;
+        margin-top: 10px;
+      } 
+      .swiper-container-horizontal > .swiper-scrollbar {
+        position: absolute;
+        left:  1%;
+        bottom: 3px;
+        z-index: 50;
+        height: 5px;
+        width: 98%;
+      }
+      .swiper-scrollbar-drag {
+        height: 100%;
+        width: 100%;
+        position: relative;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 10px;
+        left: 0;
+        top: 0;
+      }
+      .swiper-scrollbar-cursor-drag {
+        cursor: move;
+      } 
+    }
+    
+    &-anon {
+      font-weight: 700;
+      @include fontSize(15px);
+      @include lineHeight(20px);
+      margin: 30px 0;
+    }
+  }
+  
+  &-card {
+    background: $gray-contentBackground;
+    margin-left: -$modal-inner-padding;
+    margin-right: -$modal-inner-padding;
+    padding: 30px $modal-inner-padding;
+    border-top: 2px #e5e5e5 solid;
+    border-bottom: 2px #e5e5e5 solid;
+    margin-bottom: 30px;
+
+    &-wrapper {
+      display: none;
+      .opened & {
+        display: block;
+      }
+    }
+    
+    &.opened {
+      padding-top: 20px;
+      padding-bottom: 0;
+      .btn {
+        display: none;
+      }
+    }
+    
+    img {
+      max-width: 100%;
+    }
+    
+    &-form {
+      &-field {
+        &-short {
+          @include media-breakpoint-up(md) {
+            width: 80%;
+          }
+        }
+        &-textarea {
+          textarea {
+            min-height: 160px;
+          }
+        }
+      }
+      img {
+        display: block;
+        margin: 50px auto;
+      }
+    }
+    &-preview {
+      text-align: center;
+      position: relative;
+      img {
+        
+      }
+      .btn-remove {
+        position: absolute;
+        display: block !important;
+        right: 30px;
+        top: 15px;
+        opacity: 0.5;
+        border-color: $brand-danger;
+        padding: 10px 12px;
+        .icon {
+          margin: 0;
+        }
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    &-carousel {
+      padding: 20px 0;
+      &-filter {
+        a {
+          display: inline-block;
+          margin-right: 20px;
+        
+          &.selected {
+            color: black;
+            span {
+              background: none;
+            }
+          }
+        }
+      }
+      &-wrapper {
+        margin-left: -10px;
+        margin-right: -10px;
+      }
+      .carousel-list-item {
+        width: 75px;
+        box-shadow: none;
+        border: 2px solid rgba(0, 0, 0, 0.1);
+      }
+      .carousel-controls-prev {
+        @include media-breakpoint-down(sm) {
+          left: -21px;
+        }
+      }
+      .carousel-controls-next {
+        @include media-breakpoint-down(sm) {
+          right: -21px;
+        }
+      }
+    }
+    
+    &-link {
+      @include media-breakpoint-down(xs) {
+        white-space: normal;
+      }
+    }
+    
+  }
+  
+  &-footer {
+    .btn {
+      @include media-breakpoint-down(sm) {
+        float: left;
+        clear: left;
+        margin-bottom: 15px;
+        margin-left: 0;
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
+    }
+    p {
+      margin-top: 15px;
+    }
+  }
+  
+  &-sendQuestion {
+    @include media-breakpoint-up(md) {
+      width: 50%;
+    }
+    
+    .h1 {
+       margin-bottom: 20px;
+    }
+    textarea {
+      min-height: 160px;
+    }
+    
+    &-ok {
+      background: url("../images/svg/icon-ok.svg") no-repeat 50%;
+      @include fontSize(24px);
+      @include lineHeight(36px);
+      color: rgba(0,0,0,0.6);
+      text-align: center;
+      padding-top: 200px;
+    }
+    
+    .error {
+      margin-top: -20px;
+      margin-bottom: 0;
+      float: left;
+      width: 100%;
+      padding-left: 0;
+    }
+    
+  }
+  
+}

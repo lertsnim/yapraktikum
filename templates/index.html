@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ action.title }} — {{ company.title }}</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: #fbf9f6;
+            color: #373a3c;
+        }
+        a {
+            color: #ea5528;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        .page {
+            max-width: 1160px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+        .header {
+            color: #313b43 !important; 
+            border-bottom: 1px solid #e0e0e0;
+            padding: 16px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 700;
+            font-size: 20px;
+            color: #ea5528;
+        }
+        .logo-mark {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, #ff9800, #ea5528);
+        }
+        .header-nav {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+        .header-nav a {
+            color: #424242;
+        }
+        .header-nav a.active {
+            font-weight: 600;
+            color: #000000;
+        }
+        .hero {
+            padding: 32px 24px 24px;
+            display: grid;
+            grid-template-columns: 2fr 1.2fr;
+            gap: 32px;
+            border-bottom: 1px solid #eeeeee;
+        }
+        .hero-main-title {
+            font-size: 32px;
+            line-height: 1.25;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .hero-subtitle {
+            font-size: 16px;
+            color: #666666;
+            margin-bottom: 16px;
+        }
+        .hero-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .tag {
+            font-size: 12px;
+            line-height: 1;
+            padding: 6px 10px;
+            border-radius: 999px;
+            background-color: #f0f7f7;
+            color: #00695c;
+        }
+        .hero-org {
+            font-size: 14px;
+            color: #555555;
+            margin-bottom: 4px;
+        }
+        .hero-org strong {
+            font-weight: 600;
+        }
+        .hero-dates {
+            font-size: 13px;
+            color: #9e9e9e;
+            margin-bottom: 16px;
+        }
+        .hero-desc {
+            font-size: 15px;
+            line-height: 1.5;
+            color: #444444;
+            max-width: 620px;
+            white-space: pre-line;
+        }
+        .hero-side {
+            border-radius: 12px;
+            border: 1px solid #eeeeee;
+            padding: 16px 18px 18px;
+            background: #fafafa;
+        }
+        .hero-side-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        .progress-wrap {
+            margin-bottom: 14px;
+        }
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+        .progress-bar {
+            position: relative;
+            height: 20px;
+            border-radius: 999px;
+            background-color: #eceeef; 
+            overflow: hidden;
+        }
+        .progress-bar-fill {
+            position: absolute;
+            inset: 0;
+            width: {{ progress_percent }}%;
+            background: linear-gradient(90deg, #26a69a, #ea5528); 
+        }
+        .hero-amount-highlight {
+            font-size: 14px;
+            margin-bottom: 14px;
+        }
+        .hero-amount-highlight strong {
+            font-weight: 600;
+        }
+        .hero-meta {
+            font-size: 12px;
+            color: #9e9e9e;
+            margin-bottom: 4px;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 999px;
+            background-color: #e3f2fd;
+            color: #1e88e5;
+            margin-bottom: 8px;
+        }
+        .hero-badge-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: #1e88e5;
+        }
+        .hero-button-placeholder {
+            margin-top: 10px;
+            font-size: 13px;
+            color: #757575;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: minmax(0, 2.4fr) minmax(0, 1fr);
+            gap: 24px;
+            padding: 24px;
+        }
+        .content-main {
+            font-size: 15px;
+            line-height: 1.6;
+            color: #3a3a3a;
+        }
+        .content-main h2 {
+            font-size: 20px;
+            margin: 0 0 14px;
+        }
+        .content-main p {
+            margin: 0 0 10px;
+        }
+        .content-side {
+            font-size: 13px;
+            color: #616161;
+        }
+        .side-card {
+            border-radius: 12px;
+            border: 1px solid #eeeeee;
+            padding: 14px 16px;
+            margin-bottom: 14px;
+            background: #fafafa;
+        }
+        .side-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .side-org-name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .side-org-meta {
+            font-size: 12px;
+            color: #9e9e9e;
+            margin-bottom: 8px;
+        }
+        .side-org-desc {
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        .side-contact-line {
+            margin-bottom: 4px;
+        }
+        .photos-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 8px;
+        }
+        .photo-placeholder {
+            width: 100%;
+            padding-top: 70%;
+            border-radius: 8px;
+            background: #e0f2f1;
+            position: relative;
+            overflow: hidden;
+            font-size: 10px;
+            color: #00695c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .footer {
+            border-top: 1px solid #e0e0e0;
+            padding: 16px 24px 24px;
+            font-size: 12px;
+            color: #9e9e9e;
+        }
+        .footer-links {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <div class="logo">
+            <div class="logo-mark"></div>
+            Благо.ру
+        </div>
+        <nav class="header-nav">
+            <a href="#">Акции</a>
+            <a href="#" class="active">Истории</a>
+            <a href="#">Фонды</a>
+            <a href="#">О проекте</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div>
+            <div class="hero-main-title">{{ action.title }}</div>
+            <div class="hero-subtitle">
+                {{ short_description }}
+            </div>
+            <div class="hero-tags">
+                <span class="tag">{{ company.title.strip() }}</span>
+                {% if company.city %}<span class="tag">{{ company.city }}</span>{% endif %}
+                <span class="tag">Поддержка семей</span>
+            </div>
+            <div class="hero-org">
+                Организатор:
+                <strong>{{ company.legal_form.strip() }} «{{ company.title.strip() }}»</strong>
+            </div>
+            <div class="hero-dates">
+                {{ date_start }} — {{ date_end }}
+            </div>
+            <div class="hero-desc">
+                {{ description }}
+            </div>
+        </div>
+
+        <aside class="hero-side">
+            <div class="hero-side-title">Цель акции</div>
+            <div class="progress-wrap">
+                <div class="progress-label">
+                    <span>Собрано</span>
+                    <span>{{ total_raised_display }} / {{ total_display }}</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-bar-fill"></div>
+                </div>
+            </div>
+
+            <div class="hero-amount-highlight">
+                Планируется направить <strong>{{ total_display }}</strong> на программы фонда и поддержку семей.
+            </div>
+
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Действующая акция
+            </div>
+
+            <div class="hero-meta">
+                ID акции: {{ action.id }} · Обновлено: {{ last_updated }}
+            </div>
+
+            <div class="hero-button-placeholder">
+                Форма пожертвования не отображается на этой странице.
+            </div>
+        </aside>
+    </section>
+
+    <main class="content">
+        <article class="content-main">
+            <h2>О программе «{{ action.title }}»</h2>
+            {{ text_html|safe }}
+        </article>
+
+        <aside class="content-side">
+            <div class="side-card">
+                <div class="side-card-title">О фонде</div>
+                <div class="side-org-name">{{ company.title }}</div>
+                <div class="side-org-meta">
+                    Регион: {{ company.city or '—' }}
+                </div>
+                <div class="side-org-desc">
+                    {{ company.description }}
+                </div>
+                {% if company.address %}
+                <div class="side-contact-line">
+                    Адрес: {{ company.address }}
+                </div>
+                {% endif %}
+                {% if company.phone %}
+                <div class="side-contact-line">
+                    Телефон: {{ company.phone }}
+                </div>
+                {% endif %}
+                {% if company.email %}
+                <div class="side-contact-line">
+                    E-mail: <a href="mailto:{{ company.email }}">{{ company.email }}</a>
+                </div>
+                {% endif %}
+                {% if company.website %}
+                <div class="side-contact-line">
+                    Сайт: <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
+                </div>
+                {% endif %}
+            </div>
+
+            {% if photos %}
+            <div class="side-card">
+                <div class="side-card-title">Фотографии отчёта</div>
+                <div class="photos-grid">
+                    {% for p in photos %}
+                    <div class="photo-placeholder">{{ p.file_name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="{{ base_url }}" style="color:#757575;">О платформе</a>
+            <a href="#" style="color:#757575;">Фонды</a>
+            <a href="#" style="color:#757575;">Корпоративная благотворительность</a>
+        </div>
+        <div>© Благо.ру, платформа для частных и корпоративных пожертвований.</div>
+    </footer>
+</div>
+</body>
+</html>

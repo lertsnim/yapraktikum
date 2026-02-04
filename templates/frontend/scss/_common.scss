@@ -1,0 +1,132 @@
+.linkAddon {
+  display: inline-block;
+  vertical-align: middle;
+  color: #fff;
+  width: 20px;
+  height: 20px;
+  background-color: #ea5528;
+  border-radius: 10px;
+  text-align: center;
+  font-weight: 700;
+  @include fontSize(13px);
+  @include lineHeight(20px);
+}
+
+figure {
+  max-width: 100%;
+  img {
+    max-width: 100%;
+  }
+}
+
+.topShadow {
+  position: fixed;
+  z-index: 20;
+  width: 100%;
+  height: 30px;
+  margin-top: -30px;
+  box-shadow: 0 30px 30px rgba(0,0,0,0.3);
+  background: #000;
+  display: none;
+  
+  .scrolled & {
+    display: none;
+  }
+}
+
+.overlay {
+  position: fixed;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 10;
+  display: none;
+  
+  .searchResults & {
+    display: block;
+  }
+}
+
+.form-control-under {
+  position: absolute;
+  right: 25px;
+  top: 8px;
+  @include lineHeight(20px);
+  color: rgba(0,0,0,0.3);
+}
+
+.ui-datepicker-trigger {
+  @extend .form-control-under;
+  background: url("../images/svg/date.svg") no-repeat right 50%;  
+  width: 18px;
+  height: 20px;
+  right: 11px;
+  cursor: pointer;
+  color: rgba(0,0,0,0);
+  border-width: 0;
+}
+
+.tableIcon {
+  @include media-breakpoint-up(md) {
+    width: 55px;
+    height: 55px;
+    background-color: #fbf9f6;
+    text-align: center;
+    line-height: 55px;
+    border-radius: 27px;
+    letter-spacing: -0.4em;
+    margin: 0 20px 0 10px;
+  
+    img {
+      width: 32px;
+    }
+  }
+  @include media-breakpoint-down(sm) {
+    display: none;
+  }
+}
+
+.tableRow {
+  @include clearfix;
+  @include fontSize(15px);
+  @include lineHeight(24px);
+        
+  @include media-breakpoint-up(lg) {
+    border-radius: 5px;
+  }
+  @include media-breakpoint-up(md) {
+    padding: 10px 0 14px;
+    margin: 0 -10px;
+  }
+  @include media-breakpoint-down(md) {
+    background: #fff;
+    border-top: #e5e5e5 2px solid;
+    border-bottom: #e5e5e5 2px solid;
+    margin: 10px -10px;
+  }
+  @include media-breakpoint-down(sm) {
+    padding: $grid-gutter-width/3;
+  }
+}
+
+.error {
+  @include error();
+}
+.info {
+  @include info();
+}
+.error {
+  .has-danger + & {
+    display: block !important;
+  }
+}
+
+#floatAuth {
+  padding-bottom: 15px;
+}
+
+.btn .icon-plus {
+  margin-top: -2px;
+}

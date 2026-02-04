@@ -1,0 +1,20 @@
+@media print {
+  .header,
+  .footer {
+    display: none;
+  }
+  
+  .print-hidden {
+    display: none;
+  }
+  
+  .content-header {
+    border-width: 0;
+    padding: 0;
+  }
+  
+  .pd4 {
+    width: 200px;
+  }
+  
+}

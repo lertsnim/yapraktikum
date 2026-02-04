@@ -1,0 +1,215 @@
+.icon {
+  display: inline-block;
+  vertical-align: middle;
+  
+  &:before {
+    content: "";
+    float: left;
+    width: 100%;
+    height: 100%;
+  }
+  
+  &-plus {
+    width: 20px;
+    height: 20px;
+    &:before {
+      background: url("../images/svg/icon-plus.svg") no-repeat 50% 50%;
+    }
+  }
+  
+  &-eye {
+    width: 22px;
+    height: 15px;
+    &:before {
+      background: url("../images/svg/icon-eye.svg") no-repeat 50% 50%;
+    }
+  }
+
+  &-trash {
+    width: 14px;
+    height: 18px;
+    &:before {
+      background: url("../images/svg/icon-trash.svg") no-repeat 50% 50%;
+    }
+  }
+
+  &-edit {
+    width: 18px;
+    height: 18px;
+    &:before {
+      background: url("../images/svg/icon-edit.svg") no-repeat 50% 50%;
+    }
+    
+    &-red {
+      width: 18px;
+      height: 18px;
+      &:before {
+        background: url("../images/svg/icon-edit-red.svg") no-repeat 50% 50%;
+      }
+    }
+    
+  }
+  
+  &-star {
+    width: 20px;
+    height: 19px;
+    &:before {
+      background: url("../images/svg/icon-star.svg") no-repeat 50% 50%;
+    }
+    
+    &-gray {
+      width: 20px;
+      height: 19px;
+      &:before {
+        background: url("../images/svg/icon-star-gray.svg") no-repeat 50% 50%;
+      }
+    }
+    
+    &-white {
+      width: 20px;
+      height: 19px;
+      &:before {
+        background: url("../images/svg/icon-star-white.svg") no-repeat 50% 50%;
+      }
+    }    
+  }
+ 
+  &-search {
+    width: 17px;
+    height: 17px;
+    &:before {
+      background: url("../images/svg/icon-search.svg") no-repeat 50% 50%;
+    }
+  }
+ 
+  &-settings {
+    width: 18px;
+    height: 18px;
+    &:before {
+      background: url("../images/svg/icon-settings.svg") no-repeat 50% 50%;
+    }
+  }
+
+  &-close {
+    width: 14px;
+    height: 14px;
+    &:before {
+      background: url("../images/svg/icon-close.svg") no-repeat 50% 50%;
+    }
+    &-white {
+      width: 22px;
+      height: 22px;
+      &:before {
+        background: url("../images/icon-close-white.png") no-repeat 50% 50%;
+      }
+    }
+  }  
+
+  &-angle-right {
+    width: 6px;
+    height: 12px;
+    &:before {
+      background: url("../images/svg/icon-angle-right.svg") no-repeat 50% 50%;
+    }
+  }
+
+  &-mail-large {
+    width: 80px;
+    height: 64px;
+    &:before {
+      background: url("../images/svg/icon-mail.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-ok-large {
+    width: 70px;
+    height: 54px;
+    &:before {
+      background: url("../images/svg/icon-ok.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-print {
+    width: 20px;
+    height: 18px;
+    &:before {
+      background: url("../images/svg/icon-print.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-times {
+    width: 14px;
+    height: 14px;
+    &:before {
+      background: url("../images/svg/icon-clear.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-rotate {
+    width: 24px;
+    height: 27px;
+    &:before {
+      background: url("../images/icon-rotate.png") no-repeat 50% 50%;
+    }
+  }
+  
+  &-addFile {
+    width: 46px;
+    height: 42px;
+    &:before {
+      background: url("../images/svg/icon-addFile.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-like {
+    &-large {
+      width: 80px;
+      height: 73px;
+      &:before {
+        background: url("../images/svg/icon-like.svg") no-repeat 50% 50%;
+      }
+    }
+  }  
+  
+  &-fb {
+    width: 32px;
+    height: 32px;
+    &:before {
+      background: url("../images/svg/icon-facebook.svg") no-repeat 50% 50%;
+    }
+  }  
+  
+  &-vk {
+    width: 32px;
+    height: 32px;
+    &:before {
+      background: url("../images/svg/icon-vk.svg") no-repeat 50% 50%;
+    }
+  }
+  
+  &-twitter {
+    width: 32px;
+    height: 32px;
+    &:before {
+      background: url("../images/svg/icon-twitter.svg") no-repeat 50% 50%;
+    }
+  }  
+ 
+  &-google-plus {
+    width: 32px;
+    height: 32px;
+    &:before {
+      background: url("../images/svg/icon-google+.svg") no-repeat 50% 50%;
+    }
+  }
+  
+  &-odnoklassniki {
+    width: 32px;
+    height: 32px;
+    &:before {
+      background: url("../images/icon-odnoklassniki.png") no-repeat -17px -18px;
+    }
+  }  
+  
+ 
+}

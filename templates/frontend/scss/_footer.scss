@@ -1,0 +1,103 @@
+.footer {
+  background-color: #5b6369;
+  color: #fff;
+  padding-bottom: 21px;
+  
+  @include media-breakpoint-up(md) {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  
+  &-nav {
+    padding: 25px 0;
+    background: #313b43;
+    @include fontSize(13px);
+    margin-bottom: 18px;
+    
+    color: #fff;
+    a {
+      color: #fff;
+    }
+    
+    &-indent {
+      &-0 {
+        @extend .menu;
+        li {
+          line-height: 1.2rem;
+          padding: 0.15rem 0;
+        }
+        > li {
+          @include media-breakpoint-up(md) {
+            float: left;
+            width: 33.33%;
+          }
+          @include media-breakpoint-down(sm) {
+            margin-bottom: 18px;
+          }
+          
+          > a {
+            opacity: 0.4;
+            font-weight: 700;
+          }
+        }
+      }
+      &-1 {
+        @extend .menu;
+      }
+    }
+    
+  }
+  
+  &-logo {
+    @include media-breakpoint-up(lg) {
+      float: left;
+      width: 35%;
+    }
+    @include media-breakpoint-down(md) {
+      margin-bottom: 24px;
+    }
+    padding-top: 14px;
+  }
+  &-info {
+    @include media-breakpoint-up(lg) {
+      float: left;
+      width: 40%;
+    }
+    @include media-breakpoint-down(md) {
+      margin-bottom: 15px;
+    }
+    @include fontSize(11px);
+    @include lineHeight(15px);
+    opacity: 0.4;
+  }
+  &-payInfo {
+    @include media-breakpoint-up(lg) {
+      float: left;
+      width: 25%;
+      padding-left: 25px;
+    }
+    @include fontSize(11px);
+    @include lineHeight(15px);
+    
+    p {
+      opacity: 0.4;
+      margin: 0 0 3px;
+      a {
+        text-decoration: underline;
+        @include media-breakpoint-down(md) {
+          float: left;
+          clear: left;
+          margin-bottom: 9px;
+        }
+        color: #fff;
+      }
+    }
+    img {
+      display: block;
+      clear: both;
+    }
+  }
+  
+}

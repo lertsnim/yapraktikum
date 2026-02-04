@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ title }}</title>
+    <style>
+        /* scrollPane.css */
+        .jspContainer { overflow: hidden; position: relative; }
+        .jspPane { position: absolute; }
+        .jspVerticalBar { position: absolute; top: 0; right: 0; width: 16px; height: 100%; background: red; }
+        .jspTrack { background: #dde; position: relative; }
+        .jspDrag { background: #bbd; position: relative; top: 0; left: 0; cursor: pointer; }
+
+        /* Blago.ru стили из style.min.css */
+        body { background-color: #fbf9f6; color: #373a3c; font-family: open_sans, -apple-system, sans-serif; font-size: 0.9375rem; line-height: 1.5; margin: 0; }
+        .container { margin: 0 auto; padding: 0 15px; max-width: 944px; }
+        @media (min-width: 1365px) { .container { max-width: 1200px; } }
+        .row { margin-left: -15px; margin-right: -15px; }
+        .col-xs-12 { float: left; min-height: 1px; padding: 0 15px; position: relative; width: 100%; }
+        .col-xs-6 { float: left; padding: 0 15px; position: relative; width: 50%; }
+        h1, h2, h3 { color: inherit; font-weight: 700; line-height: 1.5; margin-bottom: 0.5rem; margin-top: 0; }
+        h1 { font-size: 1.875rem; }
+        h2 { font-size: 1.5rem; }
+        h3 { font-size: 1.125rem; }
+        .content { background: #fbf9f6; padding: 20px 0; }
+        .brand-danger { color: #ea5528 !important; }
+        .gray-light { color: #818a91 !important; }
+        .progress { background-color: #eceeef; border-radius: 10px; height: 20px; margin: 20px 0; overflow: hidden; }
+        .progress-bar { background-color: #ea5528; height: 100%; transition: width 0.6s ease; }
+        .header { background: #fff; border-bottom: 2px solid #e5e5e5; padding: 20px 0; }
+        .action-image { max-width: 100%; height: auto; border-radius: 5px; }
+        footer { background: #313b43; color: #fff; padding: 20px 0; text-align: center; margin-top: 50px; }
+        .footer-links a { color: #757575; margin: 0 15px; text-decoration: none; }
+    </style>
+</head>
+<body>
+    <header class="header container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1 style="margin: 0; color: #313b43;">Благо.ру</h1>
+            </div>
+        </div>
+    </header>
+
+    <div class="content container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h2>{{ title }}</h2>
+                {% if main_image %}
+                <img src="{{ main_image }}" alt="Фото акции" class="action-image">
+                {% endif %}
+                
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-xs-6">
+                        <h3 class="brand-danger">{{ total_raised_display }}</h3>
+                        <p class="gray-light">Цель: {{ total_display }}</p>
+                    </div>
+                    <div class="col-xs-6" style="text-align: right;">
+                        <p>{{ progress_percent }}% выполнено</p>
+                    </div>
+                </div>
+
+                <div class="progress">
+                    <div class="progress-bar" style="width: {{ progress_percent }}%;"></div>
+                </div>
+
+                <div style="margin: 30px 0;">
+                    <h3>Описание</h3>
+                    <div>{{ description|safe }}</div>
+                    <p><strong>С {{ date_start }} по {{ date_end }}</strong></p>
+                </div>
+
+                {% if partners %}
+                <div style="margin: 30px 0;">
+                    <h3>Партнеры</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        {% for partner in partners %}
+                        <li style="margin: 10px 0; padding: 10px; background: #fff; border-radius: 5px;">{{ partner }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="{{ base_url }}">О платформе</a>
+                <a href="#">Фонды</a>
+                <a href="#">Корпоративная благотворительность</a>
+            </div>
+            <div>© Благо.ру, платформа для частных и корпоративных пожертвований.</div>
+        </div>
+    </footer>
+</body>
+</html>

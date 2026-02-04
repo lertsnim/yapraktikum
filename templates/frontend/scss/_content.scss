@@ -1,0 +1,262 @@
+﻿@include media-breakpoint-up(md) {
+  html {
+    height: 100%;
+  }
+  body {
+    min-height: 100%;
+    position: relative;
+    @include media-breakpoint-down(md) {
+      background: $gray-contentBackground;
+      padding-bottom: 430px;
+    }
+    @include media-breakpoint-up(lg) {
+      padding-bottom: 293px;
+    }
+  }
+}
+
+.content {
+  @import "content_subNav";
+  background: $gray-contentBackground;
+  
+  
+  &-block {
+  
+    padding-left: $grid-gutter-width /1.5;
+    padding-right: $grid-gutter-width /1.5;
+  
+    h1, h2 {
+      text-align: center;
+    }
+    .btn {
+      @include media-breakpoint-up(sm) {
+        min-width: 300px;
+      }
+      @include media-breakpoint-down(xs) {
+        min-width: 250px;
+      }
+    }
+  }
+  
+
+  ul {
+    list-style-type: none;
+    list-style-image: url(../images/li.png);
+    padding-left: 22px;
+    li {
+      
+    }
+  }
+  
+  img {
+    max-width: 100%;
+  }
+  
+  h4 {
+    @include lineHeight(21px);
+    font-weight: 700;
+    margin: 9px 0 5px;
+  }  
+ 
+  a {
+    &:visited {
+      /* color: #96a5b1; */
+    }
+  }
+  
+  .scrolled .header + & {
+    margin-top: 60px;
+  }
+  
+  &-header,
+  &-body {
+    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.04) inset;
+    border-top: 2px #e5e5e5 solid;
+    margin: 0 (-$grid-gutter-width/2);
+    background: #fff;
+    
+    > .container {
+      max-width: 1200px;
+    }
+      
+    @include media-breakpoint-up(lg) {
+      padding-left: $grid-gutter-width;
+      padding-right: $grid-gutter-width;
+    }
+    @include media-breakpoint-down(md) {
+      padding-left: $grid-gutter-width/3;
+      padding-right: $grid-gutter-width/3;
+      background: $gray-contentBackground;
+      
+      > .container {
+        padding: 0;
+      }
+      
+      &-columns {
+        > .row {
+          margin-left: -$grid-gutter-width/3;
+          margin-right: -$grid-gutter-width/3;
+          > *[class*='col'] {
+            padding-left: $grid-gutter-width/3;
+            padding-right: $grid-gutter-width/3;
+          }
+        }
+      }
+      
+    }
+  }
+  &-header {
+    padding-top: 38px;
+    padding-bottom: 10px;
+    
+    @include media-breakpoint-down(md) {
+      padding-top: 15px;
+    }
+    
+    [data-bgColor='white'] &,
+    &[data-bgColor='white'] {
+      @include media-breakpoint-down(md) {
+        box-shadow: none;      
+        background: #fff;
+      }
+    }
+    
+    &-subtitle {
+      @extend h3;
+      font-weight: 400;
+      margin-bottom: 25px;
+    }
+    .btn-favorite {
+      margin-bottom: 10px;
+      float: right;
+      width: 42px;
+      height: 42px;
+      padding: 5px;
+      .icon {
+        width: 100%;
+        height: 100%;
+        &:before {
+          background-size: 100% 100%;
+        }
+      }
+    }
+    
+  }
+  &-body {
+    padding-top: 30px;
+    padding-bottom: 10px;
+    
+    [data-bgColor='white'] &,
+    &[data-bgColor='white'] {
+      border-top-width: 0;
+      padding-top: 1px;
+      box-shadow: none;
+      
+      @include media-breakpoint-down(md) {
+        background: #fff;  
+      }
+    }
+
+    /*
+    h2 {
+      @include fontSize(18px);
+      @include lineHeight(27px);
+    }
+    */
+    
+    h2 {
+      margin-top: 28px;
+    }
+    
+    h2 + h3 {
+      margin-top: 18px;
+    }
+    
+  }
+ 
+}
+
+.container-fluid > .container {
+  max-width: 1200px;
+}
+
+.btn {
+  .icon {
+    margin-right: 5px;
+  }
+    
+  & + & {
+    margin-left: 17px;
+  }
+  
+  &-favorite {
+    @extend .btn-danger-white;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    .icon {
+      vertical-align: bottom;
+    }
+    &.active {
+      background: transparentize($brand-danger,0.7);
+    }
+  }
+  
+}
+
+.socialButton {
+  margin: 25px 0;
+  padding: 5px 0;
+}
+
+textarea {
+  display: block;
+}
+
+
+.ui-datepicker {
+  margin-top: -60px;
+}
+
+.status-green {
+  width: 8px;
+  height: 8px;
+  background: #2ccf38;
+  border-radius: 4px;
+}
+.status-gray {
+  width: 8px;
+  height: 8px;
+  background: #c8c7c4;
+  border-radius: 4px;
+}
+
+.form-info {
+  @include formInfo();
+  margin-bottom: 15px;
+  .form-control + & {
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+  .error + & {
+    clear: both;
+  }
+}
+
+.dropdown {
+  max-width: 100%;
+  a {
+    @include media-breakpoint-down(sm) {
+      white-space: normal;
+    }
+  }
+}
+
+.alert [data-dismiss="alert"] {
+  background: none;
+  border-width: 0;
+  &:before {
+    width: 14px;
+    height: 14px;
+    background: url("../images/svg/icon-close.svg") no-repeat 50% 50%;
+  }
+}

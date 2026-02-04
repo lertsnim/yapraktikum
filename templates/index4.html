@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <title>{{ action.title }} — {{ company.title }}</title>
+    <link rel="stylesheet" href="https://blago.ru/frontend/css/style.min.css" />
+</head>
+<body>
+<div class="page">
+    <header class="header">
+        <div class="logo">
+            <div class="logo-mark"></div>
+            Благо.ру
+        </div>
+        <nav class="header-nav">
+            <a href="#">Акции</a>
+            <a href="#" class="active">Истории</a>
+            <a href="#">Фонды</a>
+            <a href="#">О проекте</a>
+        </nav>
+    </header>
+
+    <!-- Новый блок прогресса в стиле Благо.ру 
+    <section class="progress-top" style="padding:24px; border-bottom:1px solid #eee; background:#fff7f3;">
+        <div style="font-size:20px; font-weight:700; margin-bottom:12px;">
+            Собрано: {{ total_raised_display }} из {{ total_display }}
+        </div>
+        <div class="progress-bar" style="width:100%; height:24px; background:#ffe1d5; border-radius:14px; overflow:hidden;">
+            <div class="progress-bar-fill" style="height:100%; width: {{ progress_percent }}%; background:#ea5528;"></div>
+        </div>
+    </section> -->
+
+    <section class="hero" style="display:flex; gap:24px; padding:32px 24px; background:#ffffff; border-bottom:1px solid #eee;">
+
+    <!-- Основная колонка слева -->
+    <div class="hero-left" style="flex:2; display:flex; flex-direction:column; gap:24px;">
+        <!-- Карточка с текстом -->
+        <div class="hero-textcard" style="background:#fff; padding:24px; border-radius:16px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+            <div class="hero-main-title" style="font-size:32px; font-weight:800; color:#313b43; margin-bottom:12px; font-family:'Inter', sans-serif;">
+                {{ action.title }}
+            </div>
+            <div class="hero-subtitle" style="font-size:16px; color:#555; margin-bottom:18px; font-family:'Inter', sans-serif;">
+                {{ short_description }}
+            </div>
+
+            <div class="hero-tags" style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;">
+                <span class="tag" style="padding:6px 12px; background:#eaf5ff; color:#1e88e5; border-radius:20px; font-size:12px; font-weight:600;">{{ company.title.strip() }}</span>
+                {% if company.city %}
+                <span class="tag" style="padding:6px 12px; background:#eaf5ff; color:#1e88e5; border-radius:20px; font-size:12px; font-weight:600;">{{ company.city }}</span>
+                {% endif %}
+            </div>
+
+            <div class="hero-org" style="font-size:14px; margin-bottom:6px; color:#444; font-family:'Inter', sans-serif;">
+                Организатор: <strong>{{ company.legal_form.strip() }} «{{ company.title.strip() }}»</strong>
+            </div>
+            <div class="hero-dates" style="font-size:13px; color:#999; margin-bottom:16px; font-family:'Inter', sans-serif;">
+                {{ date_start }} — {{ date_end }}
+            </div>
+            <div class="hero-desc" style="font-size:15px; line-height:1.6; color:#333; font-family:'Inter', sans-serif;">
+                {{ description }}
+            </div>
+        </div>
+
+        <!-- Карточка "Цель акции" — теперь слева под описанием -->
+        <div class="hero-goal" style="background:#fff; padding:24px; border-radius:16px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+            <h3 style="font-size:18px; font-weight:700; margin-bottom:14px; font-family:'Inter', sans-serif;">Цель акции</h3>
+            <div style="font-size:14px; margin-bottom:12px; font-family:'Inter', sans-serif;">
+                Планируется направить <strong>{{ total_display }}</strong> на программы фонда и поддержку семей.
+            </div>
+        </div>
+    </div>
+
+    <!-- Правая колонка -->
+    <aside class="hero-right" style="flex:1; display:flex; flex-direction:column; gap:24px;">
+
+        <!-- Прогресс бар справа -->
+        <div class="progress-card" style="background:#fff; padding:24px; border-radius:16px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+            <div style="font-size:18px; font-weight:700; margin-bottom:10px; font-family:'Inter', sans-serif;">
+                Собрано: {{ total_raised_display }} из {{ total_display }}
+            </div>
+            <div class="progress-bar" style="height:20px; border-radius:12px; overflow:hidden; background:#ffe1d5; margin-bottom:8px;">
+                <div class="progress-bar-fill" style="height:100%; width: {{ progress_percent }}%; background:#ea5528;"></div>
+            </div>
+            <div class="hero-badge" style="display:inline-flex; align-items:center; gap:6px; padding:6px 10px; background:#e3f2fd; color:#1e88e5; border-radius:20px; font-size:12px; font-family:'Inter', sans-serif; margin-top:8px;">
+				<span class="tag" style="padding:6px 12px; background:#eaf5ff; color:#1e88e5; border-radius:20px; font-size:12px; font-weight:600;">Акция действует!</span>
+                
+            </div>
+            <div class="hero-meta" style="font-size:12px; color:#999; margin-top:10px; font-family:'Inter', sans-serif;">
+                ID акции: {{ action.id }} · Обновлено: {{ last_updated }}
+            </div>
+        </div>
+
+        <!-- Блок "О фонде" — теперь справа под прогресс баром -->
+        <div class="fund-card" style="background:#fff; padding:24px; border-radius:16px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+            <h3 style="font-size:16px; font-weight:700; margin-bottom:12px; font-family:'Inter', sans-serif;">О фонде</h3>
+            <div style="font-size:14px; margin-bottom:6px; font-family:'Inter', sans-serif;">{{ company.title }}</div>
+            <div style="font-size:12px; color:#999; margin-bottom:8px; font-family:'Inter', sans-serif;">Регион: {{ company.city or '—' }}</div>
+            <div style="font-size:13px; line-height:1.5; margin-bottom:10px; font-family:'Inter', sans-serif;">{{ company.description }}</div>
+            {% if company.address %}<div style="margin-bottom:4px; font-size:13px; font-family:'Inter', sans-serif;">Адрес: {{ company.address }}</div>{% endif %}
+            {% if company.phone %}<div style="margin-bottom:4px; font-size:13px; font-family:'Inter', sans-serif;">Телефон: {{ company.phone }}</div>{% endif %}
+            {% if company.email %}<div style="margin-bottom:4px; font-size:13px; font-family:'Inter', sans-serif;">E-mail: <a href="mailto:{{ company.email }}">{{ company.email }}</a></div>{% endif %}
+            {% if company.website %}<div style="margin-bottom:4px; font-size:13px; font-family:'Inter', sans-serif;">Сайт: <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></div>{% endif %}
+        </div>
+
+    </aside>
+
+</section>
+
+    <main class="container">
+        <article class="content-main">
+            <h2>О программе «{{ action.title }}»</h2>
+            {{ text_html|safe }}
+        </article>
+
+
+
+            {% if photos %}
+            <div class="side-card">
+                <div class="side-card-title">Фотографии отчёта</div>
+                <div class="photos-grid">
+                    {% for p in photos %}
+                    <div class="photo-placeholder">{{ p.file_name }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+        </aside>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="{{ base_url }}">О платформе</a>
+            <a href="#">Фонды</a>
+            <a href="#">Корпоративная благотворительность</a>
+        </div>
+        <div>© Благо.ру, платформа для частных и корпоративных пожертвований.</div>
+    </footer>
+</div>
+</body>
+</html>

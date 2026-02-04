@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+  <title>{{ action.title }}{% if company and company.title %} — {{ company.title }}{% endif %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/frontend/css/scrollPane.css" rel="stylesheet" />
+  <link href="/frontend/css/style.css" rel="stylesheet" />
+  <link href="/frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="/frontend/css/jquery-ui.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+  <script src="/frontend/js/vendor/html5shiv.min.js"></script>
+  <script src="/frontend/js/vendor/respond.min.js"></script>
+  <![endif]-->
+  <style>
+    /* Скрыты блок поиска и верхнее меню */
+    .header .header-search,
+    .header .header-nav,
+    .header .header-nav-link,
+    .header .header-search-link,
+    .header #searchResult { display: none !important; }
+  </style>
+</head>
+<body class=""><!-- .searchResults -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="header-logo col-lg-3">
+          <a href="{{ base_url }}">
+            <img src="/frontend/images/logo.png" alt="Blago.ru" />
+          </a>
+        </div>
+        <div class="header-search col-lg-3">
+          <form method="get" action="/search" class="header-search-form hidden-md-down">
+            <div class="input-group">
+              <input type="text" class="header-search-type form-control" name="q" placeholder="Найти" />
+              <span class="header-search-reset"></span>
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="submit">Найти</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="header-nav  col-lg-6">
+          <span class="header-nav-link hidden-lg-up btn btn-sm btn-secondary">Меню</span>
+          <nav class="header-nav-list hidden-md-down">
+            <a href="#">Все организации</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Мои пожертвования <span class="linkAddon">3</span></a>
+          </nav>
+        </div>
+        <span class="header-search-link hidden-lg-up btn btn-sm btn-secondary"></span>
+      </div>
+    </div>
+    <div id="searchResult" class="header-search-results hidden">
+      <div class="header-search-results-noResult hidden">
+        По вашему запросу ничего не найдено
+      </div>
+      <ul>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный Фонд Константина Хабенского</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный фонд ЦФО (Поддержка детей и семей в трудной жизненной ситуации)</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container-fluid" data-bgColor="white">
+      <div class="content-header">
+       <div class="container">
+        <h1>{{ action.title }}</h1>
+        <div class="content-header-subtitle">{% if company %}{{ company.legal_form or '' }} «{{ company.title or '' }}»{% if company.city %}, {{ company.city }}{% endif %}{% endif %}</div>
+        <!--
+        <a href="#" class="btn btn-favorite">
+          <i class="icon icon-star"></i>
+          ДОБАВИТЬ В ИЗБРАННОЕ
+        </a>
+        -->
+       </div> 
+      </div>
+      <div class="content-body">
+       <div class="container">
+        <div class="campaign content-body-columns">
+          <div class="row">
+            <div class="col-lg-8 col-xs-12">
+              <div class="campaign-gallery">
+                <div class="campaign-gallery-controls">
+                  <span class="campaign-gallery-controls-prev"></span>
+                  <span class="campaign-gallery-controls-next"></span>
+                </div>
+                <div class="campaign-gallery-wrapper">
+                  {% if photos %}
+                    {% for photo in photos %}
+                      <div class="campaign-gallery-item{% if loop.first %} active{% endif %}">
+                        <div class="campaign-gallery-item-large">
+                          <img src="{{ photo.picture_url or photo.file_url or photo.url or photo.file_name }}" alt="{{ photo.alt or action.title }}" />
+                        </div>
+                        <div class="campaign-gallery-item-thmb">
+                          <img src="{{ photo.thumbnail_url or photo.picture_url or photo.file_url or photo.url or photo.file_name }}" alt="{{ photo.alt or action.title }}" />
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <div class="campaign-gallery-item active">
+                      <div class="campaign-gallery-item-large">
+                        <img src="http://placehold.it/1900x1425/43fbaa?text={{ action.title|urlencode }}" alt="{{ action.title }}" />
+                      </div>
+                      <div class="campaign-gallery-item-thmb">
+                        <img src="http://placehold.it/640x480/43fbaa" alt="{{ action.title }}" />
+                      </div>
+                    </div>
+                  {% endif %}
+                </div><!-- .campaign-gallery-wrapper -->
+              </div>
+              <div class="campaign-text">
+                {% if text_html %}
+                  {{ text_html|safe }}
+                {% elif description %}
+                  <p>{{ description|replace('\n\n', '</p><p>')|replace('\n', '<br />')|safe }}</p>
+                {% endif %}
+              </div>
+              
+            </div>
+            <div class="col-lg-4 col-xs-12">
+              <div class="campaign-finance">
+                <div class="campaign-finance-got">
+                  <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num" style="display:none;">
+                        Собрано
+                        <span>{{ donations_count|default(0) }} пожертвований</span>
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-label" style="font-size:0.95em; margin-bottom:4px;">Собрано</div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{ total_raised_display }}</strong>
+                        из {{ total_display }}
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" id="progressBarInner" data-width="{{ progress_percent }}"></div>
+                      </div>
+                      {% if days_left is defined and days_left is not none %}
+                      <div class="campaigns-item-donate-form-progress-days" style="margin-top:8px; font-size:0.95em;">
+                        До конца акции осталось
+                        {% if days_left == 1 %}
+                          {{ days_left }} день
+                        {% elif days_left >= 2 and days_left <= 4 %}
+                          {{ days_left }} дня
+                        {% else %}
+                          {{ days_left }} дней
+                        {% endif %}
+                      </div>
+                      {% endif %}
+                      {% if status %}
+                      <div class="campaigns-item-donate-form-progress-status" style="margin-top:6px; font-weight:600;">
+                        {{ status }}
+                      </div>
+                      {% endif %}
+                    </div>
+                </div>
+                
+                {% if status_code != 1 and status_code != 2 %}
+                <div class="campaign-finance-pay">
+                  <div class="campaign-finance-pay-list" id="fixedAmountsList">
+                    {% if amounts %}
+                      {% for item in amounts %}
+                        <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="{{ item.amount }}" role="button" tabindex="0" style="cursor:pointer;">
+                          <strong>{{ item.amount }} ₽</strong>
+                          {{ item.description or '' }}
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="100" role="button" tabindex="0" style="cursor:pointer;">
+                        <strong>100 ₽</strong>
+                        Пожертвование поможет
+                      </div>
+                      <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="300" role="button" tabindex="0" style="cursor:pointer;">
+                        <strong>300 ₽</strong>
+                        Пожертвование поможет больше
+                      </div>
+                      <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="1000" role="button" tabindex="0" style="cursor:pointer;">
+                        <strong>1000 ₽</strong>
+                        Пожертвование поможет еще больше
+                      </div>
+                    {% endif %}
+                  </div>
+                  <div class="campaign-finance-pay-form">
+                    <!-- Форма пожертвования (отправка JSON в /donate, как в остальных шаблонах) -->
+                    <form id="donateForm" novalidate>
+                      <div class="form-group">
+                        <label>
+                          <input type="email" class="form-control" name="email" placeholder="E-mail" required />
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label>
+                          <input type="text" class="form-control" name="action_amount" placeholder="Сумма пожертвования" inputmode="numeric" />
+                          <span class="form-control-under">₽</span>
+                        </label>
+                      </div>
+                      <div id="donateFormMessage" class="form-group" style="display:none; margin-top:12px; padding:10px; border-radius:6px;"></div>
+                      <button type="submit" class="btn btn-submit" id="donateFormSubmit">ПОЖЕРТВОВАТЬ</button>
+                    </form>
+                    <!-- /Форма пожертвования -->
+                  </div>
+                </div>
+                {% endif %}
+                <aside class="campaign-contacts">
+                  <h3 class="hidden">Контакты</h3>
+                  <p>
+                    {% if company.legal_form or company.title %}
+                    {{ company.legal_form or '' }}{% if company.title %} «{{ company.title }}»{% endif %}
+                    {% if company.city %}<br />{{ company.city }}{% endif %}
+                    <br /><br />
+                    {% endif %}
+                    {% if company.address %}{{ company.address }}<br />{% endif %}
+                    {% if company.phone %}
+                      {% if company.phone is string %}
+                        {{ company.phone }}
+                      {% else %}
+                        {% for phone in company.phone %}
+                          {{ phone }}{% if not loop.last %} — {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                      <br />
+                    {% endif %}
+                    {% if company.email %}
+                      E-mail: <a href="mailto:{{ company.email }}">{{ company.email }}</a><br />
+                    {% endif %}
+                    {% if company.website %}
+                      Сайт: <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
+                    {% endif %}
+                  </p>
+                </aside>
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      </div>
+  
+    </div>
+    
+    
+    {% if related_campaigns %}
+    <section class="campaign-also">
+      <h2>Еще акции</h2>
+      {% for campaign in related_campaigns %}
+        <article class="campaign-also-item">
+          <div class="campaign-also-item-wrapper">
+            <figure>
+              <img src="{{ campaign.image_url or 'http://placehold.it/1024x768/fc81f1' }}" alt="{{ campaign.title }}">
+            </figure>
+            <h4>
+              <a href="{{ campaign.url or '#' }}">{{ campaign.title }}</a>
+            </h4>
+            <p>{{ campaign.short_description or ((campaign.description[:150] + '...') if campaign.description else 'Описание акции') }}</p>
+          </div>
+        </article>
+      {% endfor %}
+    </section>
+    {% endif %}
+  </div>
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <div class="container">
+       <!--<ul class="footer-nav-indent-0">
+          <li>
+            <a href="#">Помочь</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Список организаций</a></li>
+              <li><a href="#">Действующие акции</a></li>
+              <li><a href="#">Отчеты</a></li>
+              <li><a href="#">Пожертвования</a></li>
+              <li><a href="#">Новости</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Как работает Благо.ру</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Статус проекта</a></li>
+              <li><a href="#">Положение о программе</a></li>
+              <li><a href="#">Новости программы</a></li>
+              <li><a href="#">Наши баннеры</a></li>
+              <li><a href="#">Благодарим за поддержку</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Пользователю</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Регистрация</a></li>
+              <li><a href="#">Войти</a></li>
+              <li><a href="#">Обратная связь</a></li>
+              <li><a href="#">Стать участником</a></li>
+              <li><a href="#">Управление НКО</a></li>
+            </ul>
+          </li>
+        </ul> -->
+      </div>
+    </nav>
+    <div class="container">
+      <!--   <div class="footer-logo">
+        <a href="{{ base_url }}">
+          <img src="/frontend/images/cafrussia.png" alt="КАФ" />
+        </a>
+      </div> -->
+      <div class="footer-info">
+        Благотворительная программа повышения устойчивости НКО и развития частных и корпоративных пожертвований «Благо» реализуется БФ «Культура благотворительности»<br />
+        ИНН: 7727492679 ОГРН 1227700248918 ∙ Электронная почта: blago@givingculture.ru
+      </div>
+      <div class="footer-payInfo">
+        <p>
+          <a href="https://blago.ru/security.html">Безопасность персональных данных</a><br />
+          <a href="https://blago.ru/refunding.html">Безопасность платежей</a>
+        </p>
+        <img src="/frontend/images/pays.png" alt="" />
+      </div>
+    </div>
+  </footer>
+  
+  <script src="/frontend/js/vendor/jquery-1.10.2.js"></script>
+  <script src="/frontend/js/vendor/equalize.js"></script>
+  <script src="/frontend/js/vendor/jquery-ui.min.js"></script>
+  <script src="/frontend/js/vendor/jquery.datepicker-ru.js"></script>
+  <script src="/frontend/js/vendor/jquery.autosize.min.js"></script>
+  <script src="/frontend/js/common.js"></script>
+  <script>
+  (function() {
+    var progressEl = document.getElementById('progressBarInner');
+    if (progressEl && progressEl.getAttribute('data-width') !== null) {
+      progressEl.style.width = progressEl.getAttribute('data-width') + '%';
+    }
+  })();
+  (function() {
+    var fixedList = document.getElementById('fixedAmountsList');
+    var amountInput = document.querySelector('#donateForm [name="action_amount"]');
+    if (fixedList && amountInput) {
+      fixedList.addEventListener('click', function(e) {
+        var plate = e.target.closest('.js-fixed-amount');
+        if (plate && plate.dataset.amount !== undefined) {
+          amountInput.value = plate.dataset.amount;
+          amountInput.focus();
+        }
+      });
+      fixedList.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var plate = e.target.closest('.js-fixed-amount');
+        if (plate && plate.dataset.amount !== undefined) {
+          e.preventDefault();
+          amountInput.value = plate.dataset.amount;
+          amountInput.focus();
+        }
+      });
+    }
+  })();
+  (function() {
+    var form = document.getElementById('donateForm');
+    var messageEl = document.getElementById('donateFormMessage');
+    var submitBtn = document.getElementById('donateFormSubmit');
+    if (!form) return;
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = (form.querySelector('[name="email"]') && form.querySelector('[name="email"]').value) || '';
+      var actionAmount = parseFloat((form.querySelector('[name="action_amount"]') && form.querySelector('[name="action_amount"]').value) || 0) || 0;
+      email = String(email).trim();
+      messageEl.style.display = 'none';
+      messageEl.className = 'form-group';
+      messageEl.textContent = '';
+      if (!email) {
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#fff3cd';
+        messageEl.style.color = '#856404';
+        messageEl.textContent = 'Укажите E-mail.';
+        return;
+      }
+      if (actionAmount <= 0) {
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#fff3cd';
+        messageEl.style.color = '#856404';
+        messageEl.textContent = 'Укажите сумму пожертвования.';
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      fetch('/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: email, action_amount: actionAmount, company_amount: 0 })
+      })
+      .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }); })
+      .then(function(result) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+        messageEl.style.display = 'block';
+        if (result.ok) {
+          if (result.data.payment_url) {
+            messageEl.style.backgroundColor = '#d4edda';
+            messageEl.style.color = '#155724';
+            messageEl.textContent = 'Перенаправление на страницу оплаты...';
+            window.open(result.data.payment_url, '_blank');
+            form.reset();
+          } else {
+            messageEl.style.backgroundColor = '#d4edda';
+            messageEl.style.color = '#155724';
+            messageEl.textContent = result.data.message || 'Пожертвование успешно отправлено.';
+            form.reset();
+          }
+        } else {
+          messageEl.style.backgroundColor = '#f8d7da';
+          messageEl.style.color = '#721c24';
+          messageEl.textContent = result.data.error || 'Произошла ошибка. Попробуйте позже.';
+        }
+      })
+      .catch(function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#f8d7da';
+        messageEl.style.color = '#721c24';
+        messageEl.textContent = 'Ошибка сети. Попробуйте позже.';
+      });
+    });
+  })();
+  </script>
+</body>
+</html>

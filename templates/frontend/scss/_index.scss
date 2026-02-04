@@ -1,0 +1,42 @@
+.index-wrapper {
+    @include media-breakpoint-down(md) {
+      margin: -1px (-$grid-gutter-width/3) 0;
+      padding: 0;
+      background: $gray-contentBackground;
+    }
+}
+  
+.index-item {
+  @include clearfix;
+  @include media-breakpoint-up(md) {
+    margin-bottom: 50px;
+  }
+  @include media-breakpoint-down(md) {
+    border-top: 2px rgba(0, 0, 0, 0.1) solid;
+    border-bottom: 2px rgba(0, 0, 0, 0.1) solid;
+    padding: 20px $grid-gutter-width/3;
+    background: #fff;
+    margin-bottom: 10px;
+  }
+}
+
+.index-load {
+  @include media-breakpoint-up(lg) {
+    margin-bottom: 50px;
+  }
+  .btn {
+    width: 100%;
+  }
+  @include media-breakpoint-down(md) {
+    padding: 20px 0;
+      
+    .row {
+      margin-left: -$grid-gutter-width/3;
+      margin-right: -$grid-gutter-width/3;
+    }
+    [class*='col'] {
+      padding-left: $grid-gutter-width/3;
+      padding-right: $grid-gutter-width/3;
+    }   
+  }
+}

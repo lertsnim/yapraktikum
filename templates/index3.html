@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+{# base_url из config.txt (BASE_URL) — меняется в одном месте #}
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ action.title }}</title>
+    
+    <!-- Blago.ru CSS -->
+    <link rel="stylesheet" href="https://blago.ru/frontend/css/scrollPane.css">
+    <link rel="stylesheet" href="https://blago.ru/frontend/css/style.min.css">
+    
+    <style>
+        /* Blago.ru стилистика: цвета, шрифты, прогресс-бар */
+        body { 
+            background-color: #fbf9f6 !important; 
+            font-family: 'Open Sans', -apple-system, sans-serif !important; 
+            color: #373a3c;
+        }
+        
+        /* Логотип/Хедер в стиле blago.ru */
+        .header { 
+            background: #fff; 
+            border-bottom: 2px solid #e5e5e5; 
+            padding: 20px 0; 
+        }
+        .header h1 { 
+            color: #313b43 !important; 
+            font-weight: 700; 
+            font-size: 1.875rem; 
+            margin: 0; 
+        }
+        
+        /* Прогресс-бар blago.ru */
+        .blago-progress { 
+            background-color: #eceeef; 
+            border-radius: 10px; 
+            height: 20px; 
+            overflow: hidden; 
+            margin: 20px 0; 
+        }
+        .blago-progress-bar { 
+            background-color: #ea5528; 
+            height: 100%; 
+            transition: width 0.6s ease; 
+            border-radius: 10px; 
+        }
+        
+        /* Суммы в стиле blago.ru */
+        .blago-raised { color: #ea5528 !important; font-weight: 700; font-size: 1.5rem; }
+        .blago-goal { color: #818a91 !important; }
+        
+        /* Подвал blago.ru */
+        .blago-footer { 
+            background: #313b43 !important; 
+            color: #fff !important; 
+            padding: 30px 0 20px; 
+            text-align: center; 
+            margin-top: 50px; 
+        }
+        .blago-footer a { 
+            color: #757575 !important; 
+            text-decoration: none; 
+            margin: 0 20px; 
+        }
+        .blago-footer a:hover { 
+            color: #fff !important; 
+        }
+        .blago-footer .copyright { 
+            color: #a0a0a0; 
+            margin-top: 15px; 
+            font-size: 0.875rem; 
+        }
+        
+        /* Изображение акции */
+        .action-image { 
+            max-width: 100%; 
+            height: auto; 
+            border-radius: 5px; 
+            margin: 20px 0; 
+        }
+    </style>
+</head>
+<body>
+    <!-- ХЕДЕР: только логотип изменен -->
+    <header class="header container">
+        <div class="row">
+            <div class="col-xs-12">
+                <h1>Благо.ру</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- ОСНОВНОЙ КОНТЕНТ: компоновка ТОЧНО такая же -->
+    <div class="content">
+        <div class="container">
+            <!-- ВСЕ переменные и структура сохранены -->
+            {{ action.title }}
+            
+            {{ short_description }}
+            
+            {{ company.title.strip() }}
+            
+            {% if company.city %}
+            {{ company.city }}
+            {% endif %}
+            
+            <!-- Прогресс-бар blago.ru -->
+            <div class="row">
+                <div class="col-xs-6">
+                    <h3 class="blago-raised">{{ total_raised_formatted }} ₽</h3>
+                    <p class="blago-goal">Цель: {{ goal_formatted }} ₽</p>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <p>{{ progress_percent or 0 }}% выполнено</p>
+                </div>
+            </div>
+            
+            <div class="blago-progress">
+                <div class="blago-progress-bar" style="width: {{ progress_percent or 0 }}%;"></div>
+            </div>
+
+            Поддержка семей
+            
+            Организатор:
+            
+            {{ company.legal_form.strip() }} «{{ company.title.strip() }}»
+            
+            {{ date_start }} — {{ date_end }}
+            
+            {{ description }}
+            
+            О программе «{{ action.title }}»
+            
+            {{ text_html|safe }}
+            
+            {% if main_image %}
+            <img src="{{ main_image }}" alt="Фото акции" class="action-image">
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- ПОДВАЛ: стиль blago.ru -->
+    <footer class="blago-footer">
+        <div class="container">
+            <div>
+                <a href="{{ base_url }}">О платформе</a>
+                <a href="#">Фонды</a>
+                <a href="#">Корпоративная благотворительность</a>
+            </div>
+            <div class="copyright">© Благо.ру, платформа для частных и корпоративных пожертвований.</div>
+        </div>
+    </footer>
+</body>
+</html>

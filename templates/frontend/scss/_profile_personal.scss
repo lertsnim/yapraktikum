@@ -1,0 +1,25 @@
+&-personal {
+  
+  
+  &-updateLink {
+    cursor: pointer;
+    color: $blue-dark;
+  }
+  
+  &-form {
+    &-currentPass {
+      .form-control-under {
+        
+      }
+    }
+    &-newPass {
+      *[type='password'] + *[type='password'] {
+        margin-top: ($grid-gutter-width/1.5);
+        &:last-child {
+          marign-bottom: 0;
+        }
+      }
+    }
+  }
+  
+}
