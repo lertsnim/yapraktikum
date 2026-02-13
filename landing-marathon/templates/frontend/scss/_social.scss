@@ -1,0 +1,45 @@
+.social {
+  background: #fff;
+  padding: 66px 0 30px;
+  
+  &-wrapper {
+    margin: 21px 0;
+  }
+  &-block {
+    background-color: #fff;
+    border: 1px solid #e9eaed;
+    padding: 9px;
+  }
+  
+  &-form {
+    form {
+      background: $gray-contentBackground;
+      padding: 1px 11px 40px 11px;
+    }
+    h4 {
+      margin: 36px 0 19px;
+      text-align: center;
+      @include lineHeight(24px);
+    }
+    .form-control {
+      text-align: center;
+      @include fontSize(15px);
+    }
+    .btn {
+      width: 100%;
+      min-width: 100%;
+      @extend .btn-danger;
+    }
+    
+    .row {
+      margin-left: -$grid-gutter-width/3;
+      margin-right: -$grid-gutter-width/3;
+      
+      > *[class*="col"] {
+        padding-left: $grid-gutter-width/3;
+        padding-right: $grid-gutter-width/3;
+      } 
+    }
+    
+  }
+}

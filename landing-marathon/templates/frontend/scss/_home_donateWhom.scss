@@ -1,0 +1,144 @@
+.donateWhom {
+  text-align: center;
+  background: #fff;
+  padding: 66px 0 0;
+  
+  h2 {
+    @include lineHeight(45px);
+  }
+  
+  &-list {
+    margin-top: 20px;
+    margin-left: -2px;
+    @include clearfix;
+    &-item {
+      float: left;
+      background-position: 50% 50%;
+      background-size: cover;
+      border-left: 2px #fff solid;
+      border-bottom: 2px #fff solid;
+      color: #fff;
+      @include fontSize(13px);
+      @include lineHeight(18px);
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      
+      @include media-breakpoint-up(md) {
+        width: 25%;
+      }
+      @include media-breakpoint-down(sm) {
+        width: 50%;
+      }
+      
+      a {
+        padding: 120px 0 16px;
+        display: block;
+        color: #fff !important;
+        text-decoration: none !important;
+        background-color: rgba(0,0,0,0.3);
+        transition: background-color 0.3s ease;
+        &:hover {
+          background-color: rgba(0,0,0,0);
+        }
+      }
+    }
+  }
+  &-facts {
+    @include clearfix;
+    background: $orange;
+    
+    &-item {
+      float: left;
+      padding: 30px 0 34px;
+      color: #fff;
+      @include fontSize(15px);
+      @include lineHeight(24px);
+      
+      @include media-breakpoint-up(sm) {
+        width: 33.33%;
+      }
+
+      .btn {
+        background: none;
+        color: #fff !important;
+        margin-top: 15px;
+      }
+     
+      strong {
+        @include fontSize(30px);
+        @include lineHeight(41px);
+        font-weight: 700;
+        display: block;
+      }
+      
+      p {
+        opacity: 0.6;
+        margin: 0;
+      }
+     
+    }
+  }
+  
+  &-founds {
+    @include clearfix;
+    padding: 20px;
+    background: $gray-contentBackground;
+    
+    &-item {
+      float: left;
+      padding: 10px;
+      @include media-breakpoint-up(sm) {
+        width: 20%;
+      }
+      
+      &-wrapper {
+        position: relative;
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(48, 58, 67, 0.06);
+        padding: 75% 15px 15px 15px;
+        text-align: left;
+      }
+      
+      h4 {
+        color: $blue-dark;
+        @include lineHeight(21px);
+      }
+      
+      figure {
+        /* margin: -15px -15px 15px -15px; */
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+        
+        background-size: cover;
+        background-position: 50% 50%;
+        
+        position: absolute;
+        left: 0;
+        right: 0;
+        height: 0;
+        top: 0;
+        padding-bottom: 75%;
+        
+        a {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          top: 0;
+        }
+        
+      }
+      
+      p {
+        @include fontSize(13px);
+        @include lineHeight(21px);
+        margin: 0;
+      }
+      
+    }
+    
+  }
+  
+}

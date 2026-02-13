@@ -1,0 +1,745 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Благо.ру / Марафон Аистенок </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="frontend/css/scrollPane.css" rel="stylesheet" />
+  <link href="frontend/css/style.css" rel="stylesheet" />
+  
+  <link href="frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="frontend/css/jquery-ui.min.css" rel="stylesheet" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+  <script src="frontend/js/vendor/html5shiv.min.js"></script>
+  <script src="frontend/js/vendor/respond.min.js"></script>
+  <![endif]-->
+<style>
+
+.campaigns-item-donate-form-progress-bar-inner-matching {
+            border-radius: 5px;
+            background-color: #4a8bc8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%; }
+
+.radio-label input[type="radio"]:checked + span {
+  font-weight: 600;
+  color: #ea5528;
+}
+
+.radio-label:hover {
+  border-color: #ea5528;
+  background: #fff5f5;
+}
+
+.mode-option {
+  border: 2px solid #dee2e6 !important; 
+  border-radius: 12px; 
+  cursor: pointer; 
+  transition: all 0.3s;
+  display: block;
+  width: 100%;
+}
+
+.mode-option:hover { border-color: #ea5528 !important; background: #fff5f5; }
+.mode-option.active { 
+  border-color: #ea5528 !important; 
+  background: #fef2f2 !important; 
+  box-shadow: 0 4px 12px rgba(239,66,66,0.2);
+}
+
+.mode-option input[type="radio"] {
+  position: absolute; opacity: 0; width: 0; height: 0;
+}
+
+
+</style>
+
+
+</head>
+<body class=""><!-- .searchResults -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="header-logo col-lg-3">
+          <a href="/">
+            <img src="frontend/images/logo.png" alt="Blago.ru" />
+          </a>
+        </div>
+        <div class="hidden header-search col-lg-3"> <!--Скрыт поиск-->
+          <form method="get" action="/search" class="header-search-form hidden-md-down">
+            <div class="input-group">
+              <input type="text" class="header-search-type form-control" name="q" placeholder="Найти" />
+              <span class="header-search-reset"></span>
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="submit">Найти</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="hidden header-nav  col-lg-6"> <!--Скрыт скрыто меню-->
+          <span class="header-nav-link hidden-lg-up btn btn-sm btn-secondary">Меню</span>
+          <nav class="header-nav-list hidden-md-down">
+            <a href="#">Все организации</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Мои пожертвования <span class="linkAddon">3</span></a>
+          </nav>
+        </div>
+        <span class="header-search-link hidden-lg-up btn btn-sm btn-secondary"></span>
+      </div>
+    </div>
+    <div id="searchResult" class="header-search-results hidden">
+      <div class="header-search-results-noResult hidden">
+        По вашему запросу ничего не найдено
+      </div>
+      <ul>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный Фонд Константина Хабенского</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный фонд ЦФО (Поддержка детей и семей в трудной жизненной ситуации)</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container-fluid" data-bgColor="white">
+      <div class="content-header">
+       <div class="container">
+        <h1>{{ marathon.title }}</h1>
+        <!--<div class="content-header-subtitle"> Организатор марафона </div>-->
+       </div> 
+      </div>
+      <div class="content-body">
+       <div class="container">
+        <div class="campaign content-body-columns">
+          <div class="row">
+            <div class="col-lg-8 col-xs-12">
+              <div class="nko-gallery">
+                <div class="nko-gallery-controls">
+                  <!--<span class="nko-gallery-controls-prev"></span>
+                  <span class="nko-gallery-controls-next"></span> -->
+                </div>
+                <div class="nko-gallery-wrapper">
+                  <div class="nko-gallery-item active">
+                    <div class="nko-gallery-item-large">
+                      <img src="{{marathon.photos[0].picture_url}}" alt=""/>
+                    </div>
+                    <!--
+                    <div class="nko-gallery-item-thmb">
+                      <img src="{{marathon.photos[0].picture_url}}" alt=""/>
+                    </div> -->
+                  </div>
+                </div><!-- .nko-gallery-wrapper -->
+              </div>
+              
+              <div class="campaign-text">
+                {% if marathon.text %}
+                {{ marathon.text|safe }}
+                {% elif marathon.description %}
+                  <p>{{ marathon.description }}</p>
+                {% endif %}
+              </div>
+              <div class="hidden campaign-social socialButton">
+                стандартные кнопки соцсетей
+              </div>
+              
+            </div>
+            <div class="col-lg-4 col-xs-12">
+              <div class="campaign-finance">
+                <div class="campaign-finance-got">
+                  <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num">
+                        Собрано
+                        <!--<span>47 пожертвований</span>-->
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{total_raised_display}}</strong> 
+                        из {{total_display}}
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" style="width: {{ marathon.progress }}%;"></div>
+                      </div>
+                      <p></p>
+                      <!--Метчиновая полоса-->
+                      {% if matching %}
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <p><strong>{{ matching_display }} </strong> собрано с учетом софинансирования</p>
+                      </div>                
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner-matching" style="width: {{ matching*100/marathon.total }}%;"></div>
+                      </div>
+
+
+                      {% endif %}
+                      <div>
+                        <p>Осталось: {{ days_left }} дней</p>
+                      </div>
+                      <div>
+                        <strong>{{ status }}</strong>
+                      </div>
+                    </div>
+                </div>
+                
+                <aside class="hidden campaign-contacts">
+                  <h3 class="hidden">Контакты</h3>
+                  <p>«Старость в радость» — благотворительный фонд помощи пожилым людям и инвалидам (г. Москва)<br />
+                  <br />
+                  121099, Смоленская набережная, 5/13<br />
+                  +7 (903) 507-21-17 — Елизавета<br />
+                  +7 (916) 151-84-12 — Анастасия<br />
+                  E-mail: <a href="mailto:anasstassija@yandex.ru">anasstassija@yandex.ru</a><br />
+                  Сайт: <a href="http://www.starikam.org/">www.starikam.org</a>
+                  </p>
+                </aside>
+                <div>
+                  <!-- Партнеры марафона -->
+                {% if marathon.partners %}
+                <aside class="campaign-partners">
+                  <h3>Партнёры марафона</h3>
+                  {% for partner in marathon.partners %}
+                  <div class="partner-item">
+                    <a href="{{ partner.url }}" target="_blank">
+                      <img src="{{ partner.picture_url }}" alt="{{ partner.page_title }}" style="max-width: 100%;">
+                    </a>
+                    <p>{{ partner.description }}</p>
+                  </div>
+                  {% endfor %}
+                </aside>
+                {% endif %}
+
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        
+
+
+        <div class="campaigns">
+        <!-- Общая форма (одна на всю страницу) -->
+        <form id="marathonDonateForm" novalidate>
+
+            <h1>Участники</h1>
+            <div class="campaigns-wrapper">
+              {% for participant in participants %}
+              <div class="campaigns-item" data-equal-height=".campaigns-item-image,.campaigns-item-donate">
+                <div class="h3 hidden-md-up">
+                  <a href="#">{{ participant.title }}</a>
+                </div>
+                <div class="campaigns-item-image">
+                  <img src="{{ participant.photo }}" alt="{{ participant.title }}" />
+                </div>
+                <div class="campaigns-item-donate">
+                  <div class="campaigns-item-donate-form">
+                    <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num">
+                        Собрано
+                        <!--<span>47 пожертвований</span>-->
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{ participant.total_raised }} ₽</strong>
+                        из {{ participant.total }} ₽
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" style="width: {{participant.progress}}%;"></div>
+                      </div>
+                    </div>
+                    <div class="campaigns-item-donate-form-accepter">
+                      {{ participant.company.legal_form }} "{{ participant.company.title }}" 
+                    </div>
+                    <div class="campaigns-item-donate-form-fields">
+                      <label>
+                        <input type="text" 
+                               class="form-control participant-amount" 
+                               name="participant_amount_{{ participant.id }}" 
+                               data-participant-id="{{ participant.id }}"
+                               placeholder="Сумма" 
+                               inputmode="numeric" />
+                        <span class="form-control-under">₽</span>
+                      </label>
+                    </div>
+                    <div class="campaigns-item-donate-form-fields">
+                      <label>
+                        <input type="text" 
+                               class="form-control participant-amount" 
+                               name="participant_amount_{{ participant.id }}" 
+                               data-participant-id="{{ participant.id }}"
+                               placeholder="Сумма" 
+                               inputmode="numeric" />
+                        <span class="form-control-under">₽</span>
+                      </label>
+                    </div>
+
+                    <!--
+                    <div class="campaigns-item-donate-form-fields">                
+                      <label>
+                        <input type="text" class="form-control" name="tt" />
+                        <span class="form-control-under">₽</span>
+                      </label>                      
+                      <button type="submit" class="btn btn-red" >пожертвовать</button> 
+                    </div> -->
+                  </div>
+                </div>
+                <div class="campaigns-item-text">
+                  <h3 class="hidden-sm-down">
+                    <a href="#">{{ participant.title }}</a>
+                  </h3>
+                  <div>
+                    {{ participant.description }}
+                  </div>
+                  
+                  <!-- Развертывающиеся описания
+                  <div class="campaigns-item-text-description collapse" id="marathon_member_001">  
+                    {{ participant.description }}
+                  </div>
+                  
+                  <div class="campaigns-item-text-linkMore">
+                    <a class="dotted" href="#marathon_member_001" aria-expanded="false" aria-controls="marathon_member_001" data-toggle="collapsed" >
+                      <span class="campaigns-item-text-linkMore-show">Читать полностью</span>
+                      <span class="campaigns-item-text-linkMore-hide">Скрыть</span>
+                    </a>
+                  </div> -->
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+
+            <!-- В КОНЦЕ .campaigns-wrapper, после цикла for participant -->
+            <div class="marathon-donate-summary" style="background: #f8f9fa; padding: 30px; margin: 40px 0; border-radius: 12px;">
+              <div class="container">
+                <h3 style="margin-bottom: 20px;">Подтвердить пожертвования</h3>
+                
+                <form id="marathonDonateForm">
+                  <!-- Email -->
+                  <div class="form-group" style="max-width: 400px; margin: 0 auto 20px;">
+                    <label>E-mail для всех пожертвований</label>
+                    <input type="email" class="form-control" name="email" placeholder="your@email.com" required />
+                  </div>
+
+                  <!-- Вставка чекбоксов выбора варианта пожерттвоания-->
+
+                  <div class="donate-mode-group" style="margin: 25px 0; padding: 20px; background: white; border-radius: 8px; border: 2px solid #e9ecef;">
+                    <label style="display: block; margin-bottom: 15px; font-weight: 600; text-align: center;">
+                      Способ распределения пожертвования:
+                    </label>
+                    
+                    <div class="radio-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px;">
+                      <label class="mode-option active" data-mode="selected">
+                        <input type="radio" name="donate_mode" value="selected" checked>
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 15px;">
+                          <div style="font-size: 2em; margin-bottom: 8px;"><img src="frontend/images/svg/target.svg" class="mode-icon" alt="Выбранным" loading="lazy"></div>
+                          <div>Направить выбранным участникам</div>
+                        </div>
+                      </label>
+                      
+                      <label class="mode-option" data-mode="equal">
+                        <input type="radio" name="donate_mode" value="equal">
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 15px;">
+                          <div style="font-size: 2em; margin-bottom: 8px;"><img src="frontend/images/svg/balance.svg" class="mode-icon" alt="Поровну" loading="lazy"></div>
+                          <div>Распределить поровну всем участникам</div>
+                        </div>
+                      </label>
+                      
+                      <label class="mode-option" data-mode="random">
+                        <input type="radio" name="donate_mode" value="random">
+                        <div style="display: flex; flex-direction: column; align-items: center; padding: 15px;">
+                          <div style="font-size: 2em; margin-bottom: 8px;"><img src="frontend/images/svg/dice.svg" class="mode-icon" alt="Случайному" loading="lazy"></div>
+                          <div>Направить случайному участнику</div>
+                        </div>
+                      </label>
+                    </div>
+                  </div>
+                  
+
+
+                  
+                  <!-- Итого -->
+                  <div style="text-align: center; font-size: 1.8em; font-weight: bold; color: #ea5528; margin: 25px 0;">
+                    Итого: <span id="totalSum">0</span> ₽
+                  </div>
+                  
+                  <!-- Кнопка -->
+                  <button type="submit" class="btn btn-red btn-lg" style="width: 100%; max-width: 400px; margin: 0 auto; display: block;">
+                    ПОЖЕРТВОВАТЬ
+                  </button>
+                  
+                  <div id="donateMessage" style="margin-top: 15px; padding: 12px; border-radius: 6px; text-align: center;"></div>
+                </form>
+              </div>
+            </div>
+
+
+
+
+        </div>
+        
+       </div>
+      </div>
+  
+    </div>
+    
+  </div>
+
+
+
+
+
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <div class="container">
+        <ul class="footer-nav-indent-0">
+          <li>
+            <a href="#">Помочь</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Список организаций</a></li>
+              <li><a href="#">Действующие акции</a></li>
+              <li><a href="#">Отчеты</a></li>
+              <li><a href="#">Пожертвования</a></li>
+              <li><a href="#">Новости</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Как работает Благо.ру</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Статус проекта</a></li>
+              <li><a href="#">Положение о программе</a></li>
+              <li><a href="#">Новости программы</a></li>
+              <li><a href="#">Наши баннеры</a></li>
+              <li><a href="#">Благодарим за поддержку</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Пользователю</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Регистрация</a></li>
+              <li><a href="#">Войти</a></li>
+              <li><a href="#">Обратная связь</a></li>
+              <li><a href="#">Стать участником</a></li>
+              <li><a href="#">Управление НКО</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="footer-logo">
+        <a href="#">
+          <img src="frontend/images/kub-logo.png" alt="БФ КУБ" height="50" />
+        </a>
+      </div>
+      <div class="footer-info">
+        Благотворительная программа повышения устойчивости НКО и развития частных и корпоративных пожертвований «Благо» реализуется БФ «Культура благотворительности»
+        ИНН: 7727492679 ОГРН 1227700248918 ∙ Электронная почта: blago@givingculture.ru
+      </div>
+      <div class="footer-payInfo">
+        <p>
+          <a href="#">Безопасность и анонимность</a><br />
+          <a href="#">Возврат денежных средств</a>
+        </p>
+        <img src="frontend/images/pays.png" alt="" />
+      </div>
+    </div>
+  </footer>
+  
+  <script src="frontend/js/vendor/jquery-1.10.2.js"></script>
+  <script src="frontend/js/vendor/equalize.js"></script>
+  <script src="frontend/js/vendor/jquery-ui.min.js"></script>
+  <script src="frontend/js/vendor/jquery.datepicker-ru.js"></script>
+  <script src="frontend/js/vendor/jquery.autosize.min.js"></script>
+  <script src="frontend/js/vendor/tether.min.js"></script>
+  <script src="frontend/js/vendor/bootstrap.min.js"></script>
+  <script src="frontend/js/vendor/swiper.jquery.min.js"></script>
+  <script src="frontend/js/common.js"></script>
+  
+
+  <!--Радиокнопки выбора варианта пожертвования-->
+  <script>
+      (function() {
+        console.log(' Marathon donate v2');
+        
+        var form = document.getElementById('marathonDonateForm');
+        var totalEl = document.getElementById('totalSum');
+        var messageEl = document.getElementById('donateMessage');
+        var submitBtn = form.querySelector('button[type="submit"]');
+        
+        // ПРОСТРАНСТВО для сообщений
+        messageEl.style.cssText = `
+          margin-top: 20px !important; 
+          padding: 15px !important; 
+          min-height: 60px; 
+          position: relative; 
+          z-index: 1000;
+        `;
+        
+        if (!form) return;
+        
+        // Функция округления с остатком
+        function distributeWithRemainder(totalSum, participantIds) {
+          var baseAmount = Math.floor(totalSum / participantIds.length);
+          var remainder = Math.round(totalSum % participantIds.length);
+          var donations = {};
+          
+          participantIds.forEach((id, index) => {
+            donations[id] = baseAmount;
+            if (index < remainder) {
+              donations[id] += 1;  // остаток последним
+            }
+          });
+          
+          return donations;
+        }
+        
+        // 1. Обновление суммы
+        function updateSummary() {
+          var total = 0;
+          document.querySelectorAll('.participant-amount').forEach(input => {
+            total += parseFloat(input.value) || 0;
+          });
+          totalEl.textContent = Math.round(total).toLocaleString('ru-RU');
+        }
+        
+        // 2. ИСПРАВЛЕННЫЙ фокус радио
+        document.querySelectorAll('.mode-option').forEach(option => {
+          option.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Снимаем активность
+            document.querySelectorAll('.mode-option').forEach(opt => {
+              opt.classList.remove('active');
+              opt.querySelector('input').checked = false;
+            });
+            
+            // Ставим активность
+            this.classList.add('active');
+            this.querySelector('input').checked = true;
+            
+            console.log(' Mode switched to:', this.dataset.mode);
+            updateSummary();
+          });
+        });
+        
+        // 3. Поля сумм
+        document.querySelectorAll('.participant-amount').forEach(input => {
+          input.addEventListener('input', updateSummary);
+        });
+        
+        // 4.  ОТПРАВКА с целыми числами + остатком
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          console.log('Submit clicked');
+          
+          var email = form.querySelector('[name="email"]').value.trim();
+          if (!email) {
+            showMessage('Укажите E-mail', 'warning');
+            return;
+          }
+          
+          var mode = document.querySelector('input[name="donate_mode"]:checked').value;
+          console.log('Mode:', mode);
+          
+          // Исходные суммы
+          var rawAmounts = {};
+          document.querySelectorAll('.participant-amount').forEach(input => {
+            var id = input.dataset.participantId;
+            var amount = parseFloat(input.value);
+            if (amount > 0) rawAmounts[id] = amount;
+          });
+          
+          var donations = {};
+          var allParticipantIds = Array.from(document.querySelectorAll('.participant-amount'))
+            .map(input => input.dataset.participantId);
+          
+          console.log('Raw:', rawAmounts);
+          console.log('All IDs:', allParticipantIds);
+          
+          // ЛОГИКА РЕЖИМОВ
+          switch(mode) {
+            case 'selected':
+              donations = rawAmounts;
+              break;
+              
+            case 'equal':
+              var totalSum = Object.values(rawAmounts).reduce((a,b)=>a+b, 0);
+              donations = distributeWithRemainder(totalSum, allParticipantIds);
+              break;
+              
+            case 'random':
+              var totalSum = Object.values(rawAmounts).reduce((a,b)=>a+b, 0);
+              var randomId = allParticipantIds[Math.floor(Math.random() * allParticipantIds.length)];
+              donations[randomId] = Math.round(totalSum);
+              break;
+          }
+          
+          console.log('Final donations:', donations);
+          
+          if (Object.values(donations).every(v => v <= 0)) {
+            showMessage('Нет суммы для пожертвования', 'warning');
+            return;
+          }
+          
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Отправка...';
+          
+          fetch('/donate', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              email: email,
+              donations: donations,
+              mode: mode
+            })
+          })
+          .then(res => res.json())
+          .then(data => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+            
+            if (data.payment_url) {
+              showMessage(`Переход к оплате (${Object.keys(donations).length} получателей)`, 'success');
+              setTimeout(() => window.open(data.payment_url, '_blank'), 1500);
+              form.reset();
+              updateSummary();
+            } else {
+              showMessage(data.message || data.error || 'Ошибка', data.success ? 'success' : 'error');
+            }
+          })
+          .catch(err => {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+            showMessage('Ошибка сети', 'error');
+            console.error(err);
+          });
+        });
+        
+        function showMessage(text, type) {
+          messageEl.textContent = text;
+          messageEl.style.display = 'block';
+          messageEl.style.background = type === 'success' ? '#d4edda' : 
+                                      type === 'warning' ? '#fff3cd' : '#f8d7da';
+          messageEl.style.color = type === 'success' ? '#155724' : 
+                                type === 'warning' ? '#856404' : '#721c24';
+          messageEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        updateSummary();
+      })();
+
+
+  </script>
+
+
+  <!-- Версия JS с 
+  <script>
+    // Пожертвования марафона (одна кнопка, много полей)
+    (function() {
+      var form = document.getElementById('marathonDonateForm');
+      var totalEl = document.getElementById('totalSum');
+      var messageEl = document.getElementById('donateMessage');
+      
+      if (!form) return;
+      
+      // Обновление итоговой суммы
+      function updateTotal() {
+        var total = 0;
+        document.querySelectorAll('.participant-amount').forEach(function(input) {
+          total += parseFloat(input.value) || 0;
+        });
+        totalEl.textContent = Math.round(total).toLocaleString('ru-RU');
+      }
+      
+      // Обработчики полей сумм
+      document.querySelectorAll('.participant-amount').forEach(function(input) {
+        input.addEventListener('input', updateTotal);
+      });
+      
+      // Отправка
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var email = form.querySelector('[name="email"]').value.trim();
+        if (!email) {
+          showMessage('Укажите E-mail', 'warning');
+          return;
+        }
+        
+        // Собираем donations: {participant_id: amount}
+        var donations = {};
+        document.querySelectorAll('.participant-amount').forEach(function(input) {
+          var id = input.dataset.participantId;
+          var amount = parseFloat(input.value);
+          if (amount > 0) {
+            donations[id] = amount;
+          }
+        });
+        
+        if (Object.keys(donations).length === 0) {
+          showMessage('Заполните хотя бы одну сумму', 'warning');
+          return;
+        }
+        
+        var submitBtn = form.querySelector('button[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+        
+        fetch('/donate', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({
+            email: email,
+            donations: donations  // {"101": 500, "102": 1000}
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ПОЖЕРТВОВАТЬ ${Object.keys(donations).length} УЧАСТНИКАМ';
+          
+          if (data.payment_url) {
+            showMessage('Переходим к оплате...', 'success');
+            setTimeout(() => window.open(data.payment_url, '_blank'), 1000);
+            form.reset();
+            updateTotal();
+          } else {
+            showMessage(data.message || data.error || 'Ошибка', data.success ? 'success' : 'error');
+          }
+        })
+        .catch(() => {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ПОЖЕРТВОВАТЬ {{ marathon.participants|length }} УЧАСТНИКАМ';
+          showMessage('Ошибка сети', 'error');
+        });
+      });
+      
+      function showMessage(text, type) {
+        messageEl.textContent = text;
+        messageEl.style.display = 'block';
+        messageEl.style.background = type === 'success' ? '#d4edda' : 
+                                    type === 'warning' ? '#fff3cd' : '#f8d7da';
+        messageEl.style.color = type === 'success' ? '#155724' : 
+                              type === 'warning' ? '#856404' : '#721c24';
+      }
+      
+      updateTotal(); // Инициализация
+    })();
+
+  </script>
+-->
+
+</body>

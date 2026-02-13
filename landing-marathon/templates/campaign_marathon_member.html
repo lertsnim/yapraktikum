@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Благо.ру / Марафон Аистенок </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="frontend/css/scrollPane.css" rel="stylesheet" />
+  <link href="frontend/css/style.css" rel="stylesheet" />
+  
+  <link href="frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="frontend/css/jquery-ui.min.css" rel="stylesheet" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+  <script src="frontend/js/vendor/html5shiv.min.js"></script>
+  <script src="frontend/js/vendor/respond.min.js"></script>
+  <![endif]-->
+</head>
+<body class=""><!-- .searchResults -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="header-logo col-lg-3">
+          <a href="/">
+            <img src="frontend/images/logo.png" alt="Blago.ru" />
+          </a>
+        </div>
+        <div class="header-search col-lg-3">
+          <form method="get" action="/search" class="header-search-form hidden-md-down">
+            <div class="input-group">
+              <input type="text" class="header-search-type form-control" name="q" placeholder="Найти" />
+              <span class="header-search-reset"></span>
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="submit">Найти</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="header-nav  col-lg-6">
+          <span class="header-nav-link hidden-lg-up btn btn-sm btn-secondary">Меню</span>
+          <nav class="header-nav-list hidden-md-down">
+            <a href="#">Все организации</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Мои пожертвования <span class="linkAddon">3</span></a>
+          </nav>
+        </div>
+        <span class="header-search-link hidden-lg-up btn btn-sm btn-secondary"></span>
+      </div>
+    </div>
+    <div id="searchResult" class="header-search-results hidden">
+      <div class="header-search-results-noResult hidden">
+        По вашему запросу ничего не найдено
+      </div>
+      <ul>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный Фонд Константина Хабенского</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный фонд ЦФО (Поддержка детей и семей в трудной жизненной ситуации)</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container-fluid" data-bgColor="white">
+      <div class="content-header">
+       <div class="container">
+        <h1>Акция-марафон</h1>
+        <div class="content-header-subtitle">Благотворительный фонд помощи детям с ДЦП «Добросердие», г. Москва</div>
+        <!--
+        <a href="#" class="btn btn-favorite">
+          <i class="icon icon-star"></i>
+          ДОБАВИТЬ В ИЗБРАННОЕ
+        </a>
+        -->
+       </div> 
+      </div>
+      <div class="content-body">
+       <div class="container">
+        <div class="campaign content-body-columns">
+          <div class="row">
+            <div class="col-lg-8 col-xs-12">
+              <div class="nko-gallery">
+                <div class="nko-gallery-controls">
+                  <span class="nko-gallery-controls-prev"></span>
+                  <span class="nko-gallery-controls-next"></span>
+                </div>
+                <div class="nko-gallery-wrapper">
+                  <div class="nko-gallery-item active">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/43fbaa?text=Slide-01" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/43fbaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/f3fbaa?text=Slide-02" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/f3fbaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/5dfeaa?text=Slide-03" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/5dfeaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/bb66aa?text=Slide-04" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/bb66aa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/cc44bb?text=Slide-05" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/cc44bb" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/9022aa?text=Slide-06" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/9022aa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/43fbaa?text=Slide-07" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/43fbaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/f3fbaa?text=Slide-08" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/f3fbaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/5dfeaa?text=Slide-09" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/5dfeaa" alt=""/>
+                    </div>
+                  </div>
+                  <div class="nko-gallery-item">
+                    <div class="nko-gallery-item-large">
+                      <img src="http://placehold.it/1900x1425/bb66aa?text=Slide-10" alt=""/>
+                    </div>
+                    <div class="nko-gallery-item-thmb">
+                      <img src="http://placehold.it/640x480/bb66aa" alt=""/>
+                    </div>
+                  </div>
+                </div><!-- .nko-gallery-wrapper -->
+              </div>
+              
+              <div class="campaign-text">
+                <p>Мы помогаем семьям, попавшим в трудную жизненную ситуацию, сохранить ребенка в родной семье. Занимаемся профилактикой отказов от детей среди беременных женщин и женщин в роддоме, намеревающихся написать отказ от ребенка. Работаем с детьми-отказниками и детьми, оставшимися без попечения родителей на территории 4-х городских детских больниц в качестве постоянных воспитателей (общий уход, психо-эмоциональное и физическое развитие, игры, прогулки). </p>
+                <h3>Наша деятельность</h3>
+                <ul>
+                  <li>На территории организации работают Группы дневного пребывания для детей, не имеющих путевок в ДОУ из семей одиноких матерей и малообеспеченных семей;</li>
+                  <li>Обучение компьютерной грамотности женщин, желающих получить новую профессию и ветеранов, пенсионеров города;</li>
+                  <li>Профилактика вторичных отказов от детей-сирот (на территории организации работает Школа и Клуб приемных родителей; обучение и дальнейшее сопровождение);</li>
+                </ul>
+                <h3>Почему мы это делаем?</h3>
+                <p>Наша миссия – профилактика раннего социального сиротства. Легче предотвратить беду, чем потом годами бороться с последствиями.</p>
+                <p>Легче оказать своевременную квалифицированную помощь семье в кризисе, сохранить ребенка в родной семье либо быстро помочь отказному ребенку обрести хорошо обученных приемных родителей, чем годами бороться со следствием в виде искалеченных судеб детей-сирот, плохой социализации и адаптации их в обществе, миллионных вливаний средств на социальные нужды.</p>
+              </div>
+              <div class="campaign-social socialButton">
+                стандартные кнопки соцсетей
+              </div>
+              
+          <h1>Пожертвования в поддержку участника</h1>
+          <div class="profile-donates-table marathone">
+            <div class="profile-donates-table-row">
+              <div class="profile-donates-table-row-cell profile-donates-table-row-title">
+                Старость в радость
+                <span>Акция «Поможем Аркадию»</span>
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-info">
+                Евгений Исаев
+                <br />
+                Вчера в 15:29
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-sum">
+                500 ₽
+              </div>
+            </div>
+            <div class="profile-donates-table-row">
+              <div class="profile-donates-table-row-cell profile-donates-table-row-title">
+                Старость в радость
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-info">
+                Евгений Исаев
+                <br />
+                Позавчера в 10:21
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-sum">
+                600 ₽
+              </div>
+            </div>
+            <div class="profile-donates-table-row">
+              <div class="profile-donates-table-row-cell profile-donates-table-row-title">
+                Старость в радость
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-info">
+                Евгений Исаев
+                <br />
+                29 июля в 12:01
+              </div>
+              <div class="profile-donates-table-row-cell profile-donates-table-row-sum">
+                700 ₽
+              </div>
+            </div>
+          </div>
+              
+              
+              
+            </div>
+            <div class="col-lg-4 col-xs-12">
+              <div class="campaign-finance">
+                <div class="campaign-finance-got">
+                  <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num">
+                        Собрано
+                        <span>47 пожертвований</span>
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>625 000 ₽</strong>
+                        из 1 250 000 ₽
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" style="width: 45%;"></div>
+                      </div>
+                      
+                      Благотворительный фонд помощи детям с ДЦП «Добросердие», г. Москва
+                      
+                  </div>
+                  
+                  <div class="campaign-finance-got-payForm">
+                    <label>
+                      <input class="form-control" name="tt" type="text">
+                      <span class="form-control-under">₽</span>
+                    </label>
+                    <button type="submit" class="btn btn-red">пожертвовать</button>
+                  </div>
+                  
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       </div>
+      </div>
+  
+    </div>
+    
+  </div>
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <div class="container">
+        <ul class="footer-nav-indent-0">
+          <li>
+            <a href="#">Помочь</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Список организаций</a></li>
+              <li><a href="#">Действующие акции</a></li>
+              <li><a href="#">Отчеты</a></li>
+              <li><a href="#">Пожертвования</a></li>
+              <li><a href="#">Новости</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Как работает Благо.ру</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Статус проекта</a></li>
+              <li><a href="#">Положение о программе</a></li>
+              <li><a href="#">Новости программы</a></li>
+              <li><a href="#">Наши баннеры</a></li>
+              <li><a href="#">Благодарим за поддержку</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Пользователю</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Регистрация</a></li>
+              <li><a href="#">Войти</a></li>
+              <li><a href="#">Обратная связь</a></li>
+              <li><a href="#">Стать участником</a></li>
+              <li><a href="#">Управление НКО</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="footer-logo">
+        <a href="#">
+          <img src="frontend/images/cafrussia.png" alt="КАФ" />
+        </a>
+      </div>
+      <div class="footer-info">
+        Сайт управляется Фондом поддержки и развития филантропии «КАФ», входящим в группу компаний CAF.<br />
+        Адрес: 101000, г. Москва, ул. Мясницкая, д. 24/7, стр.1, офис 102 Телефон: +7 495 792-59-29 ∙ Электронная почта: blago@cafrussia.ru
+      </div>
+      <div class="footer-payInfo">
+        <p>
+          <a href="#">Безопасность и анонимность</a><br />
+          <a href="#">Возврат денежных средств</a>
+        </p>
+        <img src="frontend/images/pays.png" alt="" />
+      </div>
+    </div>
+  </footer>
+  
+  <script src="frontend/js/vendor/jquery-1.10.2.js"></script>
+  <script src="frontend/js/vendor/equalize.js"></script>
+  <script src="frontend/js/vendor/jquery-ui.min.js"></script>
+  <script src="frontend/js/vendor/jquery.datepicker-ru.js"></script>
+  <script src="frontend/js/vendor/jquery.autosize.min.js"></script>
+  <script src="frontend/js/vendor/tether.min.js"></script>
+  <script src="frontend/js/vendor/bootstrap.min.js"></script>
+  <script src="frontend/js/vendor/swiper.jquery.min.js"></script>
+  <script src="frontend/js/common.js"></script>
+  
+</body>

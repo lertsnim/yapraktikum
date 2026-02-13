@@ -1,0 +1,351 @@
+  <!DOCTYPE html>
+<html>
+<head>
+  <title>Благо.ру / Марафон Аистенок </title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="frontend/css/scrollPane.css" rel="stylesheet" />
+  <link href="frontend/css/style.css" rel="stylesheet" />
+  
+  <link href="frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="frontend/css/jquery-ui.min.css" rel="stylesheet" />
+  
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+  <script src="frontend/js/vendor/html5shiv.min.js"></script>
+  <script src="frontend/js/vendor/respond.min.js"></script>
+  <![endif]-->
+<style>
+
+.campaigns-item-donate-form-progress-bar-inner-matching {
+            border-radius: 5px;
+            background-color: #4a8bc8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%; }
+
+</style>
+
+
+</head>
+<body class=""><!-- .searchResults -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="header-logo col-lg-3">
+          <a href="/">
+            <img src="frontend/images/logo.png" alt="Blago.ru" />
+          </a>
+        </div>
+        <div class="hidden header-search col-lg-3"> <!--Скрыт поиск-->
+          <form method="get" action="/search" class="header-search-form hidden-md-down">
+            <div class="input-group">
+              <input type="text" class="header-search-type form-control" name="q" placeholder="Найти" />
+              <span class="header-search-reset"></span>
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="submit">Найти</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="hidden header-nav  col-lg-6"> <!--Скрыт скрыто меню-->
+          <span class="header-nav-link hidden-lg-up btn btn-sm btn-secondary">Меню</span>
+          <nav class="header-nav-list hidden-md-down">
+            <a href="#">Все организации</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Мои пожертвования <span class="linkAddon">3</span></a>
+          </nav>
+        </div>
+        <span class="header-search-link hidden-lg-up btn btn-sm btn-secondary"></span>
+      </div>
+    </div>
+    <div id="searchResult" class="header-search-results hidden">
+      <div class="header-search-results-noResult hidden">
+        По вашему запросу ничего не найдено
+      </div>
+      <ul>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный Фонд Константина Хабенского</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный фонд ЦФО (Поддержка детей и семей в трудной жизненной ситуации)</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container-fluid" data-bgColor="white">
+      <div class="content-header">
+       <div class="container">
+        <h1>{{ marathon.title }}</h1>
+        <!--<div class="content-header-subtitle"> Организатор марафона </div>-->
+       </div> 
+      </div>
+      <div class="content-body">
+       <div class="container">
+        <div class="campaign content-body-columns">
+          <div class="row">
+            <div class="col-lg-8 col-xs-12">
+              <div class="nko-gallery">
+                <div class="nko-gallery-controls">
+                  <!--<span class="nko-gallery-controls-prev"></span>
+                  <span class="nko-gallery-controls-next"></span> -->
+                </div>
+                <div class="nko-gallery-wrapper">
+                  <div class="nko-gallery-item active">
+                    <div class="nko-gallery-item-large">
+                      <img src="{{marathon.photos[0].picture_url}}" alt=""/>
+                    </div>
+                    <!--
+                    <div class="nko-gallery-item-thmb">
+                      <img src="{{marathon.photos[0].picture_url}}" alt=""/>
+                    </div> -->
+                  </div>
+                </div><!-- .nko-gallery-wrapper -->
+              </div>
+              
+              <div class="campaign-text">
+                {% if marathon.text %}
+                {{ marathon.text|safe }}
+                {% elif marathon.description %}
+                  <p>{{ marathon.description }}</p>
+                {% endif %}
+              </div>
+              <!-- DEBUG: реальные значения -->
+<div style="background: yellow; padding: 10px; margin: 10px 0;">
+  DEBUG total: {{ marathon.total }} (type: {{ marathon.total.__class__.__name__ }})
+  <br>DEBUG marathon.totalraised: {{ marathon.totalraised }} (type: {{ marathon.total_raised.__class__.__name__ }})
+  <br>После float: total={{ marathon.total|default(0)|float }}, raised={{ marathon.total_raised|default(0)|float }}
+  {{marathon.photos[0].picture_url}}(type: {{ marathon.photos[0].picture_url.__class__.__name__ }})
+  {{photos[0].picture_url}}(type: {{photos[0].picture_url.__class__.__name__ }})
+  Процент от марафона {{marathon.progress}}
+  Процент вычисленный {{progress_percent}}
+  Тотал райзед {{marathon.total_raised}}
+  Метчинг из АПИ {{marathon.matching}}
+  Метчинг {{matching}}
+</div>
+              <div class="hidden campaign-social socialButton">
+                стандартные кнопки соцсетей
+              </div>
+              
+            </div>
+            <div class="col-lg-4 col-xs-12">
+              <div class="campaign-finance">
+                <div class="campaign-finance-got">
+                  <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num">
+                        Собрано
+                        <!--<span>47 пожертвований</span>-->
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{total_raised_display}}</strong> 
+                        из {{total_display}}
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" style="width: {{ marathon.progress }}%;"></div>
+                      </div>
+                      <p></p>
+                      <!--Метчиновая полоса-->
+                      {% if matching %}
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <p><strong>{{ matching_display }} </strong> собрано с учетом софинансирования</p>
+                      </div>                
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner-matching" style="width: {{ matching*100/marathon.total }}%;"></div>
+                      </div>
+
+
+                      {% endif %}
+                      <div>
+                        <p>Осталось: {{ days_left }} дней</p>
+                      </div>
+                      <div>
+                        <strong>{{ status }}</strong>
+                      </div>
+                    </div>
+                </div>
+                
+                <aside class="hidden campaign-contacts">
+                  <h3 class="hidden">Контакты</h3>
+                  <p>«Старость в радость» — благотворительный фонд помощи пожилым людям и инвалидам (г. Москва)<br />
+                  <br />
+                  121099, Смоленская набережная, 5/13<br />
+                  +7 (903) 507-21-17 — Елизавета<br />
+                  +7 (916) 151-84-12 — Анастасия<br />
+                  E-mail: <a href="mailto:anasstassija@yandex.ru">anasstassija@yandex.ru</a><br />
+                  Сайт: <a href="http://www.starikam.org/">www.starikam.org</a>
+                  </p>
+                </aside>
+                <div>
+                  <!-- Партнеры марафона -->
+                {% if marathon.partners %}
+                <aside class="campaign-partners">
+                  <h3>Партнёры марафона</h3>
+                  {% for partner in marathon.partners %}
+                  <div class="partner-item">
+                    <a href="{{ partner.url }}" target="_blank">
+                      <img src="{{ partner.picture_url }}" alt="{{ partner.page_title }}" style="max-width: 100%;">
+                    </a>
+                    <p>{{ partner.description }}</p>
+                  </div>
+                  {% endfor %}
+                </aside>
+                {% endif %}
+
+                </div>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="campaigns">
+            <h1>Участники</h1>
+            <div class="campaigns-wrapper">
+              {% for participant in participants %}
+              <div class="campaigns-item" data-equal-height=".campaigns-item-image,.campaigns-item-donate">
+                <div class="h3 hidden-md-up">
+                  <a href="#">{{ participant.title }}</a>
+                </div>
+                <div class="campaigns-item-image">
+                  <img src="{{ participant.photo }}" alt="{{ participant.title }}" />
+                </div>
+                <div class="campaigns-item-donate">
+                  <div class="campaigns-item-donate-form">
+                    <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num">
+                        Собрано
+                        <!--<span>47 пожертвований</span>-->
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{ participant.total_raised }} ₽</strong>
+                        из {{ participant.total }} ₽
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" style="width: {{participant.progress}}%;"></div>
+                      </div>
+                    </div>
+                    <div class="campaigns-item-donate-form-accepter">
+                      {{ participant.company.legal_form }} "{{ participant.company.title }}" 
+                    </div>
+                    <div class="campaigns-item-donate-form-fields">                
+                      <label>
+                        <input type="text" class="form-control" name="tt" />
+                        <span class="form-control-under">₽</span>
+                      </label>                      
+                      <!-- <button type="submit" class="btn btn-red" >пожертвовать</button> -->
+                    </div>
+                  </div>
+                </div>
+                <div class="campaigns-item-text">
+                  <h3 class="hidden-sm-down">
+                    <a href="#">{{ participant.title }}</a>
+                  </h3>
+                  <div>
+                    {{ participant.description }}
+                  </div>
+                  
+                  <!-- Развертывающиеся описания
+                  <div class="campaigns-item-text-description collapse" id="marathon_member_001">  
+                    {{ participant.description }}
+                  </div>
+                  
+                  <div class="campaigns-item-text-linkMore">
+                    <a class="dotted" href="#marathon_member_001" aria-expanded="false" aria-controls="marathon_member_001" data-toggle="collapsed" >
+                      <span class="campaigns-item-text-linkMore-show">Читать полностью</span>
+                      <span class="campaigns-item-text-linkMore-hide">Скрыть</span>
+                    </a>
+                  </div> -->
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+        </div>
+        
+       </div>
+      </div>
+  
+    </div>
+    
+  </div>
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <div class="container">
+        <ul class="footer-nav-indent-0">
+          <li>
+            <a href="#">Помочь</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Список организаций</a></li>
+              <li><a href="#">Действующие акции</a></li>
+              <li><a href="#">Отчеты</a></li>
+              <li><a href="#">Пожертвования</a></li>
+              <li><a href="#">Новости</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Как работает Благо.ру</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Статус проекта</a></li>
+              <li><a href="#">Положение о программе</a></li>
+              <li><a href="#">Новости программы</a></li>
+              <li><a href="#">Наши баннеры</a></li>
+              <li><a href="#">Благодарим за поддержку</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Пользователю</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Регистрация</a></li>
+              <li><a href="#">Войти</a></li>
+              <li><a href="#">Обратная связь</a></li>
+              <li><a href="#">Стать участником</a></li>
+              <li><a href="#">Управление НКО</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      <div class="footer-logo">
+        <a href="#">
+          <img src="frontend/images/cafrussia.png" alt="КАФ" />
+        </a>
+      </div>
+      <div class="footer-info">
+        Сайт управляется Фондом поддержки и развития филантропии «КАФ», входящим в группу компаний CAF.<br />
+        Адрес: 101000, г. Москва, ул. Мясницкая, д. 24/7, стр.1, офис 102 Телефон: +7 495 792-59-29 ∙ Электронная почта: blago@cafrussia.ru
+      </div>
+      <div class="footer-payInfo">
+        <p>
+          <a href="#">Безопасность и анонимность</a><br />
+          <a href="#">Возврат денежных средств</a>
+        </p>
+        <img src="frontend/images/pays.png" alt="" />
+      </div>
+    </div>
+  </footer>
+  
+  <script src="frontend/js/vendor/jquery-1.10.2.js"></script>
+  <script src="frontend/js/vendor/equalize.js"></script>
+  <script src="frontend/js/vendor/jquery-ui.min.js"></script>
+  <script src="frontend/js/vendor/jquery.datepicker-ru.js"></script>
+  <script src="frontend/js/vendor/jquery.autosize.min.js"></script>
+  <script src="frontend/js/vendor/tether.min.js"></script>
+  <script src="frontend/js/vendor/bootstrap.min.js"></script>
+  <script src="frontend/js/vendor/swiper.jquery.min.js"></script>
+  <script src="frontend/js/common.js"></script>
+  
+</body>

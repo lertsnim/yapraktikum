@@ -2,6 +2,7 @@ import threading
 import time
 import requests
 import os
+import json
 from datetime import datetime, date
 from flask import Flask, render_template, request, jsonify, send_from_directory
 
@@ -37,6 +38,8 @@ BASE_URL = config.get('BASE_URL', 'https://dev.blago.ru').rstrip('/')
 ACTION_ID = config.get('ACTION_ID', '439')
 API_ACTION_URL = f"{BASE_URL}/api/v2/actions/{ACTION_ID}"
 API_ACTION_STATS_URL = f"{BASE_URL}/api/v2/actions/{ACTION_ID}/stats"
+API_ACTION_DONAT_URL = f"{BASE_URL}/api/v2/actions/{ACTION_ID}/donations"
+MATCHING_RATIO = config.get('MATCHING_RATIO', '0')
 
 # Глобальное хранилище данных акции
 action_data = None
@@ -45,6 +48,7 @@ photos_data = None
 last_updated = None
 partners_data = None
 stats_data = None
+donat_data = None
 
 
 def fetch_action():
@@ -69,6 +73,30 @@ def fetch_action_stats():
     return resp.json()
 
 
+#Запрос статистики акции по API
+def fetch_donations():
+    headers = {
+        "Authorization": f"Bearer {API_TOKEN}",
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+    }
+
+    payload = {
+        "sort": "amount desc",
+        "limit": 3,
+        "offset": 0
+    }
+
+    resp = requests.get(
+        API_ACTION_DONAT_URL,
+        headers=headers,
+        data=json.dumps(payload),
+        timeout=10
+    )
+
+    resp.raise_for_status()
+    return resp.json()
+
 
 def format_money(value):
     if value is None:
@@ -76,7 +104,7 @@ def format_money(value):
     return f"{int(value):,} ₽".replace(",", " ")
 
 def updater_loop():
-    global action_data, company_data, photos_data, partners_data, stats_data, last_updated
+    global action_data, company_data, photos_data, partners_data, stats_data, donat_data, last_updated
     while True:
         try:
             data = fetch_action()
@@ -87,6 +115,7 @@ def updater_loop():
             last_updated = time.strftime("%d.%m.%Y %H:%M:%S")
             #Статистика по акции через отдельный эндпоинт
             stats_data = fetch_action_stats()
+            donat_data = fetch_donations()
         except Exception as e:
             print("Error updating action data:", e)
         time.sleep(60)  # 1 минуту
@@ -106,11 +135,14 @@ def action_page():
     
     fill_percent = 100 - progress_percent
 
-#Метчинг дополнительной поддержки от партнера акции
+    #Метчинг дополнительной поддержки от партнера акции
     if action_data.get("matching") != 0:
-        matching = action_data.get("matching")
+        matching = action_data.get("matching")+int(total_raised)
     else:
-        matching = int(float(total_raised) * 2)
+        matching = int(total_raised) * int(MATCHING_RATIO)
+
+    #Вычисление заполнения строки суммы акци с учетом метчинга
+    matching_percent = matching*100/total
 
 
     description = (action_data.get("description") or "").strip()
@@ -166,7 +198,10 @@ def action_page():
         amounts=amounts,
         remaining=remaining,
         matching=matching,
+        matching_display=format_money(matching),
+        matching_percent = matching_percent,
         stats = stats_data,
+        donations = donat_data,
     )
 
 @app.route("/donate", methods=["POST"])

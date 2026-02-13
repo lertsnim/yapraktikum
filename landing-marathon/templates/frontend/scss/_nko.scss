@@ -1,0 +1,379 @@
+.nko,
+.campaign {
+  &-gallery {
+    white-space: nowrap;
+    overflow: hidden;
+    letter-spacing: -0.4em;
+    margin-bottom: 20px;
+    
+    @include media-breakpoint-up(md) {
+      position: relative;
+      z-index: 0;
+    }
+    
+    &-item {
+      display: inline-block;
+      transition: all 0.2s linear;        
+      @include media-breakpoint-up(md) {
+        padding-top: 75%;
+      }
+      @include media-breakpoint-down(sm) {
+        width: 90%;
+        border-right: 10px #fff solid;
+      }
+     
+      &-large {
+        background-size: cover;
+        background-position: 50% 50%;
+        padding-bottom: 75%;
+        
+        @include media-breakpoint-down(sm) {
+          width: 100%;
+        }
+        
+        @include media-breakpoint-up(md) {
+          z-index: 0;
+          opacity: 0;
+          position: absolute;
+          left: 0;
+          top: 0;
+          right: 0;
+          transition: opacity 0.3s ease;
+          height: 0;
+       
+          .active & {
+            display: block;
+            z-index: 1;
+            opacity: 1;
+          }
+        }
+      }
+      &-thmb {
+        background-size: cover;
+        background-position: 50% 50%;
+        
+        @include media-breakpoint-up(md) {
+          border-top: 2px #fff solid;
+          border-right: 2px #fff solid;
+          width: 112px;
+          padding-bottom: 75%;
+          cursor: pointer;
+        
+          .active & {
+            box-shadow: 0 0 0 2px #313b43 inset;
+          }
+        }
+        @include media-breakpoint-down(sm) {
+          display: none;
+        }
+      }
+    }
+    
+    &-controls {
+      @include media-breakpoint-down(sm) {
+        display: none;
+      }
+      &-prev,
+      &-next { 
+        position: absolute;
+        z-index: 2;
+        top: 50%;
+        width: 50px;
+        height: 100px;
+        margin-top: -50px;
+        background: url("../images/carousel-control-gray.png") no-repeat -50px 0px;
+        cursor: pointer;
+        &:before {
+          content: "";
+          width: 10px;
+          height: 30px;
+          background: url("../images/arrow-left-white.png") no-repeat 0 0;
+          margin: 35px 0 0 10px;
+          float: left;
+        }
+      }
+      &-prev {
+        left: 0;
+        &:before {
+        }
+      }
+      &-next {
+        right: 0;
+        transform: rotate(180deg);
+        transform-origin: 50% 50%;
+        &:before {
+        }
+      }
+    }
+    
+    @include media-breakpoint-up(md) {
+      &-wrapper {
+        transform: none !important;  
+      }
+    }
+    @include media-breakpoint-down(sm) {
+      &-item:first-child {
+        margin-left: 0 !important;
+      }
+    }
+    
+  }
+  
+  &-finance {
+    &-got {
+      padding: 15px 20px;
+      background-color: $gray-contentBackground;
+      border-radius: 5px;
+      margin-bottom: 20px;
+      
+      > span {
+        display: block;
+        font-weight: 700;
+        @include fontSize(24px);
+        @include lineHeight(24px);
+        margin: 4px 0;
+      }
+      &-payForm {
+        padding-top: 15px;
+        label {
+          position: relative;
+          display: block;
+        }
+        .btn {
+          width: 100%;
+        }
+      }
+    }
+    
+    &-pay {
+      margin-bottom: 20px;
+      padding: 20px;
+      background-color: $gray-contentBackground;
+      border-radius: 5px;
+      
+      &-list {
+        &-wrapper {
+          display: none;
+          &.active {
+            display: block;
+          }
+        }
+        &-item {
+          border: 2px solid rgba(0, 0, 0, 0.1);
+          border-radius: 5px;
+          padding: 15px;
+          margin-bottom: 10px;
+          background: #fff;
+          transition: background-color 0.1s ease;
+          cursor: pointer;
+          
+          &.active {
+            border-color: rgba(0,0,0,0.4);
+          }
+          
+          &:hover {
+            background-color: rgba(0, 0, 0, 0.04);
+          }
+          
+          strong {
+            display: block;
+            @include fontSize(18px);
+            @include lineHeight(24px);
+            margin-bottom: 5px;
+          }
+          
+        }
+      }
+      
+      .form-group {
+        margin-bottom: 10px;
+        position: relative;
+        label {
+          width: 100%;
+          margin-bottom: 0;
+          
+        }
+        .form-control[type='text'] {
+        }
+        .form-control-under {
+          color: rgba(0, 0, 0, 0.3);
+          @include fontSize(15px);
+          @include lineHeight(24px);
+          font-weight: 400;
+          right: 15px;
+        }
+      }
+      .form-group + .form-group {
+        margin-top: 15px;
+      }
+      .btn-group {
+        width: 100%;
+        .btn {
+          font-weight: 400;
+          text-transform: none;
+          letter-spacing: 0;
+          &.active {
+            background-color: rgba(0, 0, 0, 0.04);
+          }
+          &:first-child {
+            width: 55%;
+          }
+          &:last-child {
+            width: 45%;
+          }
+        }
+      }
+      .btn[type='submit'] {
+        @extend .btn-danger;
+      }
+      .btn {
+        width: 100%;
+      }
+      
+      
+      &-form {
+        position: relative;
+        
+        form {
+          position: relative;
+          z-index: 1;
+          transition: opacity 0.3s ease;
+        }
+        &.done {
+          min-height: 160px;
+          form {
+            opacity: 0;
+            z-index: 0;
+          }
+        }
+        
+        &-result {
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          transition: opacity 0.3s ease;
+          z-index: 0;
+          opacity: 0;
+          
+          .done & {
+            opacity: 1;
+            z-index: 1;
+          }
+          
+          text-align: center;
+          padding-top: 12px;
+          @include fontSize(15px);
+          @include lineHeight(20px);
+            
+          strong {
+            display: block;
+            @include fontSize(21px);
+            @include lineHeight(24px);
+          }
+          .btn {
+            position: absolute;
+            bottom: 0px;
+            left: 0px;
+            right: 0px;
+            width: auto;
+          }
+        }
+      }
+      
+    }
+    
+  }
+  
+  &-contacts {
+    padding: 14px 20px;
+    margin-bottom: 20px;
+    background-color: $gray-contentBackground;
+    border-radius: 5px;
+    @include fontSize(13px);
+    @include lineHeight(21px);
+    
+    p {
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+    
+  }
+  
+
+  &-also {
+    @include clearfix;
+    padding: 20px;
+    background: $gray-contentBackground;
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+    
+    h2, .h2 {
+      margin: -20px -20px 20px;
+      padding: 76px 30px 23px;
+      background: #fff;
+    }
+    
+    
+    &-item {
+      float: left;
+      padding: 10px;
+      @include media-breakpoint-up(sm) {
+        @include media-breakpoint-down(lg) {
+          width: 33.33%;
+          &:nth-child(n+5) {
+            display: none;
+          }
+        }
+      }
+      @include media-breakpoint-up(xl) {
+        width: 25%;
+        
+        &:nth-child(n+6) {
+          display: none;
+        }
+        
+      }
+      
+      &-wrapper {
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(48, 58, 67, 0.06);
+        padding: 15px;
+      }
+      
+      h4 {
+        color: $blue-dark;
+        @include lineHeight(21px);
+      }
+      
+      figure {
+        margin: -15px -15px 15px -15px;
+        max-width: 1000px;
+        border-radius: 5px 5px 0 0;
+        overflow: hidden;
+      }
+      
+      p {
+        @include fontSize(13px);
+        @include lineHeight(21px);
+        margin: 0;
+      }
+      
+    }
+    
+    &-linkAll {
+      clear: both;
+      text-align: center;
+      padding: 20px 0 30px;
+      .btn {
+        min-width: 300px;
+      }
+    }
+    
+  }
+  
+}

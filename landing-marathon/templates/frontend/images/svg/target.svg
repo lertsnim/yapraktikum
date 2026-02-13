@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Круг прицела -->
+  <circle cx="32" cy="32" r="28" fill="none" stroke="#ef4242" stroke-width="4"/>
+  <circle cx="32" cy="32" r="20" fill="none" stroke="#ef4242" stroke-width="3"/>
+  <circle cx="32" cy="32" r="10" fill="#ef4242"/>
+  
+  <!-- Перекрестье -->
+  <line x1="32" y1="12" x2="32" y2="20" stroke="#ef4242" stroke-width="4" stroke-linecap="round"/>
+  <line x1="32" y1="44" x2="32" y2="52" stroke="#ef4242" stroke-width="4" stroke-linecap="round"/>
+  <line x1="20" y1="32" x2="12" y2="32" stroke="#ef4242" stroke-width="4" stroke-linecap="round"/>
+  <line x1="44" y1="32" x2="52" y2="32" stroke="#ef4242" stroke-width="4" stroke-linecap="round"/>
+</svg>

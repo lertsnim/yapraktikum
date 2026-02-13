@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{ marathon.title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- CSS из index10.html -->
+  <link href="frontend/css/scrollPane.css" rel="stylesheet">
+  <link href="frontend/css/style.css" rel="stylesheet">
+  <!-- Галерея + статистика CSS -->
+  <style>
+    /* Галерея (из предыдущего) */
+    .campaign-gallery-wrapper { position: relative; overflow: hidden; }
+    .campaign-gallery-item { display: none; }
+    .campaign-gallery-item.active { display: block; }
+    /* ... остальные стили галереи ... */
+    
+    /* Статистика марафона */
+    .marathon-stats { background: #5b6369; padding: 25px 15px; margin: 15px 0; border-radius: 8px; }
+    .marathon-stats-grid { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+    .marathon-stat { text-align: center; flex: 1 1 200px; }
+    .marathon-stat-number { font-size: 2em; font-weight: 700; color: #ef4242; }
+    
+    /* Участники */
+    .participants-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+    .participant-card { background: white; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.1); overflow: hidden; }
+    .participant-image { height: 200px; background: #f8f9fa; }
+    .participant-content { padding: 20px; }
+    
+    /* Статус марафона */
+    .marathon-status { padding: 15px; border-radius: 8px; text-align: center; font-weight: 600; font-size: 1.1em; }
+    .status-active { background: #d4edda; color: #155724; }
+    .status-completed { background: #d1ecf1; color: #0c5460; }
+    .status-goal { background: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+  <!-- Header (скопировать из index10.html) -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">...</header>
+
+  <div class="content">
+    <div class="container-fluid" data-bg-color="white">
+      
+      <!-- Заголовок марафона -->
+      <div class="content-header">
+        <div class="container">
+          <h1>{{ marathon.title }}</h1>
+          <div class="content-header-subtitle">
+            {% if marathon.date_start and marathon.date_end %}
+              {{ marathon.date_start }} — {{ marathon.date_end }}
+            {% endif %}
+          </div>
+          
+          <!-- Статус марафона -->
+          {% if marathon.status_code == 0 %}
+            <div class="marathon-status status-active">{{ marathon.status }}</div>
+          {% elif marathon.status_code == 1 %}
+            <div class="marathon-status status-completed">{{ marathon.status }}</div>
+          {% elif marathon.status_code == 2 %}
+            <div class="marathon-status status-goal">{{ marathon.status }}</div>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="content-body">
+        <div class="container">
+          <div class="campaign content-body-columns">
+            <div class="row">
+              
+              <!-- Левая колонка: галерея + описание -->
+              <div class="col-lg-8 col-xs-12">
+                <!-- Галерея (очищенная версия) -->
+                <div class="campaign-gallery">
+                  <div class="campaign-gallery-controls">
+                    <span class="campaign-gallery-controls-prev">‹</span>
+                    <span class="campaign-gallery-controls-next">›</span>
+                  </div>
+                  <div class="campaign-gallery-wrapper">
+                    {% if marathon.photos %}
+                      {% for photo in marathon.photos %}
+                        <div class="campaign-gallery-item{% if loop.first %} active{% endif %}">
+                          <div class="campaign-gallery-item-large">
+                            <img src="{{ photo.picture_url }}" alt="{{ photo.title or marathon.title }}" />
+                          </div>
+                          <div class="campaign-gallery-item-thmb">
+                            <img src="{{ photo.picture_url }}" alt="{{ photo.title or marathon.title }}" />
+                          </div>
+                        </div>
+                      {% endfor %}
+                    {% else %}
+                      <div class="campaign-gallery-item active">
+                        <div class="campaign-gallery-item-large">
+                          <img src="http://placehold.it/1900x1425/43fbaa?text={{ marathon.title|urlencode }}" alt="{{ marathon.title }}" />
+                        </div>
+                        <div class="campaign-gallery-item-thmb">
+                          <img src="http://placehold.it/640x480/43fbaa" alt="{{ marathon.title }}" />
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+
+                <!-- Описание марафона -->
+                <div class="campaign-text">
+                  {% if marathon.text %}
+                    {{ marathon.text|safe }}
+                  {% elif marathon.description %}
+                    <p>{{ marathon.description }}</p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <!-- Правая колонка: статистика + партнеры -->
+              <div class="col-lg-4 col-xs-12">
+                
+                <!-- Общая статистика марафона -->
+                {% if marathon.total or marathon.total_raised %}
+                <div class="campaign-finance">
+                  <div class="campaign-finance-got">
+                    <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{ marathon.total_raised|round(0)|int|default(0) }}</strong> 
+                        из {{ marathon.total|round(0)|int|default(0) }}
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" 
+                             style="width: {{ marathon.progress }}%;">
+                        </div>
+                      </div>
+                      {% if marathon.matching %}
+                      <div class="campaign-finance-matching">
+                        +{{ marathon.matching|round(0)|int }} бонусов
+                      </div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+
+                <!-- Партнеры марафона -->
+                {% if marathon.partners %}
+                <aside class="campaign-partners">
+                  <h3>Партнёры марафона</h3>
+                  {% for partner in marathon.partners %}
+                  <div class="partner-item">
+                    <a href="{{ partner.url }}" target="_blank">
+                      <img src="{{ partner.picture_url }}" alt="{{ partner.page_title }}" style="max-width: 100%;">
+                    </a>
+                    <p>{{ partner.description }}</p>
+                  </div>
+                  {% endfor %}
+                </aside>
+                {% endif %}
+
+              </div>
+            </div>
+
+            <!-- Участники марафона -->
+            {% if marathon.participants %}
+            <section class="marathon-participants">
+              <div class="container">
+                <h2>Участники марафона</h2>
+                <div class="participants-grid">
+                  {% for participant in marathon.participants %}
+                  <div class="participant-card">
+                    {% if participant.picture_url %}
+                    <div class="participant-image">
+                      <img src="{{ participant.picture_url }}" alt="{{ participant.title }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    {% endif %}
+                    <div class="participant-content">
+                      <h4>
+                        {% if participant.url %}
+                        <a href="{{ participant.url }}">{{ participant.title }}</a>
+                        {% else %}
+                        {{ participant.title }}
+                        {% endif %}
+                      </h4>
+                      {% if participant.company %}
+                      <div class="participant-company">
+                        {{ participant.company.legal_form }} "{{ participant.company.title }}"
+                      </div>
+                      {% endif %}
+                      <div class="participant-progress">
+                        <strong>{{ participant.total_raised|round(0)|int }}</strong> 
+                        из {{ participant.total|round(0)|int }} 
+                        ({{ participant.progress }}%)
+                      </div>
+                      {% if participant.matching %}
+                      <div>+{{ participant.matching|round(0)|int }} бонусов</div>
+                      {% endif %}
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+              </div>
+            </section>
+            {% endif %}
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer + статистика (скопировать из index10.html) -->
+  <footer class="footer">...</footer>
+
+  <!-- Все скрипты из index10.html + галерея JS -->
+  <script>
+    // Галерея JS (из предыдущего ответа)
+    // Donate форма (если нужна)
+    // Статистика анимация
+  </script>
+</body>
+</html>

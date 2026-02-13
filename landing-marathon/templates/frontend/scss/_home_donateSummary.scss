@@ -1,0 +1,16 @@
+.donateSummary {
+  &-item {
+    padding: 30px 0;
+    text-align: center;
+    @include fontSize(15px);
+    font-weight: 400;
+    @include lineHeight(24px);
+    span {
+      @include fontSize(30px);
+      @include lineHeight(41px);
+      font-weight: 700;
+      display: block;
+      color: $btn-secondary-color;
+    }
+  }
+}

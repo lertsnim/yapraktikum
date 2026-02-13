@@ -1,0 +1,190 @@
+.sertificate {
+
+  @include media-breakpoint-down(md) {
+    margin-top: -1px;
+    margin-left: -$grid-gutter-width/3;
+    margin-right: -$grid-gutter-width/3;
+    padding: 20px $grid-gutter-width/3 0;
+    border-top: 2px $gray-headerBorder solid;
+  }
+  
+  &-form {
+    @include media-breakpoint-down(md) {
+      display: none;
+      &.opened {
+        display: block;
+        background: $gray-contentBackground;
+        margin: -22px (-$grid-gutter-width/3) 20px;
+        padding: $grid-gutter-width/3;
+        border-bottom: 2px $gray-headerBorder solid;
+        
+        .row {
+          margin-left: -$grid-gutter-width/3;
+          margin-right: -$grid-gutter-width/3;
+        }
+        
+      }
+    }
+    @include media-breakpoint-up(lg) {
+      width: 100%;
+    }
+    .btn, .form-control, .dropdown {
+      width: 100%;
+      max-width: 768px;
+    }
+    .form-group {
+      //margin: 0 10px;
+    }
+  }
+  
+  &-item {
+    
+    background: 
+      radial-gradient(circle at 0 0, rgba(204,0,0,0) 14px, rgba($gray-contentBackground,0.99)  15px) top left, 
+      radial-gradient(circle at 100% 0, rgba(204,0,0,0) 14px, rgba($gray-contentBackground,0.99)  15px) top right, 
+      radial-gradient(circle at 100% 100%, rgba(204,0,0,0) 14px, rgba($gray-contentBackground,0.99)  15px) bottom right, 
+      radial-gradient(circle at 0 100%, rgba(204,0,0,0) 14px, rgba($gray-contentBackground,0.99)  15px) bottom left;
+    background-size: 60% 60%;
+    background-repeat: no-repeat;
+    padding: 20px 40px;
+    
+    .row {
+      
+    }
+    
+    h2 {
+      margin-top: 0;
+    }
+    
+    &-figure {
+      float: left;
+      width: 100%;
+      padding-bottom: 75%;
+      height: 0;
+      background-repeat: no-repeate;
+      background-position: 50% 50%;
+      background-size: cover;
+      margin: 15px 0;
+      border-radius: 5px;
+      overflow: hidden;
+      
+      
+    }
+    
+    &-text {
+      overflow: hidden;
+      padding-top: 10px;
+      
+      &-results {
+        > span {
+          @include fontSize(26px);
+          font-weight: 700;
+          display: block;
+          
+        }
+      }
+      
+      &-description {
+        padding: 7px 0;
+        
+        overflow: hidden;
+        display: block !important;
+        max-height: 160px;
+        min-height: 160px;
+        position: relative;
+        
+        &.in {
+          max-height: 2000px;
+        }
+        &.collapsing {
+          max-height: 2000px;
+        }
+        
+        &.collapse {
+          &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba($gray-contentBackground,0), rgba($gray-contentBackground,0.99));
+          }
+        }
+        
+      }
+      &-linkMore {
+        display: block;
+        position: relative;
+        & a[aria-expanded='false'] &-hide,
+        & a[aria-expanded='true'] &-show {
+          display: none;
+        }
+        @include media-breakpoint-up(md) {
+          margin: 15px 0 0;
+        }
+        @include media-breakpoint-down(sm) {
+          margin-bottom: 15px;
+        }
+      }
+    }
+    
+    &-donate {
+      margin: 30px 0 10px;
+      border-top: 2px $gray-headerBorder solid;
+      padding: 30px 0 0;
+      text-align: center;
+      
+      .btn {
+        letter-spacing: 1px;
+      }
+      
+    }
+    
+  }
+  
+  
+  &-also {
+    margin: 50px 0;
+    @include clearfix;
+    
+    &-wrapper {
+      margin: 10px -10px 30px;
+    }
+    &-item {
+      @include media-breakpoint-up(md) {
+        @include make-col(4);
+      }
+      @include media-breakpoint-down(sm) {
+        @include make-col(12);
+        margin-bottom: 20px;
+      }
+      
+      &-img {
+        height: 0;
+        padding-bottom: 75%;
+        position: relative;
+        border-radius: 10px 10px 0 0;
+        background-size: cover;
+        
+        img {
+          display: none;
+        }
+        
+      }
+      
+      &-text {
+        background: $gray-contentBackground;
+        padding: 10px 15px;
+        border-radius: 0 0 10px 10px;
+        
+        &-description {
+          @include fontSize(14px);
+        }
+        
+      }
+      
+    }
+  }
+  
+}

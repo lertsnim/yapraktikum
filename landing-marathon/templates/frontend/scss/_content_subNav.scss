@@ -1,0 +1,103 @@
+&-subNav {
+  margin: 20px 0;
+  
+  @include media-breakpoint-up(lg) {
+    a {
+      display: inline-block;
+      @include fontSize(15px);
+      @include lineHeight(24px);
+      padding: 7px 0 9px;
+      margin: 0 20px;
+      border-radius: 5px;
+      font-weight: 400;
+    
+      &:first-child {
+        margin-left: 0;
+      }
+    
+      &.active {
+        background: #313b43;
+        color: #fff !important;
+        margin: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+      
+        span {
+          background: none;
+        }    
+      }
+    }
+  }
+  @include media-breakpoint-down(md) {
+    position: relative;
+    padding-bottom: 42px;
+    max-height: 42px;
+    overflow: hidden;
+    /*
+    */
+    &.opened {
+      max-height: 500px;
+      overflow: visible;
+      
+      a {
+        &:after {
+          transform: rotate(180deg);
+        }
+        &.active {
+          top: -37px !important;
+        }
+      }
+    }
+    
+    &-list {
+      background: #fff;
+      border: 2px solid #e5e5e5;
+      border-radius: 0 0 5px 5px;
+      position: absolute;
+      z-index: 5;
+      top: 42px;
+      left: 0;
+      right: 0;
+      padding: 10px 0;
+      .opened & {
+        top: 37px;
+      }
+    }
+    
+    
+    
+    a {
+      display: block;
+      padding: 5px 20px;
+      @include fontSize(15px);
+      @include lineHeight(20px);
+      
+      span {
+        background: none;
+        
+      }
+      &.active {
+        padding: 7px 20px 9px;
+        position: absolute;
+        top: -42px;
+        left: -2px;
+        right: -2px;
+        border: 2px solid #e5e5e5;
+        border-radius: 5px;
+        display: block;
+        background: #fff;
+        
+        
+        &:after {
+          content: "";
+          width: 13px;
+          height: 8px;
+          background: url("../images/svg/angle-down.svg") no-repeat 50% 50%;;
+          float: right;
+          margin: 8px 2px 0;
+          transition: transform 0.2s linear;
+        }
+      }
+    }
+  }
+}

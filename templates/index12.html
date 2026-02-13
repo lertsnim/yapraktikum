@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <title>{{ action.title }}{% if company and company.title %} — {{ company.title }}{% endif %}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="/frontend/css/scrollPane.css" rel="stylesheet" />
+  <link href="/frontend/css/style.css" rel="stylesheet" />
+  <link href="/frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="/frontend/css/jquery-ui.min.css" rel="stylesheet" />
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+  <!--[if lt IE 9]>
+  <script src="/frontend/js/vendor/html5shiv.min.js"></script>
+  <script src="/frontend/js/vendor/respond.min.js"></script>
+  <![endif]-->
+  <style>
+    /* Скрыты блок поиска и верхнее меню */
+    .header .header-search,
+    .header .header-nav,
+    .header .header-nav-link,
+    .header .header-search-link,
+    .header #searchResult { display: none !important; }
+
+
+  /* Стили для формы пожертвования */
+    .checkbox-label {
+  display: flex;
+  align-items: flex-start;
+  font-size: 0.95em;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin-right: 10px;
+  margin-top: 2px;
+  width: 18px;
+  height: 18px;
+}
+
+  /* Стили длф статистики */ 
+.campaign-stats {
+  border-radius: 12px;
+}
+
+.stats-grid {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.stat-circle {
+  text-align: center;
+  width: 160px;
+}
+
+.donation-circle {
+  text-align: center;
+  width: 360px;
+}
+
+
+.stat-number {
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  margin: 0 auto 12px;
+  background: white;
+  border-radius: 50%;
+  font-size: 4.2em;
+  font-weight: 700;
+  color: #ea5528 !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.donation-number {
+  width: 220px;
+  height: 220px;
+  line-height: 220px;
+  margin: 0 auto 12px;
+  background: white;
+  border-radius: 50%;
+  font-size: 5.2em;
+  font-weight: 700;
+  color: #ea5528 !important;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+
+.stat-circle:hover .stat-number {
+  transform: scale(1.05);
+}
+
+.donation-circle:hover .donation-number {
+  transform: scale(1.05);
+}
+
+.stat-label {
+  color: white;
+  font-size: 0.95em;
+  font-weight: 500;
+  line-height: 1.4;
+  text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+}
+
+/*#5b6369;*/
+.campaign-stats {
+    background-color: #b1bdc6; padding: 40px 20px; margin: 20px 0;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .stats-grid {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .stat-circle {
+    width: 140px;
+  }
+  
+  .stat-number {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 1.8em;
+  }
+  .donation-circle {
+    width: 140px;
+  }
+  
+  .donation-number {
+    width: 100px;
+    height: 100px;
+    line-height: 100px;
+    font-size: 1.8em;
+  }
+
+
+}
+
+
+
+ /* /Стили длф статистики */ 
+
+ /* метч */
+ .campaigns-item-donate-form-progress-bar-inner-matching {
+            border-radius: 5px;
+            background-color: #4a8bc8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 50%; }
+
+
+
+
+
+  </style>
+</head>
+<body class=""><!-- .searchResults -->
+  <div class="topShadow"></div>
+  <div class="overlay"></div>
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="header-logo col-lg-3">
+          <a href="{{ base_url }}">
+            <img src="/frontend/images/logo.png" alt="Blago.ru" />
+          </a>
+        </div>
+        <div class="header-search col-lg-3">
+          <form method="get" action="/search" class="header-search-form hidden-md-down">
+            <div class="input-group">
+              <input type="text" class="header-search-type form-control" name="q" placeholder="Найти" />
+              <span class="header-search-reset"></span>
+              <span class="input-group-btn">
+                <button class="btn btn-secondary" type="submit">Найти</button>
+              </span>
+            </div>
+          </form>
+        </div>
+        <div class="header-nav  col-lg-6">
+          <span class="header-nav-link hidden-lg-up btn btn-sm btn-secondary">Меню</span>
+          <nav class="header-nav-list hidden-md-down">
+            <a href="#">Все организации</a>
+            <a href="#">Личный кабинет</a>
+            <a href="#">Мои пожертвования <span class="linkAddon">3</span></a>
+          </nav>
+        </div>
+        <span class="header-search-link hidden-lg-up btn btn-sm btn-secondary"></span>
+      </div>
+    </div>
+    <div id="searchResult" class="header-search-results hidden">
+      <div class="header-search-results-noResult hidden">
+        По вашему запросу ничего не найдено
+      </div>
+      <ul>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный Фонд Константина Хабенского</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Благотворительный фонд ЦФО (Поддержка детей и семей в трудной жизненной ситуации)</a>
+        </li>
+        <li>
+          <a href="#"><strong>Москва:</strong> Артист — благотворительный фонд поддержки деятелей искусства</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+  <div class="content">
+    <div class="container-fluid" data-bgColor="white">
+      <div class="content-header">
+       <div class="container">
+        <h1>{{ action.title }}</h1>
+        <div class="content-header-subtitle">{% if company %}{{ company.legal_form or '' }} «{{ company.title or '' }}»{% if company.city %}, {{ company.city }}{% endif %}{% endif %}</div>
+        <!--
+        <a href="#" class="btn btn-favorite">
+          <i class="icon icon-star"></i>
+          ДОБАВИТЬ В ИЗБРАННОЕ
+        </a>
+        -->
+       </div> 
+      </div>
+      <div class="content-body">
+       <div class="container">
+        <div class="campaign content-body-columns">
+          <div class="row">
+            <div class="col-lg-8 col-xs-12">
+              <div class="campaign-gallery">
+                <div class="campaign-gallery-controls">
+                  <span class="campaign-gallery-controls-prev"></span>
+                  <span class="campaign-gallery-controls-next"></span>
+                </div>
+                <div class="campaign-gallery-wrapper">
+                      {% if photos %}
+                        {% for photo in photos %}
+                          <div class="campaign-gallery-item{% if loop.first %} active{% endif %}">
+                            <div class="campaign-gallery-item-large">
+                              <img src="{{ photo.picture_url }}" alt="{{ photo.title or action.title }}" />
+                            </div>
+                            <div class="campaign-gallery-item-thmb">
+                              <img src="{{ photo.picture_url }}" alt="{{ photo.title or action.title }}" />
+                            </div>
+                          </div>
+                        {% endfor %}
+                      {% else %}
+                        <!-- плейсхолдер -->
+                      {% endif %}
+                </div>
+                
+              
+
+              <!--  <div class="campaign-gallery-wrapper">
+                  {% if photos %}
+                    {% for photo in photos %}
+                      <div class="campaign-gallery-item{% if loop.first %} active{% endif %}">
+                        <div class="campaign-gallery-item-large">
+                          <img src="{{ photo.picture_url or photo.file_url or photo.url or photo.file_name }}" alt="{{ photo.alt or action.title }}" />
+                        </div>
+                        <div class="campaign-gallery-item-thmb">
+                          <img src="{{ photo.thumbnail_url or photo.picture_url or photo.file_url or photo.url or photo.file_name }}" alt="{{ photo.alt or action.title }}" />
+                        </div>
+                      </div>
+                    {% endfor %}
+                  {% else %}
+                    <div class="campaign-gallery-item active">
+                      <div class="campaign-gallery-item-large">
+                        <img src="http://placehold.it/1900x1425/43fbaa?text={{ action.title|urlencode }}" alt="{{ action.title }}" />
+                      </div>
+                      <div class="campaign-gallery-item-thmb">
+                        <img src="http://placehold.it/640x480/43fbaa" alt="{{ action.title }}" />
+                      </div>
+                    </div>
+                  {% endif %}
+                </div>--><!-- .campaign-gallery-wrapper -->
+              </div>
+              <div class="campaign-text">
+                {% if text_html %}
+                  {{ text_html|safe }}
+                {% elif description %}
+                  <p>{{ description|replace('\n\n', '</p><p>')|replace('\n', '<br />')|safe }}</p>
+                {% endif %}
+
+                <!-- Статистика по акции -->
+                {% if stats and stats.stats %}
+                <div class="campaign-stats">
+                  <div class="container">
+                    <div class="stats-grid">
+                      
+                      <!-- 1. Пожертвований в акцию -->
+                      <div class="stat-circle">
+                        <div class="stat-number">{{ stats.stats.donations_count|default(0) }}</div>
+                        <div class="stat-label">Пожертвований в акцию</div>
+                      </div>
+                      
+                      <!-- 2. Жертвователей всего -->
+                      <div class="stat-circle">
+                        <div class="stat-number">{{ stats.stats.unique_donors_count|default(0) }}</div>
+                        <div class="stat-label">Жертвователей всего</div>
+                      </div>
+                      
+                      <!-- 3. Новых жертвователей -->
+                      <div class="stat-circle">
+                        <div class="stat-number">{{ stats.stats.new_donors_count|default(0) }}</div>
+                        <div class="stat-label">Новых жертвователей</div>
+                      </div>
+                      
+                        <!-- 4 большое пожертвоанией -->
+                        <div class="donation-circle">
+                        <div class="donation-number">{{ donations.donations[0].amount }}</div>
+                        <div class="stat-label">Самое большое пожертвование</div>
+                        </div>   
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+              </div>
+              
+            </div>
+            <div class="col-lg-4 col-xs-12">
+              <div class="campaign-finance">
+                <div class="campaign-finance-got">
+                  <div class="campaigns-item-donate-form-progress">
+                      <div class="campaigns-item-donate-form-progress-num" style="display:none;">
+                        Собрано
+                        <span>{{ donations_count|default(0) }} пожертвований</span>
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-label" style="font-size:0.95em; margin-bottom:4px;">Собрано</div>
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <strong>{{ total_raised_display }}</strong>
+                        из {{ total_display }}
+                      </div>
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner" id="progressBarInner" data-width="{{ progress_percent }}"></div>
+                      </div>
+                      <p></p><br/>
+                                            <!--Метчиновая полоса-->
+                      {% if matching_display %}
+                      <div class="campaigns-item-donate-form-progress-sum">
+                        <p><strong>{{ matching_display }} </strong> собрано с учетом софинансирования</p>
+                      </div>                
+                      <div class="campaigns-item-donate-form-progress-bar">
+                        <div class="campaigns-item-donate-form-progress-bar-inner-matching" style="width: {{ matching_percent }}%;"></div>
+                      </div>
+                      {% endif%}
+
+
+
+
+                      {% if days_left is defined and days_left is not none %}
+                      <div class="campaigns-item-donate-form-progress-days" style="margin-top:8px; font-size:0.95em;">
+                        До конца акции осталось
+                        {% if days_left == 1 %}
+                          {{ days_left }} день
+                        {% elif days_left >= 2 and days_left <= 4 %}
+                          {{ days_left }} дня
+                        {% else %}
+                          {{ days_left }} дней
+                        {% endif %}
+                      </div>
+                      {% endif %}
+                      {% if status %}
+                      <div class="campaigns-item-donate-form-progress-status" style="margin-top:6px; font-weight:600;">
+                        {{ status }}
+                      </div>
+                      {% endif %}
+                    </div>
+                </div>
+                
+                {% if status_code != 1 and status_code != 2 %}
+                <div class="campaign-finance-pay">
+                  <!-- Кнопки с фиксированными суммами -->
+                  <div class="campaign-finance-pay-list" id="fixedAmountsList">
+                     {% for item in amounts %}
+                        <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="{{ item.amount }}" role="button" tabindex="0" style="cursor: pointer;">
+                          <strong>{{ item.amount }} ₽</strong>
+                          {{ item.description or '' }}
+                        </div>
+                      {% endfor %}
+                    
+                    <!-- КНОПКА: Закрыть весь сбор -->
+                    {% if remaining> 0 %}
+                    <div class="campaign-finance-pay-list-item js-fixed-amount" data-amount="{{ remaining }}" ...>
+                      <strong>{{ remaining }} ₽</strong>
+                      Закрыть весь сбор по акции одним пожертвованием.
+                    </div>
+                    {% endif %}
+                  </div>
+
+                  <!--/Форма пожертвования без НКО
+                  <div class="campaign-finance-pay-form">
+
+                    <form id="donateForm" novalidate>
+                      <div class="form-group">
+                        <label>
+                          <input type="email" class="form-control" name="email" placeholder="E-mail" required />
+                        </label>
+                      </div>
+                      <div class="form-group">
+                        <label>
+                          <input type="text" class="form-control" name="action_amount" placeholder="Сумма пожертвования" inputmode="numeric" />
+                          <span class="form-control-under">₽</span>
+                        </label>
+                      </div>
+                      <div id="donateFormMessage" class="form-group" style="display:none; margin-top:12px; padding:10px; border-radius:6px;"></div>
+                      <button type="submit" class="btn btn-submit" id="donateFormSubmit">ПОЖЕРТВОВАТЬ</button>
+                    </form> -->
+                    <!-- /Форма пожертвования -->
+
+                    <!-- Форма пожертвования с НКО  -->
+                    <div class="campaign-finance-pay-form">
+                      <form id="donateForm" novalidate>
+                        <div class="form-group">
+                          <label>
+                            <input type="email" class="form-control" name="email" placeholder="E-mail" required />
+                          </label>
+                        </div>
+                        
+                        <div class="form-group">
+                          <label>
+                            <input type="text" class="form-control" name="action_amount" placeholder="Сумма пожертвования" inputmode="numeric" />
+                            <span class="form-control-under">₽</span>
+                          </label>
+                        </div>
+                    
+                        <!-- НОВЫЙ ЧЕКБОКС + ПОЛЕ для ежемесячного пожертвования -->
+                        <div class="form-group" style="margin-top: 15px;">
+                          <label class="checkbox-label">
+                            <input type="checkbox" id="monthlyCompany" name="monthly_company" value="1" />
+                            
+                            Вы также можете поддержать НКО-организатора акции ежемесячными пожертвованиями
+                          </label>
+                        </div>
+                        
+                        <!-- Скрытое поле company_amount (показывается при чекбоксе) -->
+                        <div class="form-group" id="companyAmountField" style="display: none; margin-top: 10px;">
+                          <label>
+                            Сумма ежемесячного пожертвования НКО-организатору акции:
+                            <input type="text" class="form-control" name="company_amount" placeholder="Например: 500 ₽ / месяц" inputmode="numeric" />
+                          </label>
+                        </div>
+                    
+                        <div id="donateFormMessage" class="form-group" style="display:none; margin-top:12px; padding:10px; border-radius:6px;"></div>
+                        <button type="submit" class="btn btn-submit" id="donateFormSubmit">ПОЖЕРТВОВАТЬ</button>
+                      </form>
+                    </div>
+                    <!--/Форма пожертвования с НКО-->
+
+                  </div>
+                </div>
+                {% endif %}
+                <aside class="campaign-contacts hidden">
+                  <h3 class="hidden">Контакты</h3>
+                  <p>
+                    {% if company.legal_form or company.title %}
+                    {{ company.legal_form or '' }}{% if company.title %} «{{ company.title }}»{% endif %}
+                    {% if company.city %}<br />{{ company.city }}{% endif %}
+                    <br /><br />
+                    {% endif %}
+                    {% if company.address %}{{ company.address }}<br />{% endif %}
+                    {% if company.phone %}
+                      {% if company.phone is string %}
+                        {{ company.phone }}
+                      {% else %}
+                        {% for phone in company.phone %}
+                          {{ phone }}{% if not loop.last %} — {% endif %}
+                        {% endfor %}
+                      {% endif %}
+                      <br />
+                    {% endif %}
+                    {% if company.email %}
+                      E-mail: <a href="mailto:{{ company.email }}">{{ company.email }}</a><br />
+                    {% endif %}
+                    {% if company.website %}
+                      Сайт: <a href="{{ company.website }}" target="_blank" rel="noopener">{{ company.website }}</a>
+                    {% endif %}
+                  </p>
+                </aside>
+                <!--Партнеры акции-->
+                  {% if partners and partners|length > 0 %}
+                  <aside class="campaign-partners" style="margin-bottom: 20px;">
+                                  
+                    {% for partner in partners %}
+                    <div class="partner-item" style="margin-bottom: 15px; margin-left: 20px;">
+                      {% if partner.logo_url %}
+                      <h3>Парнер акции</h3>  
+                      <a href="{{ partner.url or '#' }}" target="_blank" rel="noopener" style="text-decoration: none;">
+                        <img src="{{ partner.logo_url }}" alt="{{ partner.name}}" 
+                            style="max-width: 100%; height: auto; border: none;">
+                      </a>
+                      {% endif %}
+                      {% if partner.description %}
+                      <p style="margin-top: 10px; font-size: 0.9em; color: #666;">{{ partner.description }}</p>
+                      {% endif %}
+                    </div>
+                    {% endfor %}
+                  </aside>
+                  {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+      </div>
+  
+    </div>
+    
+    
+
+  <footer class="footer">
+    <nav class="footer-nav">
+      <div class="container">
+       <ul class="footer-nav-indent-0">
+          <li>
+            <a href="#">Меню</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Меню</a></li>
+              <li><a href="#">Действующие акции</a></li>
+              <li><a href="#">Отчеты</a></li>
+              <li><a href="#">Пожертвования</a></li>
+              <li><a href="#">Новости</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Как работает Благо.ру</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Статус проекта</a></li>
+              <li><a href="#">Положение о программе</a></li>
+              <li><a href="#">Новости программы</a></li>
+              <li><a href="#">Наши баннеры</a></li>
+              <li><a href="#">Благодарим за поддержку</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Пользователю</a>
+            <ul class="footer-nav-indent-1">
+              <li><a href="#">Регистрация</a></li>
+              <li><a href="#">Войти</a></li>
+              <li><a href="#">Обратная связь</a></li>
+              <li><a href="#">Стать участником</a></li>
+              <li><a href="#">Управление НКО</a></li>
+            </ul>
+          </li>
+        </ul> 
+      </div>
+    </nav>
+    <div class="container">
+      <div class="footer-logo">
+        <img src="/frontend/images/cafrussia.png" alt="БФ КУБ" />
+        </a>
+      </div>
+      <div class="footer-info">
+        Благотворительная программа повышения устойчивости НКО и развития частных и корпоративных пожертвований «Благо» реализуется БФ «Культура благотворительности»<br />
+        ИНН: 7727492679 ОГРН 1227700248918 ∙ Электронная почта: blago@givingculture.ru
+      </div>
+      <div class="footer-payInfo">
+        <p>
+          <a href="https://blago.ru/security.html">Безопасность персональных данных</a><br />
+          <a href="https://blago.ru/refunding.html">Безопасность платежей</a>
+        </p>
+        <img src="/frontend/images/pays.png" alt="" />
+      </div>
+    </div>
+  </footer>
+  
+  <script src="/frontend/js/vendor/jquery-1.10.2.js"></script>
+  <script src="/frontend/js/vendor/equalize.js"></script>
+  <script src="/frontend/js/vendor/jquery-ui.min.js"></script>
+  <script src="/frontend/js/vendor/jquery.datepicker-ru.js"></script>
+  <script src="/frontend/js/vendor/jquery.autosize.min.js"></script>
+  <script src="/frontend/js/common.js"></script>
+ 
+   <!-- Форма олпты с НКО -->
+  <script>
+    (function() {
+      var progressEl = document.getElementById('progressBarInner');
+      if (progressEl && progressEl.getAttribute('data-width') !== null) {
+        progressEl.style.width = progressEl.getAttribute('data-width') + '%';
+      }
+    })();
+    
+    (function() {
+      var fixedList = document.getElementById('fixedAmountsList');
+      var amountInput = document.querySelector('#donateForm [name="action_amount"]');
+      if (fixedList && amountInput) {
+        fixedList.addEventListener('click', function(e) {
+          var plate = e.target.closest('.js-fixed-amount');
+          if (plate && plate.dataset.amount !== undefined) {
+            amountInput.value = plate.dataset.amount;
+            amountInput.focus();
+          }
+        });
+        fixedList.addEventListener('keydown', function(e) {
+          if (e.key !== 'Enter' && e.key !== ' ') return;
+          var plate = e.target.closest('.js-fixed-amount');
+          if (plate && plate.dataset.amount !== undefined) {
+            e.preventDefault();
+            amountInput.value = plate.dataset.amount;
+            amountInput.focus();
+          }
+        });
+      }
+    })();
+    
+    (function() {
+      var form = document.getElementById('donateForm');
+      var messageEl = document.getElementById('donateFormMessage');
+      var submitBtn = document.getElementById('donateFormSubmit');
+      var monthlyCheckbox = document.getElementById('monthlyCompany');
+      var companyAmountField = document.getElementById('companyAmountField');
+      
+      // НОВОЕ: обработка чекбокса
+      if (monthlyCheckbox && companyAmountField) {
+        monthlyCheckbox.addEventListener('change', function() {
+          companyAmountField.style.display = this.checked ? 'block' : 'none';
+          if (this.checked) {
+            companyAmountField.querySelector('input[name="company_amount"]').focus();
+          } else {
+            companyAmountField.querySelector('input[name="company_amount"]').value = '';
+          }
+        });
+      }
+      
+      if (!form) return;
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        var email = (form.querySelector('[name="email"]') && form.querySelector('[name="email"]').value) || '';
+        var actionAmount = parseFloat((form.querySelector('[name="action_amount"]') && form.querySelector('[name="action_amount"]').value) || 0) || 0;
+        
+        // ИЗМЕНЕНО: динамический company_amount
+        var companyAmount = 0;
+        if (monthlyCheckbox && monthlyCheckbox.checked) {
+          companyAmount = parseFloat((form.querySelector('[name="company_amount"]') && form.querySelector('[name="company_amount"]').value) || 0) || 0;
+          if (companyAmount > 0 && companyAmount < 100) {
+            messageEl.style.display = 'block';
+            messageEl.style.backgroundColor = '#fff3cd';
+            messageEl.style.color = '#856404';
+            messageEl.textContent = 'Минимальная сумма ежемесячного пожертвования: 100 ₽.';
+            return;
+          }
+        }
+        
+        email = String(email).trim();
+        messageEl.style.display = 'none';
+        messageEl.className = 'form-group';
+        messageEl.textContent = '';
+        
+        if (!email) {
+          messageEl.style.display = 'block';
+          messageEl.style.backgroundColor = '#fff3cd';
+          messageEl.style.color = '#856404';
+          messageEl.textContent = 'Укажите E-mail.';
+          return;
+        }
+        if (actionAmount <= 0) {
+          messageEl.style.display = 'block';
+          messageEl.style.backgroundColor = '#fff3cd';
+          messageEl.style.color = '#856404';
+          messageEl.textContent = 'Укажите сумму пожертвования.';
+          return;
+        }
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправка...';
+        
+        // ИЗМЕНЕНО: передача company_amount в запрос
+        fetch('/donate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ 
+            email: email, 
+            action_amount: actionAmount, 
+            company_amount: companyAmount  // ← динамическое значение
+          })
+        })
+        .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }); })
+        .then(function(result) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+          messageEl.style.display = 'block';
+          if (result.ok) {
+            if (result.data.payment_url) {
+              messageEl.style.backgroundColor = '#d4edda';
+              messageEl.style.color = '#155724';
+              messageEl.textContent = 'Перенаправление на страницу оплаты...';
+              window.open(result.data.payment_url, '_blank');
+              form.reset();
+              // НОВОЕ: сброс чекбокса при успехе
+              if (monthlyCheckbox) {
+                monthlyCheckbox.checked = false;
+                companyAmountField.style.display = 'none';
+              }
+            } else {
+              messageEl.style.backgroundColor = '#d4edda';
+              messageEl.style.color = '#155724';
+              messageEl.textContent = result.data.message || 'Пожертвование успешно отправлено.';
+              form.reset();
+            }
+          } else {
+            messageEl.style.backgroundColor = '#f8d7da';
+            messageEl.style.color = '#721c24';
+            messageEl.textContent = result.data.error || 'Произошла ошибка. Попробуйте позже.';
+          }
+        })
+        .catch(function() {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+          messageEl.style.display = 'block';
+          messageEl.style.backgroundColor = '#f8d7da';
+          messageEl.style.color = '#721c24';
+          messageEl.textContent = 'Ошибка сети. Попробуйте позже.';
+        });
+      });
+    })();
+
+    /* Навигация галерри */
+    (function() {
+      var wrapper = document.querySelector('.campaign-gallery-wrapper');
+      if (!wrapper) return;
+      
+      var items = wrapper.querySelectorAll('.campaign-gallery-item');
+      var thumbs = wrapper.querySelectorAll('.campaign-gallery-item-thmb');
+      var prevBtn = document.querySelector('.campaign-gallery-controls-prev');
+      var nextBtn = document.querySelector('.campaign-gallery-controls-next');
+      
+      if (items.length === 0) return;
+      
+      var currentIndex = 0;
+  
+  function showSlide(index) {
+    // Скрываем все
+    items.forEach(function(item, i) {
+      item.classList.remove('active');
+      thumbs[i].classList.remove('active');
+    });
+    
+    // Показываем текущий
+    if (items[index]) {
+      items[index].classList.add('active');
+      thumbs[index].classList.add('active');
+    }
+    currentIndex = index;
+  }
+  
+  // Клик по thumbnail
+  thumbs.forEach(function(thumb, index) {
+    thumb.addEventListener('click', function() {
+      showSlide(index);
+    });
+  });
+  
+  // Стрелки навигации
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      var newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+      showSlide(newIndex);
+    });
+  }
+  
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      var newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+      showSlide(newIndex);
+    });
+  }
+  
+  // Клавиши
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowLeft') {
+      var newIndex = currentIndex === 0 ? items.length - 1 : currentIndex - 1;
+      showSlide(newIndex);
+    } else if (e.key === 'ArrowRight') {
+      var newIndex = currentIndex === items.length - 1 ? 0 : currentIndex + 1;
+      showSlide(newIndex);
+    }
+  });
+})();
+
+
+    </script>
+ 
+ <!-- Форма доната без НКО <script>
+  (function() {
+    var progressEl = document.getElementById('progressBarInner');
+    if (progressEl && progressEl.getAttribute('data-width') !== null) {
+      progressEl.style.width = progressEl.getAttribute('data-width') + '%';
+    }
+  })();
+  (function() {
+    var fixedList = document.getElementById('fixedAmountsList');
+    var amountInput = document.querySelector('#donateForm [name="action_amount"]');
+    if (fixedList && amountInput) {
+      fixedList.addEventListener('click', function(e) {
+        var plate = e.target.closest('.js-fixed-amount');
+        if (plate && plate.dataset.amount !== undefined) {
+          amountInput.value = plate.dataset.amount;
+          amountInput.focus();
+        }
+      });
+      fixedList.addEventListener('keydown', function(e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var plate = e.target.closest('.js-fixed-amount');
+        if (plate && plate.dataset.amount !== undefined) {
+          e.preventDefault();
+          amountInput.value = plate.dataset.amount;
+          amountInput.focus();
+        }
+      });
+    }
+  })();
+  (function() {
+    var form = document.getElementById('donateForm');
+    var messageEl = document.getElementById('donateFormMessage');
+    var submitBtn = document.getElementById('donateFormSubmit');
+    if (!form) return;
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var email = (form.querySelector('[name="email"]') && form.querySelector('[name="email"]').value) || '';
+      var actionAmount = parseFloat((form.querySelector('[name="action_amount"]') && form.querySelector('[name="action_amount"]').value) || 0) || 0;
+      email = String(email).trim();
+      messageEl.style.display = 'none';
+      messageEl.className = 'form-group';
+      messageEl.textContent = '';
+      if (!email) {
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#fff3cd';
+        messageEl.style.color = '#856404';
+        messageEl.textContent = 'Укажите E-mail.';
+        return;
+      }
+      if (actionAmount <= 0) {
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#fff3cd';
+        messageEl.style.color = '#856404';
+        messageEl.textContent = 'Укажите сумму пожертвования.';
+        return;
+      }
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+      fetch('/donate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({ email: email, action_amount: actionAmount, company_amount: 0 })
+      })
+      .then(function(res) { return res.json().then(function(data) { return { ok: res.ok, data: data }; }); })
+      .then(function(result) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+        messageEl.style.display = 'block';
+        if (result.ok) {
+          if (result.data.payment_url) {
+            messageEl.style.backgroundColor = '#d4edda';
+            messageEl.style.color = '#155724';
+            messageEl.textContent = 'Перенаправление на страницу оплаты...';
+            window.open(result.data.payment_url, '_blank');
+            form.reset();
+          } else {
+            messageEl.style.backgroundColor = '#d4edda';
+            messageEl.style.color = '#155724';
+            messageEl.textContent = result.data.message || 'Пожертвование успешно отправлено.';
+            form.reset();
+          }
+        } else {
+          messageEl.style.backgroundColor = '#f8d7da';
+          messageEl.style.color = '#721c24';
+          messageEl.textContent = result.data.error || 'Произошла ошибка. Попробуйте позже.';
+        }
+      })
+      .catch(function() {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+        messageEl.style.display = 'block';
+        messageEl.style.backgroundColor = '#f8d7da';
+        messageEl.style.color = '#721c24';
+        messageEl.textContent = 'Ошибка сети. Попробуйте позже.';
+      });
+    });
+  })();
+  
+  </script> -->
+</body>
+</html>

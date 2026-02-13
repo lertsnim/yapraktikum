@@ -1,0 +1,37 @@
+@media print {
+  .header {
+    position: static !important;
+    height: auto !important;
+    border-bottom-width: 0 !important;
+    
+    &-search,
+    &-nav {
+      display: none;
+    }
+  }
+  
+  .footer {
+    display: none;
+  }
+  
+  .print-hidden {
+    display: none;
+  }
+  
+  .content {
+    margin-top: 0 !important;
+  }
+  .content-header {
+    border-width: 0;
+    padding: 0;
+    margin: 0;
+  }
+  .content-body {
+    margin: 0;
+  }
+  
+  .pd4 {
+    width: 200px;
+  }
+  
+}

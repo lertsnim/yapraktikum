@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Платежный виджет</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="frontend/css/style.css" rel="stylesheet" />
+  <!--
+  <link href="frontend/css/scrollPane.css" rel="stylesheet" />   
+  
+  <link href="frontend/css/jquery-ui.theme.min.css" rel="stylesheet" />
+  <link href="frontend/css/jquery-ui.min.css" rel="stylesheet" />
+
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" /> -->
+
+</head>
+
+<style>
+    .campaigns-item-donate-form {
+      color: rgba(0, 0, 0, 0.6);
+      padding-bottom: 65px; }
+
+
+  
+</style>
+
+<body>
+
+<!-- Виджет -->
+<div class="nko-donate-widget campaigns-item-donate-form" style="max-width: 400px; margin: 0 auto;">
+
+  <!-- Заголовок -->
+  <div class="nko-header" style="padding: 20px; background: #f8f9fa; border-radius: 8px 8px 0 0; border-bottom: 2px solid #dee2e6;">
+    <h4 style="margin: 0; font-weight: 600; color: #212529;">
+      Пожертвование в Благотворительный фонд Адвита
+      <small style="display: block; font-size: 0.8em; color: #6c757d; font-weight: 400;">
+        НКО #197
+      </small>
+    </h4>
+  </div>
+
+  <form class="nko-donate-form">
+
+    <div class="nko-donate-form-fields" style="padding: 25px 20px;">
+
+      <!-- Email -->
+      <label style="display: block; margin-bottom: 8px; font-weight: 500; color: #495057; font-size: 0.95em;">
+        Ваш E-mail <span style="color: #ea5528;">*</span>
+      </label>
+
+      <div class="form-group">
+        <input type="email"
+               class="form-control"
+               name="email"
+               placeholder="example@mail.ru"
+               required
+               autocomplete="email"
+               style="padding: 15px 20px; border: 2px solid #dee2e6; border-radius: 8px; font-size: 1em;">
+      </div>
+
+      <!-- Сумма -->
+      <label style="display: block; margin-bottom: 12px; font-weight: 500; color: #495057;">
+        Сумма пожертвования
+      </label>
+
+      <div class="form-group" style="position: relative;">
+        <input type="text"
+               class="form-control"
+               name="amount"
+               placeholder="1000"
+               inputmode="numeric"
+               required
+               style="font-size: 1.5em; font-weight: 600; padding: 20px 15px; text-align: center; border: 2px solid #dee2e6; border-radius: 8px; background: white;">
+
+        <span style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); font-size: 1.2em; color: #ea5528; font-weight: 600;">
+          ₽
+        </span>
+      </div>
+
+      <!-- Ежемесячное -->
+      <div style="margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 8px; border: 1px solid #dee2e6;">
+        <label style="display: flex; align-items: center; cursor: pointer; font-size: 1em; color: #495057;">
+          <input type="checkbox"
+                 name="is_monthly"
+                 style="margin-right: 12px; width: 20px; height: 20px; accent-color: #ea5528;">
+          <span style="font-weight: 500;">Ежемесячное пожертвование</span>
+        </label>
+      </div>
+
+    </div>
+
+    <!-- Кнопка -->
+    <div style="padding: 0 20px 25px;">
+      <button type="submit"
+              style="
+                width: 100%;
+                padding: 18px 30px;
+                font-size: 1.2em;
+                font-weight: 700;
+                background: linear-gradient(135deg, #ea5528 0%, #f57c00 100%);
+                border: none;
+                border-radius: 10px;
+                color: white;
+                box-shadow: 0 4px 15px rgba(234,85,40,0.4);
+                transition: all 0.3s;
+              "
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(234,85,40,0.5)'"
+              onmouseout="this.style.transform=''; this.style.boxShadow='0 4px 15px rgba(234,85,40,0.4)'">
+        ПОЖЕРТВОВАТЬ
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Сообщения -->
+  <div id="nkoMessage" style="padding: 15px 20px; min-height: 50px; display: none;"></div>
+
+</div>
+
+
+<script>
+(function() {
+  'use strict';
+
+  const CONFIG = {
+    BASE_URL: "https://dev.blago.ru",
+    COMPANY_ID: 197,
+    API_TOKEN: "C46oXQVmcohiShcr3xkph9NkxgFJ0EmMPPKSEwET7HwW48mSsTgjbU4mbj1dou7S"
+  };
+
+  function initWidget() {
+
+    const form = document.querySelector('.nko-donate-form');
+    if (!form) return;
+
+    const messageEl = document.getElementById('nkoMessage');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const amountInput = form.querySelector('[name="amount"]');
+    const emailInput = form.querySelector('[name="email"]');
+    const isMonthlyInput = form.querySelector('[name="is_monthly"]');
+
+    amountInput.addEventListener('input', function() {
+      this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const email = emailInput.value.trim();
+      const amount = parseInt(amountInput.value, 10) || 0;
+      const isMonthly = isMonthlyInput.checked;
+
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return showMessage('Укажите корректный email');
+      }
+
+      if (amount < 100) {
+        return showMessage('Минимальная сумма 100 ₽');
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка...';
+
+      const payload = {
+        email: email,
+        recipients: [{
+          company_id: CONFIG.COMPANY_ID,
+          amount: amount,
+          is_monthly: isMonthly
+        }],
+        total_amount: amount
+      };
+
+      fetch(CONFIG.BASE_URL + "/api/v2/donations/create", {
+        method: "POST",
+        headers: {
+          "Authorization": "Bearer " + CONFIG.API_TOKEN,
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(payload)
+      })
+      .then(res => res.json())
+      .then(data => {
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+
+        if (data.payment_url) {
+          showMessage('Переход к оплате...');
+          setTimeout(() => window.location.href = data.payment_url, 800);
+        } else {
+          showMessage(data.message || 'Ошибка создания пожертвования');
+        }
+      })
+      .catch(() => {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'ПОЖЕРТВОВАТЬ';
+        showMessage('Ошибка сети или CORS');
+      });
+    });
+
+    function showMessage(text) {
+      messageEl.style.display = 'block';
+      messageEl.style.color = '#dc3545';
+      messageEl.textContent = text;
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initWidget);
+
+})();
+</script>
+
+</body>
+</html>

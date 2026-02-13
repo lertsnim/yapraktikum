@@ -1,8 +1,8 @@
 # Шаблон главной страницы
-TEMPLATE=index11.html
+TEMPLATE=index12.html
 BASE_URL=https://dev.blago.ru
 ACTION_ID=436
 API_TOKEN=C46oXQVmcohiShcr3xkph9NkxgFJ0EmMPPKSEwET7HwW48mSsTgjbU4mbj1dou7S
-
+MATCHING_RATIO=2
 
 

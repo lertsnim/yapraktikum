@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <!-- Кубик -->
+  <rect x="8" y="8" width="48" height="48" rx="8" fill="none" stroke="#ef4242" stroke-width="4"/>
+  
+  <!-- Точки кубика -->
+  <circle cx="20" cy="20" r="4" fill="#ef4242"/>
+  <circle cx="44" cy="20" r="4" fill="#ef4242"/>
+  <circle cx="20" cy="44" r="4" fill="#ef4242"/>
+  <circle cx="44" cy="44" r="4" fill="#ef4242"/>
+  <circle cx="32" cy="32" r="6" fill="#ef4242"/>
+  
+  <!-- Тень -->
+  <ellipse cx="52" cy="52" rx="8" ry="4" fill="rgba(239,66,66,0.2)"/>
+</svg>

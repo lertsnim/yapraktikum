@@ -1,0 +1,52 @@
+<!-- Общая форма (одна на всю страницу) -->
+<form id="marathonDonateForm" novalidate>
+  
+  <!-- УЧАСТНИКИ (каждый со своим полем суммы) -->
+  <div class="participants-grid">
+    {% for participant in marathon.participants %}
+    <div class="participant-card">
+      <!-- ... image, title, progress ... -->
+      
+      <!-- ПОЛЕ СУММЫ для конкретного участника -->
+      <div class="donate-field" data-participant-id="{{ participant.id }}">
+        <label>Пожертвовать участнику</label>
+        <div class="input-group">
+          <input type="number" 
+                 name="participant_amount_{{ participant.id }}" 
+                 class="form-control participant-amount" 
+                 placeholder="0" 
+                 min="100" 
+                 step="100"
+                 data-participant-id="{{ participant.id }}">
+          <span class="input-group-text">₽</span>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <!-- ЕДИНАЯ форма ввода внизу -->
+  <div class="donate-summary" style="background: #f8f9fa; padding: 20px; border-radius: 12px; margin: 40px 0;">
+    <div class="container">
+      <h3>Подтвердить пожертвования</h3>
+      
+      <!-- Email (один для всех) -->
+      <div class="form-group">
+        <label>E-mail для всех пожертвований</label>
+        <input type="email" class="form-control" name="email" placeholder="your@email.com" required />
+      </div>
+      
+      <!-- ИТОГО сумма -->
+      <div class="total-amount" style="font-size: 1.5em; font-weight: bold; color: #ef4242; margin: 20px 0;">
+        Итого: <span id="totalSum">0</span> ₽
+      </div>
+      
+      <!-- Кнопка отправки -->
+      <button type="submit" class="btn btn-primary btn-lg btn-block" id="submitAll">
+        ПОЖЕРТВОВАТЬ ВСЕМ УЧАСТНИКАМ
+      </button>
+      
+      <div id="donateMessage" class="form-message" style="display: none; margin-top: 15px;"></div>
+    </div>
+  </div>
+</form>

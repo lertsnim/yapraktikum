@@ -1,0 +1,82 @@
+.menu {
+  list-style-type: none;
+  list-style-image: none;
+  margin: 0;
+  padding: 0;
+}
+
+.hidden {
+  display: none;
+}
+.dotted {
+  text-decoration: none !important;
+  span {
+    background: url("../images/dottedBorder.png") repeat-x 50% bottom;
+  }
+}
+
+.btn-red {
+  @extend .btn-danger;
+}
+.btn-red-white {
+  @extend .btn-danger-white;
+}
+
+.f-os-l { font-family: "open_sanslight"; }
+.f-os-reg { font-family: "open_sans","Helvetica Neue", Arial, sans-serif; }
+.f-os-i { font-family: "open_sanslight_i"; }
+
+
+.white {
+  color: #fff !important;
+}
+.black {
+  color: #000 !important;
+}
+.gray-dark {
+  color: $gray-dark !important;
+}
+.gray {
+  color: $gray !important;
+}
+.gray-light {
+  color: $gray-light !important;
+}
+.gray-lighter {
+  color: $gray-lighter !important;
+}
+.gray-lightest {
+  color: $gray-lightest !important;
+}
+.gray-headerBorder {
+  color: $gray-headerBorder !important;
+}
+
+.gray-contentBackground {
+  color: $gray-contentBackground !important;
+}
+.blue-dark {
+  color: $blue-dark !important;
+}
+.orange {
+  color: $orange !important;
+}
+
+.brand-primary {
+  color: $brand-primary !important;
+}
+.brand-success {
+  color: $brand-success !important;
+}
+.brand-info {
+  color: $brand-info !important;
+}
+.brand-warning {
+  color: $brand-warning !important;
+}
+.brand-danger {
+  color: $brand-danger !important;
+}
+.brand-inverse {
+  color: $brand-inverse !important;
+}

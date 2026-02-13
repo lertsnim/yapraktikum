@@ -1,0 +1,200 @@
+.campaigns {
+  &-wrapper {
+    @extend .index-wrapper;
+  }
+  &-item {
+    clear: both;
+    @include clearfix;
+    @extend .index-item;
+    
+    &-image {
+      @include media-breakpoint-up(md) {
+        float: left;
+        width: 25%;
+        margin: 5px 30px 0 0;
+      }
+      @include media-breakpoint-down(sm) {
+        margin: 20px 0;
+      }
+    }
+    &-donate {
+      background-color: #fbf9f6;
+      border-radius: 5px;
+      padding: 14px 20px;
+      position: relative;
+      @include media-breakpoint-up(md) {
+        float: right;
+        width: 25%;
+        margin: 5px 0 0 30px;
+      }
+      @include media-breakpoint-down(sm) {
+        margin-bottom: 20px;
+      }
+      
+      &-form {
+        color: fade_out(#000,0.4);
+        padding-bottom: 65px;
+        @include media-breakpoint-up(md) {
+          @include media-breakpoint-down(md) {
+            padding-bottom: 100px !important;
+          }
+        }
+
+        &-progress {
+          @include fontSize(13px);
+          @include lineHeight(21px);
+          &-num {
+            span {
+              float: right;
+            }
+          }
+          &-sum {
+            padding-top: 4px;
+            strong {
+              @include fontSize(24px);
+              @include lineHeight(24px);
+              margin-right: 10px;
+              color: black;
+            }
+          }
+          &-bar {
+            height: 10px;
+            border-radius: 5px;
+            background-color: rgba(0, 0, 0, 0.1);
+            margin: 10px 0;
+            position: relative;
+            
+            &-inner {
+              border-radius: 5px;
+              background-color: #ea5528;
+              position: absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              width: 50%;
+            }
+          }
+        }
+        &-accepter {
+          @include fontSize(13px);
+          @include lineHeight(21px);
+        }
+        &-fields {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          padding: 0 20px 20px;
+          label {
+            @include media-breakpoint-up(md) {
+              @include media-breakpoint-down(md) {
+                float: none !important;
+                width: 100% !important;
+              }
+            }
+            float: left;
+            width: 40%;
+            position: relative;
+            margin: 0;
+            .form-control-under {
+              right: 15px;
+            }
+          }
+          .btn {
+            float: right;
+            @include media-breakpoint-up(md) {
+              @include media-breakpoint-down(md) {
+                float: none !important;
+                width: 100% !important;
+              }
+            }
+            padding: 8px 0 9px;
+            width: 57%;
+          }
+        }
+      }
+      &-complete {
+        text-align: center;
+        padding: 8% 0 60px;
+        @include fontSize(15px);
+        @include lineHeight(20px);
+        strong {
+          display: block;
+          @include fontSize(18px);
+          @include lineHeight(24px);
+        }
+        
+        .btn {
+          position: absolute;
+          left: 20px;
+          bottom: 20px;
+          right: 20px;
+        }
+        
+      }
+    }
+    &-text {
+      overflow: hidden;
+      
+      &-description {
+        overflow: hidden;
+        display: block !important;
+        min-height: 160px;
+        position: relative;
+      
+        
+        &.collapseable { 
+          max-height: 160px;
+        }
+        
+        &.collapse {
+          &:after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            height: 30px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,0.99));
+          }
+        }
+        
+        &.in {
+          max-height: 2000px;
+          &:after {
+            display: none;
+          }
+        }
+        &.collapsing {
+          max-height: 2000px;
+        }
+      
+      }
+      
+      &-linkMore {
+        display: none;
+        position: relative;
+        & a[aria-expanded='false'] &-hide,
+        & a[aria-expanded='true'] &-show {
+          display: none;
+        }
+        @include media-breakpoint-up(md) {
+          margin: 15px 0 0;
+        }
+        @include media-breakpoint-down(sm) {
+          margin-bottom: 15px;
+        }
+      }
+      
+      &-description.collapseable + &-linkMore {
+         display: block;
+      }
+      
+    }
+  }
+  
+  &-load {
+    @extend .index-load;
+  }
+  
+}
